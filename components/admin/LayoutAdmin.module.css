@@ -1,0 +1,140 @@
+.containerAdmin{
+    display: flex;
+}
+.mainHeader{
+    width: 50px;
+    height: 100vh;
+    background-color:rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.mainHeader > a {
+    text-align: center;
+}
+
+.mainAdmin{
+    display: flex;
+    flex: 1;
+    right: 100px;
+    flex-direction: column;
+    margin: 10px;
+}
+.mainAdmin hr{
+    width: 100%;
+    height: 2px;
+}
+.logoAdmin img{
+    max-width: 50px;
+    margin-bottom: 15px;
+}
+.navMenu{
+    display: none;
+}
+.navMobile{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 1;
+    color: white;
+    align-items: center;  
+}
+.navMobile p {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid white;
+}
+.navMobile  img{
+    width: 30px;
+}
+.navMobile a img{
+    margin-bottom: 15px;
+}
+
+.navMobile a:hover{
+    cursor: pointer;
+}
+
+.navMenu p img{
+    width: 100%;    
+    margin-bottom: 10px;
+    padding-bottom: 5%;
+    text-align: center;
+}
+
+
+
+
+@media (min-width: 768px){
+    .navMobile{
+        display: none;
+    }
+    .openMenu{
+        display: none;
+    }
+    .logoAdmin{
+        text-align: center;
+    } 
+    .mainHeader{
+        display: flex;
+        flex-direction: column;
+        background-color:rgba(0, 0, 0, 0.7);
+        margin: 0;
+        padding: 0;    
+        width: 200px;
+        height: 100vh;
+        box-sizing: border-box;
+    }
+    .logoAdmin img{
+        max-width: 80px;    
+    }
+    .navMenu{
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        font-size: 18px;
+        height: 100%;
+    }
+    .navMenu p{
+        color: white;
+        font-weight: bold;
+        display: block;
+        width: 100%;
+        text-transform: uppercase;
+        border-bottom: 2px solid white;
+        margin-bottom: 10px;
+        padding-bottom: 5%;
+        text-align: center;
+    }
+    .navMenu a{
+        margin: 5px;
+        padding: 5px;
+        text-decoration: none;
+        color: white;
+
+    }
+    .navMenu a {
+        border: 3px solid rgba(255, 255, 255, 0);
+    }
+    .navMenu a:hover{
+        cursor: pointer;
+        font-weight: bold;
+        border-bottom: 3px solid #f15000 ;
+    }
+
+    .logOut{
+        text-align: center;
+        font-weight: bold;
+        padding: 20px;
+        color: white;
+        margin-bottom: 20px;
+    }
+    /*GALERIA ADMIN*/
+    .containerAdmin ul {
+        list-style: none;
+    }
+    .containerAdmin ul img {
+        max-width: 100px;
+    }
+}

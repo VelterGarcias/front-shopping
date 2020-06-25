@@ -1,0 +1,123 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 138px);
+    overflow: auto;
+}
+
+
+.contatosContent{
+    display: flex;
+    flex-direction: column;
+}
+.headerContatos{
+    display: flex;
+    justify-content: flex-start;
+    
+    text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 2px solid #ccc;
+}
+.headerContatos li{
+    width: 100%;
+}
+.headerContatos li{
+    flex: 1;
+}
+.headerContatos li:last-child{
+    flex: 1;
+}
+
+.messageList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.messageList .ulList {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 99%;
+    padding-top: 5px;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.messageList .ulList li {
+    width: 100%;
+    background-color: #dedede42;
+    border: 1px solid #80808042;
+    border-right: none;
+    border-left: none;
+    transition: all .1s ease-in-out;
+}
+
+.messageList .ulList li:hover {
+    background-color: #ff8600a3;
+    box-shadow: 0 0 13px #00000073;
+    transition: all .2s ease-in-out;
+}
+
+.messageList  li.selected {
+    background-color: #aa9e91a3;
+    transition: all .2s ease-in-out;
+}
+
+.messageList .ulList li button {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    border:none;
+    padding: 5px;
+    background-color: #ffffff00;
+    height: 2.5em;
+}
+
+.nameList {
+    justify-self: flex-end;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dateList {
+    position: absolute;
+    margin-left: 10px;
+    color: gray;
+    font-size: .7em;
+    right: 0;
+    top: 0;
+    padding-top: 2px;
+}
+
+.messages {
+    padding-top: 17px;
+    border-top: 1px solid;
+}
+
+@media (min-width: 768px) {
+
+    .messageList {
+        width: 45%;
+        max-width: 340px;
+    }
+
+    .messages {
+        width: 62%;
+        border-top: none;
+        overflow: auto;
+    }
+    .messageList .ulList {
+        padding-top: 5px;
+        overflow: auto;
+        max-height: initial;
+    }
+
+    .main {
+        flex-direction: row;
+        /* height: calc(100vh - 138px);
+        overflow: auto; */
+    }
+}

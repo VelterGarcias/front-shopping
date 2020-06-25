@@ -1,0 +1,15 @@
+.button{
+    width: 100%;
+    max-width: 150px;
+    max-height: 40px;
+    border-radius: 2px;
+    margin: 20px;
+    padding: 10px;
+    border: none;
+    background-color: #f15000;
+    color: white;
+    outline: none;
+}
+.button:hover{
+    background-color: #b14109;
+}

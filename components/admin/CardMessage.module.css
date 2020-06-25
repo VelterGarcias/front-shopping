@@ -1,0 +1,81 @@
+.messageCard {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    padding: 10px;
+    margin-top: 11px;
+    border-radius: 10px;
+    margin: auto;
+    box-shadow: 0 0 9px 0px #00000042;
+}
+
+.messageCard h2 {
+    margin: 2px 0 7px 0;
+    font-size: 1.2em;
+}
+
+.messageCard p {
+    margin: 0;
+    font-size: 1em;    
+}
+
+
+.messageCard a {
+    text-decoration: none;
+    color: #4a3d9b;
+    font-weight: bold;
+    transition: all .3s ;
+}
+
+.messageCard a:hover {
+    color: #f15000;
+    font-weight: bold;
+    text-decoration: underline;
+    transition: all .3s ;
+}
+
+.messageCard label {
+    margin: 0;
+    font-size: 1em;
+    font-weight: bold;
+    padding-right: 10px;
+    color: #ff5100;
+}
+
+.messageCard hr {
+    width: 95%;
+    height: 1px;
+    background-color: #9a9a9a;
+}
+
+.messageCard .checkBox {
+    box-sizing: border-box;
+    padding: 0;
+    height: 20px;
+    width: 20px;
+}
+.messageCard .pMessage {
+    padding: 15px;
+    font-size: 1.2em;
+}
+
+.messageCard .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 5px 0;
+
+}
+
+.messageCard .column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 5px 0;
+
+}
+
+.messageCard Button {
+    margin: 10px 0;
+}
