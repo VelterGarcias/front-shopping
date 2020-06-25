@@ -1,0 +1,243 @@
+#__next {
+    flex-direction: column;
+}
+
+
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body, div, article, aside, footer, header, main, nav, section, ul, ol, li, button, figure, picture {
+    display: flex;
+}
+
+body {
+    margin: 0;
+    flex-direction: column;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    background-color: var(--bg-color);
+}
+
+hr.italy {
+    background-image: url('/images/bg-italy.svg');
+    background-repeat: repeat-x;
+    width: 100%;
+    height: 18px;
+    margin: 0;
+    border: none;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 468px);
+}
+
+.page {
+    flex-direction: column;
+}
+.page .page-header {
+    width: 100%;
+    flex-direction: column;
+}
+.page header {
+    height: 210px;
+    width: 100%;
+    background-size: cover;
+    filter: brightness(0.5);
+    flex-direction: column;
+    justify-content: flex-end;
+    color: var(--white);
+    padding: 1em;
+}
+
+.page header ul,
+.page header li, 
+.page header h1 {
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    flex-direction: column;
+    padding: 1em;
+    width: 100%;
+}
+
+form .fields {
+    flex-direction: column;
+}
+
+form .field {
+    position: relative;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+form .field label {
+    color: var(--grayC);
+    font-size: 14px;
+    position: absolute;
+    z-index: 2;
+    left: 10px;
+    top: 10px;
+    transition: color .3s ease-in-out;
+}
+
+form .field input,
+form .field textarea {
+    line-height: 1.5em;
+    padding: 10px;
+    padding-top: 30px;
+    font-size: 14px;
+    color: var(--gray5);
+    outline: none;
+    font-family: 'Open Sans';
+    border: var(--grayC) 2px solid;
+    border-radius: 5px;
+    position: relative;
+    z-index: 1;
+    top: 0;
+    transition: border-color .3s ease-in-out;
+}
+
+form .field input:focus,
+form .field textarea:focus {
+    border-color: var(--green);
+}
+
+form .field input:focus + label,
+form .field textarea:focus + label {
+    color: var(--green);
+}
+
+form .actions {
+    flex-direction: column;
+    align-content: center;
+}
+form .actions a {
+    display: block;
+    text-align: center;
+    padding: 1em;
+    color: var(--gray6);
+}
+
+form button {
+    width: 100%;
+    background-color: var(--green);
+    color: var(--white);
+    border: none;
+    padding: .5em 1em;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 5px;
+    outline: none;
+    text-transform: uppercase;
+}
+
+form button:hover {
+    background-color: var(--green-hover);
+}
+
+form button:active {
+    background-color: var(--green-active);
+}
+
+a {
+    color: var(--red);
+}
+a:hover {
+    color: var(--black);
+}
+
+.show-desktop {
+    display: none;
+}
+
+@media (min-width: 576px) {
+    .page header {
+        height: 20vw;
+        min-height: 300px;
+    }
+}
+
+@media (min-width: 992px) {
+    .page .page-header {
+        width: 100%;
+        flex-direction: column-reverse;
+        min-height: 18px;
+    }
+    .page header  {
+        filter: none;
+        align-items: flex-end;
+    }
+    .page header li {
+        font-size: 30px;
+    }
+    .page header h1 {
+        font-size: 100px;
+        text-shadow: 0 3px 6px var(--black15);
+    }
+    form .fields {
+        flex-direction: row;
+    }
+    form .fields .field {
+        margin-right: 1em;
+    }
+    form .fields .field:last-child {
+        margin-right: 0;
+    }
+    form .actions {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    form .actions a {
+        text-align: right;
+    }
+    form .field textarea {
+        min-height: 250px;
+    }
+    form button {
+        max-width: 340px;
+    }
+}
+
+@media (min-width: 1200px) {
+    main {
+        min-height: calc(100vh - 378px);
+    }
+    .show-desktop {
+        display: flex;
+    }
+    .hide-desktop {
+        display: none;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .page header {
+        background-color: var(--white50);
+        color: var(--black);
+    }
+    form .field label {
+        color: var(--gray6);
+    }
+    form .field input,
+    form .field textarea {
+        background-color: var(--bg-color);
+        border: var(--gray6) 2px solid;
+        color: var(--gray3);
+    }
+    form button {
+        color: var(--black);
+    }
+    .page header h1 {
+        text-shadow: 0 3px 6px var(--dark);
+    }
+}

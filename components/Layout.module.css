@@ -1,0 +1,19 @@
+.content {
+    background-color: var(--grayE);
+    height: 100vh;
+    display: block;
+    overflow: auto;
+}
+.main {
+    
+    padding-top: 130px;
+    transition: all .2s ease-in-out;
+}
+@media (min-width: 992px) {
+    .main {
+        margin-left: 60px;
+    }
+    .content.open .main {
+        margin-left: 300px;
+    }
+}
