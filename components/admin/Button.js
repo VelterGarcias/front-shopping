@@ -32,10 +32,12 @@ export default function Button(props){
                 Router.push(`/admin/${props.model}/${props.id}`)
                 break
             case "delete":
+                console.log(props.page)
+                console.log(props.model)
                 if (confirm("Tem certeza que deseja excluir?")){
                     await axios.delete(`${serverUrl}/admin/${props.model}/${props.id}`).then(res=>{
                         alert(`Sucesso! ${props.model} com id: ${props.id} Deletado.`  )
-                        Router.push(`/admin/${props.model}`)
+                        Router.push(`/admin/${props.page}`)
                     }).catch(err=>{alert("Deu ruim")}) }
                 break
             case "Teste":
