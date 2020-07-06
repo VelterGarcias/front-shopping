@@ -1,0 +1,29 @@
+.card {
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: column;
+    background-color: var(--white);
+}
+
+.card-content {
+    padding: 10px 20px;
+    align-items: center;
+    flex-direction: column;
+}
+
+.actions {
+    justify-content: flex-end;
+    background-color: var(--grayF);
+    width: 100%;
+    padding: 10px;
+}
+
+.actions button {
+    border: none;
+    background: var(--white);
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid var(--green);
+    border-radius: 4px;
+    padding: 16px;
+}

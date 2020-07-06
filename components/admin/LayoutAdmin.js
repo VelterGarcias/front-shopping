@@ -37,7 +37,7 @@ export default function LayoutAdmin(props){
                 <div className={styles.logoAdmin}>
                     <Link href="/admin">
                         <a>
-                            <img srcSet="/Logo/Fitness.svg"/>
+                            <img srcSet="/images/logo/Advogarcias.svg"/>
                         </a>
                     </Link>
                 </div>

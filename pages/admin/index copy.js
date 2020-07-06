@@ -2,6 +2,9 @@ import Layout from '../../components/Layout'
 import LayoutAdmin from '../../components/admin/LayoutAdmin'
 import CardMessage from '../../components/admin/CardMessage'
 import CardUser from '../../components/admin/CardUser'
+import Input from '../../components/Input'
+import Textarea from '../../components/Textarea'
+import Button from '../../components/admin/Button'
 import styles from '../../components/admin/Contacts.module.css'
 import serverUrl from '../../utils/env'
 import axios from 'axios'
@@ -10,16 +13,24 @@ import { useState } from 'react'
 import { Cookies } from 'react-cookie'
 import {handleAuthSSR} from '../../utils/auth'
 
+const contactShopping = {phone: '(54) 98403-8507', email: 'weads.velter@gmail.com'}
 
 
-
-export default function IndexAdmin(props) {
+export default function Index(props) {
     
     //console.log(props)
     const cookies = new Cookies();
     const Router = useRouter()
 
+    // if (props.page.users) {
+    //     let date_at = new Date(props.data.birth_at).toISOString().split('T')[0]
 
+    //     var [userPerfil, setUserPerfil] = useState({ name: props.data.name, email: props.data.email, password: props.data.password, birth_at: date_at, level: props.data.level, photo: props.data.photo })
+    // }
+    const [values, setValues] = useState()
+    //console.log("Values", values)
+    const [userPerfil, setUserPerfil] = useState()
+    console.log("perfil", userPerfil)
     const [menu, setMenu] = useState([])
 
     const [shop, setShop] = useState()
@@ -37,20 +48,9 @@ export default function IndexAdmin(props) {
     const [lastVisible, setLastVisible] = useState()
     const [visible, setVisible] = useState()
     const [answered, setAnswered] = useState()
-    
-    //console.log("Contatos", contacts)
-    //console.log("Visible", visible)
-    //console.log("Menu", menu)
-    //console.log("Shop", shop)
-    //console.log("VisibleUser", visibleUser)
-    //console.log("LastVisibleUser", lastVisibleUser)
 
     async function handleClick(action) {
         //console.log(action)
-        
-
-        
-
         switch(action) {
             
             case "contacts":
@@ -100,7 +100,7 @@ export default function IndexAdmin(props) {
                     //console.log("users...")
                     let res
                     try{ res = await axios.get(`${serverUrl}/admin/shops`)
-                        console.log("RES shops", res.data)
+                        //console.log("RES shops", res.data)
                         setShops(res.data)
                         setVisibleShops(res.data.map((contact, i) => false))
                     }catch(err){ res = [] 
@@ -115,6 +115,9 @@ export default function IndexAdmin(props) {
 
             case "profile":
                 //console.log("Perfil...")
+                let date_at = new Date(props.data.birth_at).toISOString().split('T')[0]
+                setUserPerfil({ id: props.data.id, name: props.data.name, email: props.data.email, password: props.data.password, birth_at: date_at, level: props.data.level, photo: props.data.photo })
+
                 setMenu({...menu,[0]:true, [1]:false})
                 break
 
@@ -138,7 +141,7 @@ export default function IndexAdmin(props) {
                 break
 
             case "logout":
-                console.log("SAINDO...")
+                //console.log("SAINDO...")
                 //setVisible({...visible, [index]:!visible[index]})
                 // const cookies = new Cookies()
                 //e.preventDefault()
@@ -152,6 +155,13 @@ export default function IndexAdmin(props) {
         
     }
 
+    const handleInputChange = e =>{
+        const {name, value} = e.target
+
+        setValues({...values, [name]:value})
+        console.log(name, value)
+    }
+
     function handleClickMessage(index) {
         
         setVisible({...visible, [lastVisible]:false, [index]:!visible[index]})
@@ -160,7 +170,6 @@ export default function IndexAdmin(props) {
     }
 
     function handleClickUser(index) {
-        
         setVisibleUser({...visibleUser, [lastVisibleUser]:false, [index]:!visibleUser[index]})
         setLastVisibleUser(index)    
         //console.log(visible)
@@ -176,7 +185,7 @@ export default function IndexAdmin(props) {
     //função para marcar a mensagem como "lida/respondida" tanto na tela como no DB
     async function handleClickAnswered(index, id) {
 
-        const values = {answered: !answered[index]}
+        const userPerfil = {answered: !answered[index]}
         setAnswered({...answered, [index]:!answered[index]})
         await axios.put(`${serverUrl}/admin/contacts/${id}`, values)        
     }
@@ -320,6 +329,16 @@ export default function IndexAdmin(props) {
 
                         { menu[0] &&
                             <>
+                            <form className={styles.form} >
+                                <div className={styles.fields}>
+                                    <Input type="text" name="name" defaultValue={userPerfil.name} label="Nome Completo" onChange={handleInputChange} onFocus={handleInputChange}/>
+                                    <Input type="email" name="email" label="Email" defaultValue={userPerfil.email} onChange={handleInputChange} onFocus={handleInputChange} />
+                                    {/* <Input type="tel" name="phone" label="Telefone" defaultValue={userPerfil.phone} onChange={handleInputChange} onFocus={handleInputChange} /> */}
+                                    <Input type="date" name="birth_at" label="Data de Nascimento" defaultValue={userPerfil.birth_at} onChange={handleInputChange} onFocus={handleInputChange} />
+                                </div>
+                            </form>
+                            
+                            <Button id={userPerfil.id} text="Salvar" action="save" values={values} />
                                 <h1>Perfil</h1>
                                 <p>id: {props.data.id}</p>
                                 <p>name: {props.data.name}</p>
@@ -332,7 +351,7 @@ export default function IndexAdmin(props) {
 
                         { menu[1] &&
                             <>
-                            {shop != "" ?
+                            {props.data.level == 1 ? shop != "" ?
                                 <>
                                     <h1>Loja</h1>
                                     <p>id: {shop.id}</p>
@@ -348,7 +367,14 @@ export default function IndexAdmin(props) {
                                     <p>Começe agora mesmo...</p>
                                     <label>Nome:</label>
                                     <input></input>
-                                </> }
+                                </> :
+                                <>
+                                    <h1> Você ainda não tem permissão para cadastrar uma loja 😥</h1>
+                                    <p>Entre em contato com a administração para receber essa permissão.</p>
+                                    <p>Email: <a href={`mailto:${contactShopping.email}`}>{contactShopping.email}</a></p>
+                                    <p>Telefone:<a href={`tel:${contactShopping.phone}`}>{contactShopping.phone}</a></p>
+                                </>
+                                }
                             </>
                         }
                 
@@ -367,26 +393,28 @@ export default function IndexAdmin(props) {
     )
 }
 
-IndexAdmin.getInitialProps = async (ctx) =>{
+Index.getInitialProps = async (ctx) =>{
 
-    console.log(ctx)
-    const { IndexAdmin } = ctx.query
+    //console.log(ctx)
+    //const { IndexAdmin } = ctx.query
     let data = await handleAuthSSR(ctx)
     let err = false
     let admin = false
     let users = false
 
-    
 
-    switch(IndexAdmin) {
-        case "admin":
-            admin = true
-            break
-        case "lojista":
+
+    switch(data.level) {
+        case null: //sem autorização nenhuma (inicial)
+        case 0: //perdeu autorização
+        case 1: //lojista
             users = true
             break
-        case "login":
-            data = "login-ok"
+        case 2: //cinema
+            //user = true
+            break
+        case 3: //administrador geral
+            admin = true
             break
         default:
             err = true
@@ -396,7 +424,7 @@ IndexAdmin.getInitialProps = async (ctx) =>{
 
         return {
             "data": data,
-            "IndexAdmin": IndexAdmin,
+            //"IndexAdmin": IndexAdmin,
             "err" : err,
             "page" : {
                 "admin" : admin,

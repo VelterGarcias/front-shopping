@@ -2,23 +2,43 @@ import Layout from '../../components/Layout'
 import LayoutAdmin from '../../components/admin/LayoutAdmin'
 import CardMessage from '../../components/admin/CardMessage'
 import CardUser from '../../components/admin/CardUser'
+import Card from '../../components/admin/Card'
+import Input from '../../components/Input'
+import Textarea from '../../components/Textarea'
+import Button from '../../components/admin/Button'
 import styles from '../../components/admin/Contacts.module.css'
 import serverUrl from '../../utils/env'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Cookies } from 'react-cookie'
+import {handleAuthSSR} from '../../utils/auth'
 
+const contactShopping = {phone: '(54) 98403-8507', email: 'weads.velter@gmail.com'}
+const config = {
+    header: "Content-Type: multipart/form-data"
+}
 
-
-const cookies = new Cookies();
-export default function IndexAdmin(props) {
+export default function Index(props) {
     
     //console.log(props)
-
-
+    const cookies = new Cookies();
     const Router = useRouter()
 
+    // if (props.page.users) {
+    //     let date_at = new Date(props.data.birth_at).toISOString().split('T')[0]
+
+    //     var [userPerfil, setUserPerfil] = useState({ name: props.data.name, email: props.data.email, password: props.data.password, birth_at: date_at, level: props.data.level, photo: props.data.photo })
+    // }
+    const [values, setValues] = useState()
+    //console.log("Values", values)
+    const [userPerfil, setUserPerfil] = useState()
+    //console.log("perfil", userPerfil)
+
+    let [nameInput, setNameInput] = useState('')
+    let [newPassInput, setNewPassInput] = useState('')
+    let [newPassword, setNewPassword] = useState('')
+    let [confirmPassword, setConfirmPassword] = useState('')
 
     const [menu, setMenu] = useState([])
 
@@ -37,34 +57,26 @@ export default function IndexAdmin(props) {
     const [lastVisible, setLastVisible] = useState()
     const [visible, setVisible] = useState()
     const [answered, setAnswered] = useState()
-    
-    //console.log("Contatos", contacts)
-    //console.log("Visible", visible)
-    //console.log("Menu", menu)
-    //console.log("Shop", shop)
-    console.log("VisibleUser", visibleUser)
-    console.log("LastVisibleUser", lastVisibleUser)
 
     async function handleClick(action) {
-        console.log(action)
-
+        // console.log(action)
         switch(action) {
             
             case "contacts":
                 if(!contacts) {
-                    console.log("contatos...")
+                    //console.log("contatos...")
                     let res
                     try{ res = await axios.get(`${serverUrl}/admin/contacts`)
-                        console.log("RES", res.data)
+                        //console.log("RES", res.data)
                         setContacts(res.data)
                         setVisible(res.data.map((contact, i) => false))
                         setAnswered(res.data.map((contact, i) => contact.answered))
                     }catch(err){ res = [] 
-                        console.log("Deu ruim")
+                        //console.log("Deu ruim")
                         setContacts("")
                     }
                 } else {
-                    console.log("não fez nada")
+                    //console.log("não fez nada")
                 }
                 setMenu({...menu,[0]:true, [1]:false, [2]:false})
 
@@ -74,18 +86,18 @@ export default function IndexAdmin(props) {
 
             case "users":
                 if(!users) {
-                    console.log("users...")
+                    //console.log("users...")
                     let res
                     try{ res = await axios.get(`${serverUrl}/admin/users`)
-                        console.log("RES USERS", res.data)
+                        //console.log("RES USERS", res.data)
                         setUsers(res.data)
                         setVisibleUser(res.data.map((contact, i) => false))
                     }catch(err){ res = [] 
-                        console.log("Deu ruim USERS")
+                        //console.log("Deu ruim USERS")
                         setUsers("")
                     }
                 } else {
-                    console.log("não fez nada")
+                    //console.log("não fez nada")
                 }
                 setMenu({...menu,[0]:false, [1]:true, [2]:false})
 
@@ -94,52 +106,55 @@ export default function IndexAdmin(props) {
                 
             case "shops":
                 if(!shops) {
-                    console.log("users...")
+                    //console.log("users...")
                     let res
                     try{ res = await axios.get(`${serverUrl}/admin/shops`)
-                        console.log("RES shops", res.data)
+                        //console.log("RES shops", res.data)
                         setShops(res.data)
                         setVisibleShops(res.data.map((contact, i) => false))
                     }catch(err){ res = [] 
-                        console.log("Deu ruim shops")
+                       // console.log("Deu ruim shops")
                         setShops("")
                     }
                 } else {
-                    console.log("não fez nada")
+                    //console.log("não fez nada")
                 }
                 setMenu({...menu,[0]:false, [1]:false, [2]:true})
                 break
 
             case "profile":
-                console.log("Perfil...")
+                //console.log("Perfil...")
+                let date_at = new Date(props.data.birth_at).toISOString().split('T')[0]
+                setUserPerfil({ id: props.data.id, name: props.data.name, email: props.data.email, password: props.data.password, birth_at: date_at, level: props.data.level, photo: props.data.photo })
+
                 setMenu({...menu,[0]:true, [1]:false})
                 break
 
             case "shop":
                 if(!shop) {
-                    console.log("users...")
+                    //console.log("users...")
                     let res
                     try{ res = await axios.get(`${serverUrl}/admin/shop/${props.data.email}`)
-                        console.log("RES USERS", res.data)
+                        //console.log("RES USERS", res.data)
                         setShop(res.data)
                         //setVisibleUser(res.data.map((contact, i) => false))
                     }catch(err){ res = [] 
-                        console.log("Deu ruim SHOP")
+                        //console.log("Deu ruim SHOP")
                         setShop("")
                     }
                 } else {
-                    console.log("não fez nada")
+                    //console.log("não fez nada")
                 }
 
                 setMenu({...menu,[0]:false, [1]:true})
                 break
 
             case "logout":
-                console.log("SAINDO...")
+                //console.log("SAINDO...")
                 //setVisible({...visible, [index]:!visible[index]})
                 // const cookies = new Cookies()
                 //e.preventDefault()
-                // cookies.remove('token')
+                cookies.remove('token', { path: '/' })
                 // cookies.remove('user')
                 // cookies.remove('typet')
                 // Router.push('/')
@@ -147,6 +162,13 @@ export default function IndexAdmin(props) {
                 break       
         }
         
+    }
+
+    const handleInputChange = e =>{
+        const {name, value} = e.target
+
+        setValues({...values, [name]:value})
+        console.log(name, value)
     }
 
     function handleClickMessage(index) {
@@ -157,7 +179,6 @@ export default function IndexAdmin(props) {
     }
 
     function handleClickUser(index) {
-        
         setVisibleUser({...visibleUser, [lastVisibleUser]:false, [index]:!visibleUser[index]})
         setLastVisibleUser(index)    
         //console.log(visible)
@@ -173,9 +194,62 @@ export default function IndexAdmin(props) {
     //função para marcar a mensagem como "lida/respondida" tanto na tela como no DB
     async function handleClickAnswered(index, id) {
 
-        const values = {answered: !answered[index]}
+        const userPerfil = {answered: !answered[index]}
         setAnswered({...answered, [index]:!answered[index]})
         await axios.put(`${serverUrl}/admin/contacts/${id}`, values)        
+    }
+
+    const handleFormData = async e => {
+        e.preventDefault()
+        let  formulario = new FormData(e.target)
+
+            await axios.post(`${serverUrl}/admin/users/${userPerfil.id}/uploads`, formulario, config)
+            .then((res)=>{
+                alert("Nova foto salva com sucesso!")
+                Router.reload()
+            }).catch((err)=>{
+                alert("Deu ruim")
+                // Router.push("/admin/posts")
+            })
+    }
+
+    
+    const currentPass = async e => {
+        e.preventDefault()
+        let pass = e.target.value
+        const valuesPass = {email: userPerfil.email, password: pass}
+        let passValid = false;
+        let error = ''
+        await axios.post(`${serverUrl}/auths`, valuesPass)
+        .then(
+            res => passValid = true
+        )
+        .catch(
+            err => {
+                passValid = false
+                error = err.message
+            }
+        )
+        if(!passValid) {
+            console.log('Senha atual incorreta')
+            console.log(error)
+            nameInput.focus()
+            return
+        }
+    }
+
+    const newPass = e=> {
+        newPassword = e.target.value
+        console.log(newPassword)
+    }
+
+    const confirmPass = e=> {
+        setConfirmPassword(e.target.value)
+        if(confirmPassword != newPassword){
+            alert('Senhas não conferem')
+            newPassInput.focus()
+        }
+        console.log(newPassword, confirmPassword)
     }
 
 
@@ -185,7 +259,7 @@ export default function IndexAdmin(props) {
         <>
             { props.page.admin &&
 
-                <LayoutAdmin pageTitle="Shopping" textHeader="Bem Vindo ao Painel" userName="Velter (estático)" logout={() => handleClick("logout")} menu1={() => handleClick("contacts")} menu1Label="Contatos" menu2={() => handleClick("users")} menu2Label="Usuários" menu3={() => handleClick("shops")} menu3Label="Lojas" >
+                <LayoutAdmin pageTitle="Shopping" textHeader="Bem Vindo ao Painel" userName={props.data.name} logout={() => handleClick("logout")} menu1={() => handleClick("contacts")} menu1Label="Contatos" menu2={() => handleClick("users")} menu2Label="Usuários" menu3={() => handleClick("shops")} menu3Label="Lojas" >
                     
                     <>
                         <p>Administrador</p>
@@ -317,19 +391,66 @@ export default function IndexAdmin(props) {
 
                         { menu[0] &&
                             <>
-                                <h1>Perfil</h1>
-                                <p>id: {props.data.id}</p>
-                                <p>name: {props.data.name}</p>
-                                <p>email: {props.data.email}</p>
-                                <p>photo: {props.data.photo}</p>
-                                <p>criado: {props.data.created_at}</p>
-                                <p>é admin?: {props.data.isAdmin}</p>
+                            <Card >
+
+                                <div className={styles.header}>
+
+                                    <h2>Foto do Perfil</h2>
+
+                                </div>
+                                <img src={`${serverUrl}/admin/users/${userPerfil.id}/photo`} className={styles.avatar} />
+                                <form className={styles.formPost} onSubmit={handleFormData}>
+                                    
+                                    <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                              
+                                    <Button text="Trocar Foto" />
+                                </form>
+
+                            </Card>
+                            <Card actions={<Button id={userPerfil.id} text="Salvar" action="save" values={values} />}>
+                            
+                                <div className={styles.header}>
+
+                                    <h2>Dados Pessoais</h2>
+
+                                </div>
+
+                                <form className={styles.form} >
+                                    <div className={styles.fields}>
+                                        <Input type="text" name="name" defaultValue={userPerfil.name} label="Nome Completo" onChange={handleInputChange} onFocus={handleInputChange}/>
+                                        <Input type="email" name="email" label="Email" defaultValue={userPerfil.email} onChange={handleInputChange} onFocus={handleInputChange} />
+                                        {/* <Input type="tel" name="phone" label="Telefone" defaultValue={userPerfil.phone} onChange={handleInputChange} onFocus={handleInputChange} /> */}
+                                        <Input type="date" name="birth_at" label="Data de Nascimento" defaultValue={userPerfil.birth_at} onChange={handleInputChange} onFocus={handleInputChange} />
+                                    </div>
+                                </form>
+                                
+                            </Card>
+
+                            <Card actions={<Button action="passwordChange" id={userPerfil.id} values={values} text="Alterar" />}>
+
+                            <div className={styles.header}>
+
+                                <h2>Senha</h2>
+
+                            </div>
+
+                            <form className={styles.form}>
+
+                                <input type="password" placeholder="Senha Atual" onBlur={currentPass} ref={inputPass => setNameInput(inputPass)} />
+
+                                <input type="password" placeholder="Nova Senha" onBlur={newPass} ref={newPassInput => setNewPassInput(newPassInput)} />
+
+                                <input type="password" placeholder="Confirme a Nova Senha" onBlur={confirmPass} name="password" onChange={handleInputChange} />
+
+                            </form>
+
+                            </Card>
                             </>
                         }
 
                         { menu[1] &&
                             <>
-                            {shop != "" ?
+                            {props.data.level == 1 ? shop != "" ?
                                 <>
                                     <h1>Loja</h1>
                                     <p>id: {shop.id}</p>
@@ -345,7 +466,14 @@ export default function IndexAdmin(props) {
                                     <p>Começe agora mesmo...</p>
                                     <label>Nome:</label>
                                     <input></input>
-                                </> }
+                                </> :
+                                <>
+                                    <h1> Você ainda não tem permissão para cadastrar uma loja 😥</h1>
+                                    <p>Entre em contato com a administração para receber essa permissão.</p>
+                                    <p>Email: <a href={`mailto:${contactShopping.email}`}>{contactShopping.email}</a></p>
+                                    <p>Telefone:<a href={`tel:${contactShopping.phone}`}>{contactShopping.phone}</a></p>
+                                </>
+                                }
                             </>
                         }
                 
@@ -364,40 +492,28 @@ export default function IndexAdmin(props) {
     )
 }
 
-IndexAdmin.getInitialProps = async (ctx) =>{
+Index.getInitialProps = async (ctx) =>{
 
-        
     //console.log(ctx)
-    const { IndexAdmin } = ctx.query
-    let data = []
+    //const { IndexAdmin } = ctx.query
+    let data = await handleAuthSSR(ctx)
     let err = false
     let admin = false
     let users = false
 
-    
 
-    switch(IndexAdmin) {
-        case "admin":
-            data = "Administrador-ok"
-            admin = true
-            break
-        case "lojista":
-            let userId = null
-            
-            userId = ctx.req.headers.cookie.replace('user=','')
-            console.log("userId", userId)
-            console.log("userId-get-cookie", cookies.get('user'))
-            const id = userId
-            //const { id } = query
-            let user = []
-            user = await axios.get(`${serverUrl}/admin/users/${id}`)
-            
-            data = user.data
-            //console.log(data)
+
+    switch(data.level) {
+        case null: //sem autorização nenhuma (inicial)
+        case 0: //perdeu autorização
+        case 1: //lojista
             users = true
             break
-        case "login":
-            data = "login-ok"
+        case 2: //cinema
+            //user = true
+            break
+        case 3: //administrador geral
+            admin = true
             break
         default:
             err = true
@@ -407,7 +523,7 @@ IndexAdmin.getInitialProps = async (ctx) =>{
 
         return {
             "data": data,
-            "IndexAdmin": IndexAdmin,
+            //"IndexAdmin": IndexAdmin,
             "err" : err,
             "page" : {
                 "admin" : admin,

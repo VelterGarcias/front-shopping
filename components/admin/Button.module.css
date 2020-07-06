@@ -6,10 +6,10 @@
     margin: 20px;
     padding: 10px;
     border: none;
-    background-color: #f15000;
+    background-color: #60f100;
     color: white;
     outline: none;
 }
 .button:hover{
-    background-color: #b14109;
+    background-color: #2f850d;
 }

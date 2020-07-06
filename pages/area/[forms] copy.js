@@ -46,7 +46,36 @@ export default function Forms(props) {
                 //console.log("RESPOSTA LOGIN:", res.data )
                 const { level } = res.data.user
                 cookies.set('token', token, { path: '/' } )
-                router.push('/admin')
+                
+                switch (level) {
+                    case null:
+                        
+                        //console.log("NULL", level)
+                        //alert(`olá ${user.id} vamos para lojista`)
+                        //window.location.href = ("/admin/lojista")
+                        router.push('/admin/[IndexAdmin]', '/admin/lojista')
+                        // axios.get(`${serverUrl}/trainings/${typet}`).then((res) => {
+
+                        //     const description = res.data[0].description
+                        //     const nametraining = res.data[0].name_training
+                        //     const cookiesName = new Cookies();
+                        //     cookiesName.set('name_training', nametraining)
+                        //     const cookiesDesc = new Cookies();
+                        //     cookiesName.set('description', description)
+                        // })
+                        //Router.push("/studentAreaTable")
+                        // window.location.href = ("/studentAreaTable")
+                        break;
+                    case 1:
+                        //console.log("opção 1", level)
+                        //alert(`olá ${user.id} vamos para admin`)
+                        router.push('/admin/[IndexAdmin]', '/admin/admin')
+                        //window.location.href = ("/admin/admin")//admin
+                        break;
+                    default:
+                        alert('erro fatal,contate um administrador')
+                        break;
+                }
 
 
             }

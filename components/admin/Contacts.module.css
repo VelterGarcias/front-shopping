@@ -1,3 +1,7 @@
+.form .fields {
+    flex-direction: column;
+}
+
 .main {
     display: flex;
     flex-direction: column;
