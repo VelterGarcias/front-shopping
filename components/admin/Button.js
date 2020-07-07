@@ -15,9 +15,14 @@ export default function Button(props){
                 break
             case "save":
                 if (props.values) {
-                    await axios.put(`${serverUrl}/admin/users/${props.id}`, props.values).then((res)=>(
-                        alert("Alteraçoes salvas com sucesso!")
-                    ))
+                    if (confirm("Tem certeza que deseja salvar essas alterações?")){
+                    console.log(props.values,`${serverUrl}/admin/${props.model}/${props.id}` )
+                    await axios.put(`${serverUrl}/admin/${props.model}/${props.id}`, props.values)
+                    .then((res)=>{
+                        let message = props.model == "shops" ? "Alterações na sua loja salvas com sucesso!" : "Alterações em seu perfil salvas com sucesso!"
+                        alert(message)
+                        Router.reload()
+                    }).catch(err=>{alert("Deu ruim")}) }
                 } else {
                     console.log("Não tem nada pra salvar", props.values)
                 }
@@ -38,7 +43,6 @@ export default function Button(props){
                 Router.push(`/admin/${props.model}/${props.id}`)
                 break
             case "delete":
-                console.log(props.page)
                 console.log(props.model)
                 if (confirm("Tem certeza que deseja excluir?")){
                     await axios.delete(`${serverUrl}/admin/${props.model}/${props.id}`).then(res=>{

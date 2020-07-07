@@ -1,6 +1,7 @@
 import styles from './CardMessage.module.css'
 import Button from './Button'
-import Input from './Input'
+import Input from '../Input'
+import Checkbox from './Checkbox'
 
 export default function Header(props){
 
@@ -8,40 +9,43 @@ export default function Header(props){
     
     return(
 
-        <div id={props.id} className={styles.messageCard}>
+        <div id={props.values.id} className={styles.messageCard}>
+            <label htmlFor={props.selectId}>Nível</label>
+            <select name={props.selectId} defaultValue={props.values.level} onChange={props.onChangeSelect}>
+                <option value="0" >Novo</option>
+                <option value="1" >Lojista</option>
+                <option value="2" >Cinema</option>
+                <option value="3" >Administrador</option>
+            </select>
+
+
             
                 
                 <label>Nome:</label>
-                <h2>{props.name}</h2>
+                <h2>{props.values.name}</h2>
             
             <div className={styles.row}>
                 <label>E-mail:</label>
-                <a href={`mailto:${props.email}`} >{props.email}</a>
+                <a href={`mailto:${props.values.email}`} >{props.values.email}</a>
             </div>
             <div className={styles.row}>
                 <label>Telefone:</label>
-                <a href={`tel:${props.phone}`} >{props.phone}</a>
+                <a href={`tel:${props.values.phone}`} >{props.values.phone}</a>
             </div>
             <hr/>
             
-            <label>Mensagem:</label>
-            <p className={styles.pMessage}>{props.message}</p>
-                
-            <hr/>
             <div className={styles.column}>
-                <p>Recebida em: </p>
-                <p>{props.received}</p>
+                <p>Registrado em: </p>
+                <p>{props.values.created_at}</p>
             </div>
             <div className={styles.column}>
-                {props.received == props.updated? null :<> 
-                        <p>Respondida em: </p>
-                        <p>{props.updated}</p>
+                {props.values.created_at == props.values.updated_at? null :<> 
+                        <p>Última alteração em: </p>
+                        <p>{props.values.updated_at}</p>
                     </> }
             </div>
-            <div className={styles.row}>
-                <Input className={styles.checkBox} type="checkbox" name={`answered-${props.id}`} label="Marcar como Respondida " checked={props.checked} onChange={props.onChange}/>
-            </div>
-            <Button id={props.id} action="delete" model="users" page={props.page} text="Excluir Usuário" />
+            
+            <Button id={props.values.id} action="delete" model="users" text="Excluir Usuário" />
         </div>
         
        

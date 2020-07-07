@@ -2,6 +2,7 @@ import Layout from '../../components/Layout'
 import LayoutAdmin from '../../components/admin/LayoutAdmin'
 import CardMessage from '../../components/admin/CardMessage'
 import CardUser from '../../components/admin/CardUser'
+import CardShop from '../../components/admin/CardShop'
 import Card from '../../components/admin/Card'
 import Input from '../../components/Input'
 import Textarea from '../../components/Textarea'
@@ -41,7 +42,6 @@ export default function Index(props) {
     let [confirmPassword, setConfirmPassword] = useState('')
 
     const [menu, setMenu] = useState([])
-
     const [shop, setShop] = useState()
 
     const [shops, setShops] = useState()
@@ -50,6 +50,7 @@ export default function Index(props) {
     
 
     const [users, setUsers] = useState()
+    //console.log("users", users)
     const [lastVisibleUser, setLastVisibleUser] = useState()
     const [visibleUser, setVisibleUser] = useState()
 
@@ -194,16 +195,54 @@ export default function Index(props) {
     //função para marcar a mensagem como "lida/respondida" tanto na tela como no DB
     async function handleClickAnswered(index, id) {
 
-        const userPerfil = {answered: !answered[index]}
+        const checkboxValue = {answered: !answered[index]}
         setAnswered({...answered, [index]:!answered[index]})
-        await axios.put(`${serverUrl}/admin/contacts/${id}`, values)        
+        await axios.put(`${serverUrl}/admin/contacts/${id}`, checkboxValue)        
+    }
+
+    //função para marcar a mensagem como "lida/respondida" tanto na tela como no DB
+    async function handleLevelChange(e) {
+        const userIndex = e.target.name // para poder saber os outros dados
+        const userId = users[userIndex].id // para a rota
+        const newLevel = e.target.value //Novo valor
+        const oldLevel = users[userIndex].level // para evitar salvar o que já existe
+        
+        if (newLevel != oldLevel) { 
+            const levelChange = {
+                "level": newLevel
+            }
+            await axios.put(`${serverUrl}/admin/users/${userId}`, levelChange)
+            .then(res=>{
+                alert(`Sucesso! Agora o usuário com id: ${userId} tem o level: ${newLevel}.`)
+                let newUsers = [...users]   
+                newUsers[userIndex] = {...newUsers[userIndex], level : newLevel }
+                setUsers(newUsers)
+                //Router.push(`/admin/${props.model}`)
+            }).catch(err=>{alert("Deu ruim")}) 
+        }
+    }
+
+     //função para marcar a mensagem como "lida/respondida" tanto na tela como no DB
+     async function handleIsOnline(i, id) {
+        const newIsOnline = {
+                "isOnline": !shops[i].isOnline
+            }
+        
+        await axios.put(`${serverUrl}/admin/shops/${id}`, newIsOnline)
+        .then(res=>{
+            alert(`Sucesso! Agora a loja ${shops[i].name} está: ${!shops[i].isOnline ? "Online": "Offline" }.`)
+            let newShops = [...shops]   
+            newShops[i] = {...newShops[i], isOnline : !newShops[i].isOnline }
+            setShops(newShops)
+        }).catch(err=>{alert("Deu ruim")}) 
     }
 
     const handleFormData = async e => {
         e.preventDefault()
+        const model = e.target.id
         let  formulario = new FormData(e.target)
 
-            await axios.post(`${serverUrl}/admin/users/${userPerfil.id}/uploads`, formulario, config)
+            await axios.post(`${serverUrl}/admin/${model}/${userPerfil.id}/uploads`, formulario, config)
             .then((res)=>{
                 alert("Nova foto salva com sucesso!")
                 Router.reload()
@@ -252,6 +291,9 @@ export default function Index(props) {
         console.log(newPassword, confirmPassword)
     }
 
+   
+
+
 
 
     return (
@@ -265,7 +307,7 @@ export default function Index(props) {
                         <p>Administrador</p>
                         <hr/>
 
-                        { menu[0] && 
+                        { menu[0] &&  //Mensagens
                             <main className={styles.main} >
                             {/* função ternária para evitar erro de rodar um .map() em um array vazio e mostrar
                             uma mensagem de erro mais amigável */}
@@ -287,10 +329,10 @@ export default function Index(props) {
                                 <section className={styles.messages}>
                                 
                                     {contacts.map((contact, i) => 
-                                    <>
+                                    <div key={`Card${i}`} >
                                         
-                                        { visible[i] && <CardMessage key={`Card${i}`} id={contact.id} name={contact.name} email={contact.email} phone={contact.phone} message={contact.message} checked={answered[i] ? "checked": ""} onChange={() => handleClickAnswered(i,contact.id)} received={contact.created_at} updated={contact.updated_at}/>}
-                                    </>
+                                        { visible[i] && <CardMessage id={contact.id} name={contact.name} email={contact.email} phone={contact.phone} message={contact.message} checked={answered[i] ? "checked": ""} onChange={() => handleClickAnswered(i,contact.id)} received={contact.created_at} updated={contact.updated_at}/>}
+                                    </div>
                                     ) }
                 
                                 </section> 
@@ -298,10 +340,7 @@ export default function Index(props) {
                             </main>
                         }
 
-                        { menu[1] &&
-
-                            
-
+                        { menu[1] && //Users
                             <main className={styles.main} >
                             {/* função ternária para evitar erro de rodar um .map() em um array vazio e mostrar
                             uma mensagem de erro mais amigável */}
@@ -313,7 +352,8 @@ export default function Index(props) {
                                         {users.map((user, i) => (
                                                
                                                 <li key={`liUser${i}`} className={visibleUser[i] ? styles.selected : null}>
-                                                    <button  key={`ButtonUser${i}`} id={user.id} onClick={ () => handleClickUser(i) } > <span className={styles.nameList}>{user.name}</span> <span className={styles.dateList}>{new Date(user.created_at).toISOString().split('T')[0]}</span></button>
+                                                    <button  key={`ButtonUser${i}`} id={user.id} onClick={ () => handleClickUser(i) } > <span className={styles.nameList}>{user.name}</span> <span className={styles.dateList}>{user.level == 0 ? "" : user.level }</span></button>
+                                                    
                                                 </li>
                                         ))}
                                     </ul>
@@ -323,11 +363,11 @@ export default function Index(props) {
                                 <section className={styles.messages}>
                                 
                                 {users.map((user, i) => 
-                                <>
+                                <div key={`CardUser${i}`} >
                                     {/* Falta colocar o onChange que tive que tirar e deixar o checked dinâmico */}
-                                    { visibleUser[i] && <CardUser key={`CardUser${i}`} id={user.id} name={user.name} email={user.email} phone={user.photo} message={user.id} checked="checked" received={user.created_at} updated={user.updated_at} page="admin" />} 
+                                    { visibleUser[i] && <CardUser  values={user} selectId={i} onChangeSelect={handleLevelChange} />} 
                                     
-                                </>
+                                </div>
                                 ) }
             
                             </section> 
@@ -338,7 +378,7 @@ export default function Index(props) {
 
                         }
 
-                        { menu[2] &&
+                        { menu[2] && //Lojas
                             <>
                                 <h1>Lojas</h1>
                                 <main className={styles.main} >
@@ -351,8 +391,11 @@ export default function Index(props) {
                                         <ul className={styles.ulList}>
                                             {shops.map((shop, i) => (
                                                 
+                                                
                                                     <li key={`liShop${i}`} className={visibleShops[i] ? styles.selected : null}>
-                                                        <button  key={`ButtonShop${i}`} id={shop.id} onClick={ () => handleClickShops(i) } > <span className={styles.nameList}>{shop.name}</span> <span className={styles.dateList}>{new Date(shop.created_at).toISOString().split('T')[0]}</span></button>
+                                                        
+                                                        <button  key={`ButtonShop${i}`} id={shop.id} onClick={ () => handleClickShops(i) } > <span className={styles.nameList}>{shop.name}</span></button>
+                                                        <input type="checkbox" checked={shop.isOnline} disabled/>
                                                     </li>
                                             ))}
                                         </ul>
@@ -362,11 +405,11 @@ export default function Index(props) {
                                     <section className={styles.messages}>
                                     
                                     {shops.map((shop, i) => 
-                                    <>
+                                    <div key={`CardShop${i}`} >
                                         {/* Falta colocar o onChange que tive que tirar e deixar o checked dinâmico */}
-                                        { visibleShops[i] && <CardUser key={`CardShop${i}`} id={shop.id} name={shop.name} email={shop.email} phone={shop.photo} message={shop.id} checked="checked" received={shop.created_at} updated={shop.updated_at} page="admin" />} 
+                                        { visibleShops[i] && <CardShop id={shop.id} valueInput={values} values={shop} onChange={() =>handleIsOnline(i, shop.id)} onInputChange={handleInputChange}/>} 
                                         
-                                    </>
+                                    </div>
                                     ) }
                 
                                 </section> 
@@ -389,7 +432,7 @@ export default function Index(props) {
                         <p>Lojista</p>
                         <hr />
 
-                        { menu[0] &&
+                        { menu[0] && //Perfil
                             <>
                             <Card >
 
@@ -399,7 +442,7 @@ export default function Index(props) {
 
                                 </div>
                                 <img src={`${serverUrl}/admin/users/${userPerfil.id}/photo`} className={styles.avatar} />
-                                <form className={styles.formPost} onSubmit={handleFormData}>
+                                <form className={styles.formPost} id="users" onSubmit={handleFormData}>
                                     
                                     <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                               
@@ -407,7 +450,7 @@ export default function Index(props) {
                                 </form>
 
                             </Card>
-                            <Card actions={<Button id={userPerfil.id} text="Salvar" action="save" values={values} />}>
+                            <Card actions={<Button id={userPerfil.id} text="Salvar" action="save" values={values} model="users" />}>
                             
                                 <div className={styles.header}>
 
@@ -448,17 +491,69 @@ export default function Index(props) {
                             </>
                         }
 
-                        { menu[1] &&
+                        { menu[1] && //Loja
                             <>
                             {props.data.level == 1 ? shop != "" ?
                                 <>
-                                    <h1>Loja</h1>
-                                    <p>id: {shop.id}</p>
-                                    <p>name: {shop.name}</p>
-                                    <p>email: {shop.admin_mail}</p>
-                                    <p>phone: {shop.phone}</p>
-                                    <p>whatsapp: <a href={shop.whatsapp} >{shop.whatsapp}</a></p>
-                                    <p>isOnline: {shop.isOnline}</p>
+
+                                    <Card >
+
+                                        <div className={styles.header}>
+
+                                            <h2>Logotipo da Loja</h2>
+
+                                        </div>
+                                        <img src={`${serverUrl}/admin/shops/${shop.id}/photo`} className={styles.avatar} />
+                                        <form className={styles.formPost} id="shops" onSubmit={handleFormData}>
+                                            
+                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                                    
+                                            <Button text="Trocar Foto" />
+                                        </form>
+
+                                    </Card>
+                                    <Card actions={<Button id={shop.id} text="Salvar" action="save" values={values} model="shops" />}>
+
+                                        <div className={styles.header}>
+
+                                            <h2>Dados da Loja</h2>
+
+                                        </div>
+
+                                        <form className={styles.form} >
+                                            <div className={styles.fields}>
+                                                <Input type="text" name="name" defaultValue={shop.name} label="Nome da Loja" onChange={handleInputChange} onFocus={handleInputChange}/>
+                                                <Input type="text" name="category" label="Categoria" defaultValue={shop.category} onChange={handleInputChange} onFocus={handleInputChange} />
+                                                <Input type="tel" name="phone" label="Telefone Fixo" defaultValue={shop.phone} onChange={handleInputChange} onFocus={handleInputChange} />
+                                                <Input type="tel" name="smartphone" label="Celular" defaultValue={shop.smartphone} onChange={handleInputChange} onFocus={handleInputChange} />
+                                                <Input type="text" name="whatsapp" label="WhatsApp" defaultValue={shop.whatsapp} onChange={handleInputChange} onFocus={handleInputChange} />
+                                                <Input type="text" name="adress" label="Localização" defaultValue={shop.adress} onChange={handleInputChange} onFocus={handleInputChange} />
+                                                <Input type="text" name="website" label="Website" defaultValue={shop.website} onChange={handleInputChange} onFocus={handleInputChange} />
+                                                <Input type="text" name="facebook" label="Facebook" defaultValue={shop.facebook} onChange={handleInputChange} onFocus={handleInputChange} />
+                                                <Input type="text" name="instagram" label="Instagram" defaultValue={shop.instagram} onChange={handleInputChange} onFocus={handleInputChange} />
+                                    
+                                                
+                                            </div>
+                                        </form>
+
+                                    </Card>
+
+                                    <Card >
+
+                                        <div className={styles.header}>
+
+                                            <h2>Fotos</h2>
+
+                                        </div>
+                                        <img src={`${serverUrl}/admin/shops/${shop.id}/photo`} className={styles.avatar} />
+                                        <form className={styles.formPost} onSubmit={handleFormData}>
+                                            
+                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                                    
+                                            <Button text="Trocar Foto" />
+                                        </form>
+
+                                    </Card>
                                 </>
                                 : 
                                 <>

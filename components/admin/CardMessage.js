@@ -1,6 +1,6 @@
 import styles from './CardMessage.module.css'
 import Button from './Button'
-import Input from './Input'
+import Checkbox from './Checkbox'
 
 export default function Header(props){
 
@@ -39,7 +39,7 @@ export default function Header(props){
                     </> }
             </div>
             <div className={styles.row}>
-                <Input className={styles.checkBox} type="checkbox" name={`answered-${props.id}`} label="Marcar como Respondida " checked={props.checked} onChange={props.onChange}/>
+                <Checkbox className={styles.checkBox} type="checkbox" name={`answered-${props.id}`} label="Marcar como Respondida " checked={props.checked} onChange={props.onChange}/>
             </div>
             <Button id={props.id} action="delete" model="contacts" text="Excluir" />
         </div>
