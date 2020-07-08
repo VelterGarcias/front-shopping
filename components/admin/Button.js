@@ -35,9 +35,18 @@ export default function Button(props){
                 })
                 
                 break
-            case `new${props.model}`:
-                await axios.put(`${serverUrl}/admin/${props.model}`, props.values)
-                console.log(`Cadastrando novos ${props.model}`)
+            case `newShop`:
+                let admin = props.values
+                let shop = {
+                    "name":"Nome da sua Loja",
+                    "category":"Lojas",
+                    "adress":"Coloque aqui a localização da sua loja",
+                    "admin_mail": admin,
+                    "isOnline":false
+                    }
+                await axios.post(`${serverUrl}/admin/${props.model}`, shop)
+                alert('Parabéns! Você já pode editar a sua nova loja')
+                Router.reload()
                 break
             case "editar":
                 Router.push(`/admin/${props.model}/${props.id}`)

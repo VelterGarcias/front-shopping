@@ -4,6 +4,7 @@ import CardMessage from '../../components/admin/CardMessage'
 import CardUser from '../../components/admin/CardUser'
 import CardShop from '../../components/admin/CardShop'
 import Card from '../../components/admin/Card'
+import Checkbox from '../../components/admin/Checkbox'
 import Input from '../../components/Input'
 import Textarea from '../../components/Textarea'
 import Button from '../../components/admin/Button'
@@ -43,6 +44,7 @@ export default function Index(props) {
 
     const [menu, setMenu] = useState([])
     const [shop, setShop] = useState()
+    //console.log(shop)
 
     const [shops, setShops] = useState()
     const [lastVisibleShops, setLastVisibleShops] = useState()
@@ -59,6 +61,7 @@ export default function Index(props) {
     const [visible, setVisible] = useState()
     const [answered, setAnswered] = useState()
 
+    //função dos cliques no menu lateral
     async function handleClick(action) {
         // console.log(action)
         switch(action) {
@@ -164,34 +167,33 @@ export default function Index(props) {
         }
         
     }
-
+    //função que pega os valores alterados nos inputs
     const handleInputChange = e =>{
         const {name, value} = e.target
 
         setValues({...values, [name]:value})
-        console.log(name, value)
+        //console.log(name, value)
     }
-
+    //função que mostra/esconde as mensagens 
     function handleClickMessage(index) {
         
         setVisible({...visible, [lastVisible]:false, [index]:!visible[index]})
         setLastVisible(index)    
         //console.log(visible)
     }
-
+    //função que mostra/esconde os usuários 
     function handleClickUser(index) {
         setVisibleUser({...visibleUser, [lastVisibleUser]:false, [index]:!visibleUser[index]})
         setLastVisibleUser(index)    
         //console.log(visible)
     }
-
+    //função que mostra/esconde as lojas 
     function handleClickShops(index) {
         
         setVisibleShops({...visibleShops, [lastVisibleShops]:false, [index]:!visibleShops[index]})
         setLastVisibleShops(index)    
         //console.log(visible)
     }
-
     //função para marcar a mensagem como "lida/respondida" tanto na tela como no DB
     async function handleClickAnswered(index, id) {
 
@@ -199,8 +201,7 @@ export default function Index(props) {
         setAnswered({...answered, [index]:!answered[index]})
         await axios.put(`${serverUrl}/admin/contacts/${id}`, checkboxValue)        
     }
-
-    //função para marcar a mensagem como "lida/respondida" tanto na tela como no DB
+    //função para alterar o level do usuário tanto na tela como no DB
     async function handleLevelChange(e) {
         const userIndex = e.target.name // para poder saber os outros dados
         const userId = users[userIndex].id // para a rota
@@ -221,8 +222,7 @@ export default function Index(props) {
             }).catch(err=>{alert("Deu ruim")}) 
         }
     }
-
-     //função para marcar a mensagem como "lida/respondida" tanto na tela como no DB
+    //função para marcar a loja (na aba administrador) como "online/offline" tanto na tela como no DB
      async function handleIsOnline(i, id) {
         const newIsOnline = {
                 "isOnline": !shops[i].isOnline
@@ -236,22 +236,44 @@ export default function Index(props) {
             setShops(newShops)
         }).catch(err=>{alert("Deu ruim")}) 
     }
-
+    //função para marcar a loja (na aba usuário) como "online/offline" tanto na tela como no DB
+    async function handleIsOnlineShop(id) {
+        const newIsOnline = {
+                "isOnline": !shop.isOnline
+            }
+        
+        await axios.put(`${serverUrl}/admin/shops/${id}`, newIsOnline)
+        .then(res=>{
+            alert(`Sucesso! Agora a loja ${shop.name} está: ${!shop.isOnline ? "Online": "Offline" }.`)
+            // let newShops = []   
+            // newShops[i] = {...newShops[i], isOnline : !newShops[i].isOnline }
+            setShop({...shop, isOnline : !shop.isOnline })
+        }).catch(err=>{alert("Deu ruim")}) 
+    }
+    //função para trocar a foto do usuário ou Logotipo
     const handleFormData = async e => {
         e.preventDefault()
         const model = e.target.id
+        const photo = e.target.name
+        console.log("model", model)
+        console.log("name", e.target.name)
+        
+        let id = null
+        if (model == 'shops') {
+            id = shop.id
+        } else {
+            id = userPerfil.id
+        }
         let  formulario = new FormData(e.target)
 
-            await axios.post(`${serverUrl}/admin/${model}/${userPerfil.id}/uploads`, formulario, config)
+            await axios.put(`${serverUrl}/admin/${model}/${id}/uploads${ photo ? `/${photo}` : "" }`, formulario, config)
             .then((res)=>{
                 alert("Nova foto salva com sucesso!")
                 Router.reload()
             }).catch((err)=>{
                 alert("Deu ruim")
-                // Router.push("/admin/posts")
             })
     }
-
     
     const currentPass = async e => {
         e.preventDefault()
@@ -494,7 +516,7 @@ export default function Index(props) {
                         { menu[1] && //Loja
                             <>
                             {props.data.level == 1 ? shop != "" ?
-                                <>
+                                <> {/* Já criou/tem uma loja */}
 
                                     <Card >
 
@@ -503,7 +525,7 @@ export default function Index(props) {
                                             <h2>Logotipo da Loja</h2>
 
                                         </div>
-                                        <img src={`${serverUrl}/admin/shops/${shop.id}/photo`} className={styles.avatar} />
+                                        <img src={`${serverUrl}/admin/shops/${shop.id}/photo/`} className={styles.avatar} />
                                         <form className={styles.formPost} id="shops" onSubmit={handleFormData}>
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
@@ -522,8 +544,11 @@ export default function Index(props) {
 
                                         <form className={styles.form} >
                                             <div className={styles.fields}>
+                                                <Checkbox className={styles.checkBox} type="checkbox" name="isOnline" label="Online?" checked={shop.isOnline} onChange={() =>handleIsOnlineShop(shop.id)}/>
                                                 <Input type="text" name="name" defaultValue={shop.name} label="Nome da Loja" onChange={handleInputChange} onFocus={handleInputChange}/>
+                                                {/* Category deveria ser um select */}
                                                 <Input type="text" name="category" label="Categoria" defaultValue={shop.category} onChange={handleInputChange} onFocus={handleInputChange} />
+                                                <Textarea name="description" label="Descrição" defaultValue={shop.description} onChange={handleInputChange} onFocus={handleInputChange} /> 
                                                 <Input type="tel" name="phone" label="Telefone Fixo" defaultValue={shop.phone} onChange={handleInputChange} onFocus={handleInputChange} />
                                                 <Input type="tel" name="smartphone" label="Celular" defaultValue={shop.smartphone} onChange={handleInputChange} onFocus={handleInputChange} />
                                                 <Input type="text" name="whatsapp" label="WhatsApp" defaultValue={shop.whatsapp} onChange={handleInputChange} onFocus={handleInputChange} />
@@ -538,15 +563,15 @@ export default function Index(props) {
 
                                     </Card>
 
-                                    <Card >
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="sss" values={values} model="shops" />} >
 
                                         <div className={styles.header}>
 
-                                            <h2>Fotos</h2>
+                                            <h2>Foto 1</h2>
 
                                         </div>
-                                        <img src={`${serverUrl}/admin/shops/${shop.id}/photo`} className={styles.avatar} />
-                                        <form className={styles.formPost} onSubmit={handleFormData}>
+                                        <img src={shop.photo1 ? `${serverUrl}/admin/shops/${shop.id}/photo/1` : `${serverUrl}/admin/shops/${shop.id}/photo`} className={styles.avatar} />
+                                        <form className={styles.formPost} id="shops" name="1" onSubmit={handleFormData}>
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
@@ -554,15 +579,37 @@ export default function Index(props) {
                                         </form>
 
                                     </Card>
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="sss" values={values} model="shops" />} >
+
+                                        <div className={styles.header}>
+
+                                            <h2>Foto 1</h2>
+
+                                        </div>
+                                        <img src={shop.photo1 ? `${serverUrl}/admin/shops/${shop.id}/photo/2` : `${serverUrl}/admin/shops/${shop.id}/photo`} className={styles.avatar} />
+                                        <form className={styles.formPost} id="shops" name="2" onSubmit={handleFormData}>
+                                            
+                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                                    
+                                            <Button text="Trocar Foto" />
+                                        </form>
+
+                                    </Card>
+                                    <h2>Foto 1{shop.photo1}</h2>
+                                    <h2>Foto 2{shop.photo2}</h2>
+                                    <h2>Foto 3{shop.photo3}</h2>
+                                    <h2>Foto 4{shop.photo4}</h2>
+                                    <h2>Foto 5{shop.photo5}</h2>
                                 </>
                                 : 
-                                <>
+                                
+                                <>  {/* Já tem permissão mas ainda não criou a loja */}
+                                
                                     <h1>Você ainda não cadastrou a sua loja 😥</h1>
-                                    <p>Começe agora mesmo...</p>
-                                    <label>Nome:</label>
-                                    <input></input>
+                                    <Button id={shop.id} text="Começar agora mesmo" action="newShop" values={props.data.email} model="shops" />
                                 </> :
-                                <>
+                                
+                                <> {/* Ainda não tem permissão pra criar a loja */}
                                     <h1> Você ainda não tem permissão para cadastrar uma loja 😥</h1>
                                     <p>Entre em contato com a administração para receber essa permissão.</p>
                                     <p>Email: <a href={`mailto:${contactShopping.email}`}>{contactShopping.email}</a></p>
