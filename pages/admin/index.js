@@ -8,7 +8,7 @@ import Checkbox from '../../components/admin/Checkbox'
 import Input from '../../components/Input'
 import Textarea from '../../components/Textarea'
 import Button from '../../components/admin/Button'
-import styles from '../../components/admin/Contacts.module.css'
+import styles from '../../components/admin/Admin.module.css'
 import serverUrl from '../../utils/env'
 import axios from 'axios'
 import { useRouter } from 'next/router'
@@ -254,7 +254,7 @@ export default function Index(props) {
     const handleFormData = async e => {
         e.preventDefault()
         const model = e.target.id
-        const photo = e.target.name
+        const photo = e.target.name ? e.target.name : null
         console.log("model", model)
         console.log("name", e.target.name)
         
@@ -563,14 +563,14 @@ export default function Index(props) {
 
                                     </Card>
 
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="sss" values={values} model="shops" />} >
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={1} model="shops" />} >
 
                                         <div className={styles.header}>
 
                                             <h2>Foto 1</h2>
 
                                         </div>
-                                        <img src={shop.photo1 ? `${serverUrl}/admin/shops/${shop.id}/photo/1` : `${serverUrl}/admin/shops/${shop.id}/photo`} className={styles.avatar} />
+                                        <img src={shop.photo1 ? `${serverUrl}/admin/shops/${shop.id}/photo/1` : "/images/default_image.svg"} className={styles.photos} />
                                         <form className={styles.formPost} id="shops" name="1" onSubmit={handleFormData}>
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
@@ -579,14 +579,14 @@ export default function Index(props) {
                                         </form>
 
                                     </Card>
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="sss" values={values} model="shops" />} >
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={2} model="shops" />} >
 
                                         <div className={styles.header}>
 
-                                            <h2>Foto 1</h2>
+                                            <h2>Foto 2</h2>
 
                                         </div>
-                                        <img src={shop.photo1 ? `${serverUrl}/admin/shops/${shop.id}/photo/2` : `${serverUrl}/admin/shops/${shop.id}/photo`} className={styles.avatar} />
+                                        <img src={shop.photo2 ? `${serverUrl}/admin/shops/${shop.id}/photo/2` : "/images/default_image.svg"} className={styles.photos} />
                                         <form className={styles.formPost} id="shops" name="2" onSubmit={handleFormData}>
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
@@ -595,11 +595,75 @@ export default function Index(props) {
                                         </form>
 
                                     </Card>
-                                    <h2>Foto 1{shop.photo1}</h2>
-                                    <h2>Foto 2{shop.photo2}</h2>
-                                    <h2>Foto 3{shop.photo3}</h2>
-                                    <h2>Foto 4{shop.photo4}</h2>
-                                    <h2>Foto 5{shop.photo5}</h2>
+
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={3} model="shops" />} >
+
+                                        <div className={styles.header}>
+
+                                            <h2>Foto 3</h2>
+
+                                        </div>
+                                        <img src={shop.photo3 ? `${serverUrl}/admin/shops/${shop.id}/photo/3` : "/images/default_image.svg"} className={styles.photos} />
+                                        <form className={styles.formPost} id="shops" name="3" onSubmit={handleFormData}>
+                                            
+                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                                    
+                                            <Button text="Trocar Foto" />
+                                        </form>
+
+                                    </Card>
+
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={4} model="shops" />} >
+
+                                        <div className={styles.header}>
+
+                                            <h2>Foto 4</h2>
+
+                                        </div>
+                                        <img src={shop.photo4 ? `${serverUrl}/admin/shops/${shop.id}/photo/4` : "/images/default_image.svg"} className={styles.photos} />
+                                        <form className={styles.formPost} id="shops" name="4" onSubmit={handleFormData}>
+                                            
+                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                                    
+                                            <Button text="Trocar Foto" />
+                                        </form>
+
+                                    </Card>
+
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={5} model="shops" />} >
+
+                                        <div className={styles.header}>
+
+                                            <h2>Foto 5</h2>
+
+                                        </div>
+                                        <img src={shop.photo5 ? `${serverUrl}/admin/shops/${shop.id}/photo/5` : "/images/default_image.svg"} className={styles.photos} />
+                                        <form className={styles.formPost} id="shops" name="5" onSubmit={handleFormData}>
+                                            
+                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                                    
+                                            <Button text="Trocar Foto" />
+                                        </form>
+
+                                    </Card>
+
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={6} model="shops" />} >
+
+                                        <div className={styles.header}>
+
+                                            <h2>Foto 6</h2>
+
+                                        </div>
+                                        <img src={shop.photo6 ? `${serverUrl}/admin/shops/${shop.id}/photo/6` : "/images/default_image.svg"} className={styles.photos} />
+                                        <form className={styles.formPost} id="shops" name="6" onSubmit={handleFormData}>
+                                            
+                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                                    
+                                            <Button text="Trocar Foto" />
+                                        </form>
+
+                                    </Card>
+
                                 </>
                                 : 
                                 

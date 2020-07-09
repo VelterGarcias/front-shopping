@@ -101,6 +101,10 @@
     border-top: 1px solid;
 }
 
+.photos {
+    width: 25%;
+}
+
 @media (min-width: 768px) {
 
     .messageList {

@@ -33,7 +33,6 @@ export default function Button(props){
                     alert("Nova senha salva com sucesso")
                     Router.reload()
                 })
-                
                 break
             case `newShop`:
                 let admin = props.values
@@ -59,14 +58,14 @@ export default function Button(props){
                         Router.reload()
                     }).catch(err=>{alert("Deu ruim")}) }
                 break
-            case "Teste":
-                if (props.values) {
-                    console.log(`Teste OK ${props.id}`)
-                    console.log("valores", props.values)
-                } else {
-                    console.log("Não tem nada pra salvar", props.values)
+            case "deletePhoto":
+                console.log(props.values)
+                if (confirm("Tem certeza que deseja excluir essa foto?")){
+                    await axios.delete(`${serverUrl}/admin/shops/${props.id}/photo/${props.values}`).then(res=>{
+                        alert(`Sucesso! ${props.model} com id: ${props.id} Deletado.`  )
+                        Router.reload()
+                    }).catch(err=>{alert("Deu ruim")}) 
                 }
-                
                 break
         
         }
