@@ -48,6 +48,8 @@
 }
 
 .messageList .ulList li {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     background-color: #dedede42;
     border: 1px solid #80808042;

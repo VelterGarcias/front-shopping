@@ -91,7 +91,8 @@
     transition: all .5s ease-in-out;
     display: none;
 }
-.open-menu #overlay {
+#overlay.open-menu  {
+    /* display: none; */
     position: fixed;
     top: 0;
     left: 0;
@@ -106,7 +107,7 @@
     right: 0px;
 }
 
-.open-menu #header #logo {
+#header #logo.open-menu {
     left: initial;
     right: 87px;
 }

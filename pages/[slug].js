@@ -9,9 +9,9 @@ import axios from 'axios'
 
 
 export default function Slug(props) {
-
-    const [shops, setShops] = useState(props.data)
-    console.log(shops)
+    console.log("Props", props)
+    const shops = props.data
+    console.log("shops", shops)
     const [lastVisibleShops, setLastVisibleShops] = useState(props.data.map((shop, i) => false))
     const [visibleShops, setVisibleShops] = useState()
 
@@ -30,12 +30,23 @@ export default function Slug(props) {
                         <ul className={styles.ulList}>
                             {shops.map((shop, i) => (
                                 
-                                    <li key={`liShop${i}`} >
+                                    <li className="shop" key={`liShop${i}`} >
+                                        
                                         <h1>{shop.name}</h1>
-                                        <p>email: {shop.admin_mail}</p>
+                                        {/* <p>email: {shop.admin_mail}</p>
                                         <p>phone: {shop.phone}</p>
                                         <p>whatsapp: <a href={shop.whatsapp} >{shop.whatsapp}</a></p>
-                                        <p>isOnline: {shop.isOnline}</p>
+                                        <p>isOnline: {shop.isOnline}</p> */}
+                                        {/* <img  src={`${serverUrl}/admin/shops/${shop.id}/photo/1`} srcSet="/images/default_image.svg" /> */}
+                                        
+                                        <style jsx>{`
+                                            .shop {
+                                                background-image: url(${`   ${serverUrl}/admin/shops/${shop.id}/photo`});
+                                                background-size: contain;
+                                                background-repeat: no-repeat; 
+                                                background-position: center; 
+                                            }
+                                        `}</style>
                                     </li>
                             ))}
                         </ul>
@@ -52,12 +63,20 @@ export default function Slug(props) {
                         <ul className={styles.ulList}>
                             {shops.map((shop, i) => (
                                 
-                                    <li key={`liShop${i}`} >
+                                    <li className="shop" key={`liShop${i}`} >
                                         <h1>{shop.name}</h1>
-                                        <p>email: {shop.admin_mail}</p>
+                                        {/* <p>email: {shop.admin_mail}</p>
                                         <p>phone: {shop.phone}</p>
                                         <p>whatsapp: <a href={shop.whatsapp} >{shop.whatsapp}</a></p>
-                                        <p>isOnline: {shop.isOnline}</p>
+                                        <p>isOnline: {shop.isOnline}</p> */}
+                                        <style jsx>{`
+                                            .shop {
+                                                background-image: url(${serverUrl}/admin/shops/${shop.id}/photo);
+                                                background-size: contain;
+                                                background-repeat: no-repeat; 
+                                                background-position: center;  
+                                            }
+                                        `}</style>
                                     </li>
                             ))}
                         </ul>
@@ -76,10 +95,10 @@ export default function Slug(props) {
                                 
                                     <li key={`liShop${i}`} >
                                         <h1>{shop.name}</h1>
-                                        <p>email: {shop.admin_mail}</p>
+                                        {/* <p>email: {shop.admin_mail}</p>
                                         <p>phone: {shop.phone}</p>
                                         <p>whatsapp: <a href={shop.whatsapp} >{shop.whatsapp}</a></p>
-                                        <p>isOnline: {shop.isOnline}</p>
+                                        <p>isOnline: {shop.isOnline}</p> */}
                                     </li>
                             ))}
                         </ul>
@@ -117,7 +136,7 @@ Slug.getInitialProps = async ({query}) =>{
     switch(slug) {
         case "lojas":
             
-            try{ res = await axios.get(`${serverUrl}/admin/shops`)
+            try{ res = await axios.get(`${serverUrl}/admin/shops/where/loja`)
                 console.log("RES shops", res.data)
                 data = res.data
             }catch(err){ res = [] 
@@ -129,7 +148,7 @@ Slug.getInitialProps = async ({query}) =>{
             break
         case "alimentacao":
             
-            try{ res = await axios.get(`${serverUrl}/admin/shops`)
+            try{ res = await axios.get(`${serverUrl}/admin/shops/where/${slug}`)
                 console.log("RES shops", res.data)
                 data = res.data
             }catch(err){ res = [] 

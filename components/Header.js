@@ -13,9 +13,9 @@ export  default function Header(){
 
     return (
             <header id={styles.header}>
-                <div id={styles.overlay}  data-close="menu"></div>
+                <div id={styles.overlay}  data-close="menu" className={styles[open]} onClick={handleClick} ></div>
                 <Link href="/">
-                    <a title="Ferrari"><img src="/images/logo.svg" id={styles.logo} alt="Logo" /></a>
+                    <a title="Ferrari"><img src="/images/logo.svg" id={styles.logo}  className={styles[open]} alt="Logo" /></a>
                 </Link>
                 <button type="button" id={styles['btn-open']} onClick={handleClick} >
                     <svg id="menu-black-18dp" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
