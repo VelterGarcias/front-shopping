@@ -93,13 +93,16 @@ export default function Forms(props) {
 
     return (
         
-        <Layout pageTitle="Shopping" >
-
-            
-            <h1>Slug: {props.forms  }</h1>
+        <Layout pageTitle="Valentini Shopping Center" >
 
             { props.login && 
                 <>
+                    <header className={`${styles.pageHeader} ${styles.cinema}`}>
+                        <div className={styles.title} >
+                            <h1>Login</h1>
+                        </div>
+                    </header>
+                    <img className={styles.storieLeft} alt="Lojista fazendo login na área administrativa" src="/images/photos/login.svg"/>
                     <form className={styles.form} onSubmit={handleLogin}>
                         <div className={styles.fields}>
                             <Input type="email" name="email" required={true} onChange={handleInputChange} onFocus={handleInputChange} label="Seu E-mail" />
@@ -114,23 +117,18 @@ export default function Forms(props) {
                         </div>
                         <Button text="Entrar" />
                     </form>
-                    <hr />
-                                    
-                    <Link href="/admin/[IndexAdmin]" as="/admin/admin">
-                        <a><h3>Admin - Admin</h3></a>
-                    </Link>
-
-                    <hr />
-                
-                    <Link href="/admin/[IndexAdmin]" as="/admin/lojista">
-                        <a><h3>Admin - Lojista</h3></a>
-                    </Link>
-                    <a href="/admin/lojista" >Lojista</a>
+                    <img className={styles.storie} alt="Mulher feliz por ser uma nova lojista no Shopping" src="/images/photos/login2.svg"/>
                 </>
             }
 
             { props.cadastro && 
                 <>
+                    <header className={`${styles.pageHeader} ${styles.cinema}`}>
+                        <div className={styles.title} >
+                            <h1>Cadastro</h1>
+                        </div>
+                    </header>
+                    <img className={styles.storieLeft} alt="Lojista atendendo um clinte" src="/images/photos/cadastro.svg"/>
                     <form className={styles.form} onSubmit={handleRegister}>
                         <div className={styles.fields}>
 
@@ -147,11 +145,19 @@ export default function Forms(props) {
                         </div>        
                         <Button text="Cadastrar-se"/>
                     </form>
+                    <img className={styles.storie} alt="Mulher feliz por ser uma nova lojista no Shopping" src="/images/photos/cadastro2.svg"/>
                 </>
             }
 
             { props.contato && 
                 <>
+                <header className={`${styles.pageHeader} ${styles.cinema}`}>
+                    <div className={styles.title} >
+                        <h1>Contato</h1>
+                    </div>
+                </header>
+                <img className={styles.storieLeft} alt="Atendente conversando com um cliente no telefone" src="/images/photos/contato.svg"/>
+                
                     <form className={styles.form} onSubmit={handleFormSubmit}>
                         <div className={styles.fields}>
                             <Input type="text" name="name" value={values.name} label="Nome Completo" onChange={handleInputChange} onFocus={handleInputChange}/>
@@ -161,6 +167,8 @@ export default function Forms(props) {
                         <Textarea name="message" label="Mensagem" value={values.message} onChange={handleInputChange} onFocus={handleInputChange} /> 
                         <Button text="Enviar"/>
                     </form>
+                    <img className={styles.storie} alt="Homem feliz escorado em um @ depois de um email enviado" src="/images/photos/contato2.svg"/>
+                    
                 </>
             }
             

@@ -8,7 +8,7 @@
 }
 
 .field label {
-    color: #ff5100;
+    color: #5d5d5d;
     font-size: 14px;
     font-weight: bold;
     position: absolute;
@@ -23,12 +23,10 @@
     padding: 10px;
     padding-top: 30px;
     font-size: 14px;
-    color: #fff;
-    background-color: #282828;
+    color: var(--main);
     outline: none;
-    font-family: 'calibri';
-    border: #ff5100 4px solid;
-    border-radius: 5px;
+    border: #da98fd 1px solid;
+    border-radius: 12px 0;
     position: relative;
     z-index: 1;
     top: 0;
@@ -36,11 +34,23 @@
 }
 
 .field input:focus {
-    border-color: #a2a2a2;
+    border: var(--main) 2px solid !important;
+    box-shadow: 0 0 5px var(--main);
 }
 
 .field input:focus + label {
-    color: #a2a2a2;
+    color: #5d5d5d;
+}
+
+.field input:-webkit-autofill,
+.field input:-webkit-autofill:hover, 
+.field input:-webkit-autofill:focus,
+.field select:-webkit-autofill,
+.field select:-webkit-autofill:hover,
+.field select:-webkit-autofill:focus {
+    border: 1px solid var(--main);
+    -webkit-text-fill-color: var(--main);
+    transition: background-color .3s ease-in-out 0s;
 }
 
 @media (min-width: 768px) {

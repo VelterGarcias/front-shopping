@@ -8,7 +8,7 @@
 }
 
 .field label {
-    color: #ff5100;
+    color: #5d5d5d;
     font-weight: bold;
     font-size: 14px;
     position: absolute;
@@ -24,12 +24,10 @@
     padding-top: 30px;
     height: 170px;
     font-size: 14px;
-    color: #fff;
-    background-color: #282828;
+    color: var(--main);
     outline: none;
-    font-family: 'calibri';
-    border: #ff5100 4px solid;
-    border-radius: 5px;
+    border: #da98fd 1px solid;
+    border-radius: 12px 0;
     position: relative;
     z-index: 1;
     top: 0;
@@ -37,11 +35,20 @@
 }
 
 .field textarea:focus {
-    border-color: #a2a2a2;
+    border: var(--main) 2px solid !important;
+    box-shadow: 0 0 5px var(--main);
 }
 
 .field textarea:focus + label {
-    color: #a2a2a2;
+    color: #5d5d5d;
+}
+
+.field textarea:-webkit-autofill,
+.field textarea:-webkit-autofill:hover, 
+.field textarea:-webkit-autofill:focus {
+    border: 1px solid var(--main);
+    -webkit-text-fill-color: var(--main);
+    transition: background-color .3s ease-in-out 0s;
 }
 
 

@@ -10,19 +10,22 @@ export default function Header(props){
     return(
 
         <div id={props.values.id} className={styles.messageCard}>
-            <label htmlFor={props.selectId}>Nível</label>
-            <select name={props.selectId} defaultValue={props.values.level} onChange={props.onChangeSelect}>
-                <option value="0" >Novo</option>
-                <option value="1" >Lojista</option>
-                <option value="2" >Cinema</option>
-                <option value="3" >Administrador</option>
-            </select>
+            <div className={styles.field}>
+                <label htmlFor={props.selectId}>Nível</label>
+                <select name={props.selectId} defaultValue={props.values.level} onChange={props.onChangeSelect}>
+                    <option value="0" >Novo</option>
+                    <option value="1" >Lojista</option>
+                    <option value="2" >Cinema</option>
+                    <option value="3" >Administrador</option>
+                </select>
+            </div>
 
 
             
-                
+            <div className={styles.row}>
                 <label>Nome:</label>
                 <h2>{props.values.name}</h2>
+            </div>
             
             <div className={styles.row}>
                 <label>E-mail:</label>

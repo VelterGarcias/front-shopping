@@ -5,7 +5,7 @@
 .main {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 138px);
+    height: calc(100vh - 50px);
     overflow: auto;
 }
 
@@ -41,10 +41,11 @@
 .messageList .ulList {
     display: flex;
     flex-direction: column-reverse;
-    width: 99%;
-    padding-top: 5px;
-    max-height: 200px;
+    width: 100%;
+    padding: 0;
+    max-height: 150px;
     overflow: auto;
+    margin: 0;
 }
 
 .messageList .ulList li {
@@ -54,6 +55,10 @@
     border-right: none;
     border-left: none;
     transition: all .1s ease-in-out;
+}
+
+.messageList .ulList li input {
+    margin-right: 10px;
 }
 
 .messageList .ulList li:hover {
@@ -91,19 +96,121 @@
     margin-left: 10px;
     color: gray;
     font-size: .7em;
-    right: 0;
+    right: 10px;
     top: 0;
     padding-top: 2px;
 }
 
 .messages {
+    position: relative;
+    display: flex;
+    flex:1;
     padding-top: 17px;
     border-top: 1px solid;
+    /* max-height: calc(100vh - 200px); */
+    overflow: auto;
+}
+
+.mainCard {
+    position: absolute;
+    width: 100%;
 }
 
 .photos {
-    width: 25%;
+    width: 90%;
 }
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.header h2 {
+    margin: 0;
+}
+.header p {
+    margin: 0;
+}
+.formPost {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.formPost label {   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.formPost label.user {   
+    margin-bottom: 10px;
+}
+
+.formPost label.user .avatar {   
+    width: 100%;
+}
+
+.avatar {
+    width: 40%;
+    cursor: pointer;
+}
+
+.field {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+.field label {
+    color: #5d5d5d;
+    font-size: 14px;
+    font-weight: bold;
+    position: absolute;
+    z-index: 2;
+    left: 10px;
+    top: 10px;
+    transition: color .3s ease-in-out;
+}
+
+.field input {
+    line-height: 1.5em;
+    padding: 10px;
+    padding-top: 30px;
+    font-size: 14px;
+    color: var(--main);
+    outline: none;
+    border: #da98fd 1px solid;
+    border-radius: 12px 0;
+    position: relative;
+    z-index: 1;
+    top: 0;
+    transition: border-color .3s ease-in-out;
+}
+
+.field input:focus {
+    border: var(--main) 2px solid !important;
+    box-shadow: 0 0 5px var(--main);
+}
+
+.field input:focus + label {
+    color: #5d5d5d;
+}
+
+.field input:-webkit-autofill,
+.field input:-webkit-autofill:hover, 
+.field input:-webkit-autofill:focus {
+    border: 1px solid var(--main);
+    -webkit-text-fill-color: var(--main);
+    transition: background-color .3s ease-in-out 0s;
+}
+
+.divButton {
+    margin-bottom: -26px;
+    margin-right: 35px;
+}
+
 
 @media (min-width: 768px) {
 

@@ -1,14 +1,16 @@
 .button {
     border: none;
-    border-radius: 3px;
+    border-radius: 12px;
     width: 230px;
     color: white;
     font-size: 20px;
     cursor: pointer;
     font-weight: normal;
-    background-color: #f15000;
+    background-color: var(--main);
     padding: 15px;
+    z-index: 1;
 }
-.button:hover{
-    background-color: #b14109;
+.button:hover,
+.button:active{
+    background-color: var(--second);
 }

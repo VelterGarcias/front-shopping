@@ -1,10 +1,11 @@
 .containerAdmin{
     display: flex;
+    max-height: 100vh;
 }
 .mainHeader{
     width: 50px;
     height: 100vh;
-    background-color:rgba(0, 0, 0, 0.7);
+    background-color:var(--bg-admin);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -18,15 +19,48 @@
     flex: 1;
     right: 100px;
     flex-direction: column;
-    margin: 10px;
 }
+
+
+.pageHeader {
+    background-image: url(/images/photos/topo_contato.jpg);
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 9px #00000087;
+}
+
+
+.pageHeader .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #A100F582;
+    width: 200px;
+    height: 50px;
+    padding-right: 30px;
+    border-radius: 0 0px 100px 0;
+}
+
+.pageHeader .title h1 {
+    color: white;
+    margin: 0;
+}
+
+
+
+
 .mainAdmin hr{
     width: 100%;
     height: 2px;
 }
 .logoAdmin img{
-    max-width: 50px;
-    margin-bottom: 15px;
+    width: 50px;
+}
+.logoAdmin {
+    background-color: #f8d4ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .navMenu{
     display: none;
@@ -35,6 +69,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    padding-top: 30px;
     flex: 1;
     color: white;
     align-items: center;  
@@ -79,7 +114,7 @@
     .mainHeader{
         display: flex;
         flex-direction: column;
-        background-color:rgba(0, 0, 0, 0.7);
+        background-color:var(--bg-admin);
         margin: 0;
         padding: 0;    
         width: 200px;
@@ -120,7 +155,7 @@
     .navMenu a:hover{
         cursor: pointer;
         font-weight: bold;
-        border-bottom: 3px solid #f15000 ;
+        border-bottom: 3px solid var(--second) ;
     }
 
     .logOut{

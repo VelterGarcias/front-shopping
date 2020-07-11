@@ -3,7 +3,6 @@
     flex-direction: column;
     width: 90%;
     padding: 10px;
-    margin-top: 11px;
     border-radius: 10px;
     margin: auto;
     box-shadow: 0 0 9px 0px #00000042;
@@ -39,7 +38,7 @@
     font-size: 1em;
     font-weight: bold;
     padding-right: 10px;
-    color: #ff5100;
+    color: var(--main);
 }
 
 .messageCard hr {
@@ -78,4 +77,56 @@
 
 .messageCard Button {
     margin: 10px 0;
+}
+
+.field {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+.field label {
+    color: #5d5d5d;
+    font-size: 14px;
+    font-weight: bold;
+    position: absolute;
+    z-index: 2;
+    left: 10px;
+    top: 10px;
+    transition: color .3s ease-in-out;
+}
+
+.field select {
+    line-height: 1.5em;
+    padding: 10px;
+    padding-top: 30px;
+    font-size: 14px;
+    color: var(--main);
+    outline: none;
+    border: #da98fd 1px solid;
+    border-radius: 12px 0;
+    position: relative;
+    z-index: 1;
+    top: 0;
+    transition: border-color .3s ease-in-out;
+}
+
+
+.field select:focus {
+    border: var(--main) 2px solid !important;
+    box-shadow: 0 0 5px var(--main);
+}
+
+.field select:focus + label {
+    color: #5d5d5d;
+}
+
+.field select:-webkit-autofill,
+.field select:-webkit-autofill:hover,
+.field select:-webkit-autofill:focus {
+    border: 1px solid var(--main);
+    -webkit-text-fill-color: var(--main);
+    transition: background-color .3s ease-in-out 0s;
 }

@@ -37,9 +37,12 @@ export default function Index(props) {
     let [newPassword, setNewPassword] = useState('')
     let [confirmPassword, setConfirmPassword] = useState('')
 
+    const [inputLogo, setInputLogo] = useState('')
+    const [enableAvatar, setEnableAvatar] = useState(false)
+    
     const [menu, setMenu] = useState([])
     const [shop, setShop] = useState()
-    //console.log(shop)
+    console.log(menu)
 
     const [shops, setShops] = useState()
     const [lastVisibleShops, setLastVisibleShops] = useState()
@@ -90,6 +93,7 @@ export default function Index(props) {
                     try{ res = await axios.get(`${serverUrl}/admin/users`)
                         //console.log("RES USERS", res.data)
                         setUsers(res.data)
+                        
                         setVisibleUser(res.data.map((contact, i) => false))
                     }catch(err){ res = [] 
                         //console.log("Deu ruim USERS")
@@ -125,7 +129,8 @@ export default function Index(props) {
                 //console.log("Perfil...")
                 let date_at = new Date(props.data.birth_at).toISOString().split('T')[0]
                 setUserPerfil({ id: props.data.id, name: props.data.name, email: props.data.email, password: props.data.password, birth_at: date_at, level: props.data.level, photo: props.data.photo })
-
+                setInputLogo(`${serverUrl}/admin/users/${props.data.id}/photo`)
+                setEnableAvatar(false)
                 setMenu({...menu,[0]:true, [1]:false})
                 break
 
@@ -158,7 +163,10 @@ export default function Index(props) {
                 // cookies.remove('typet')
                 // Router.push('/')
                 Router.push('/')
-                break       
+                break    
+            case "logo":
+                setMenu([])
+                break     
         }
         
     }
@@ -169,6 +177,13 @@ export default function Index(props) {
         setValues({...values, [name]:value})
         //console.log(name, value)
     }
+
+    const handleAvatar = e => {
+        console.log(URL.createObjectURL(event.target.files[0]))
+        setInputLogo(URL.createObjectURL(event.target.files[0]))
+        setEnableAvatar(true)
+    }
+
     //função que mostra/esconde as mensagens 
     function handleClickMessage(index) {
         
@@ -313,11 +328,9 @@ export default function Index(props) {
         <>
             { props.page.admin &&
 
-                <LayoutAdmin pageTitle="Shopping" textHeader="Bem Vindo ao Painel" userName={props.data.name} logout={() => handleClick("logout")} menu1={() => handleClick("contacts")} menu1Label="Contatos" menu2={() => handleClick("users")} menu2Label="Usuários" menu3={() => handleClick("shops")} menu3Label="Lojas" >
+                <LayoutAdmin pageTitle="Shopping" textHeader={menu} userName={props.data.name} clickLogo={() => handleClick("logo")} logout={() => handleClick("logout")} menu1={() => handleClick("contacts")} menu1Label="Contatos" menu2={() => handleClick("users")} menu2Label="Usuários" menu3={() => handleClick("shops")} menu3Label="Lojas" >
                     
                     <>
-                        <p>Administrador</p>
-                        <hr/>
 
                         { menu[0] &&  //Mensagens
                             <main className={styles.main} >
@@ -341,7 +354,7 @@ export default function Index(props) {
                                 <section className={styles.messages}>
                                 
                                     {contacts.map((contact, i) => 
-                                    <div key={`Card${i}`} >
+                                    <div key={`Card${i}`} className={styles.mainCard} >
                                         
                                         { visible[i] && <CardMessage id={contact.id} name={contact.name} email={contact.email} phone={contact.phone} message={contact.message} checked={answered[i] ? "checked": ""} onChange={() => handleClickAnswered(i,contact.id)} received={contact.created_at} updated={contact.updated_at}/>}
                                     </div>
@@ -375,7 +388,7 @@ export default function Index(props) {
                                 <section className={styles.messages}>
                                 
                                 {users.map((user, i) => 
-                                <div key={`CardUser${i}`} >
+                                <div key={`CardUser${i}`} className={styles.mainCard} >
                                     {/* Falta colocar o onChange que tive que tirar e deixar o checked dinâmico */}
                                     { visibleUser[i] && <CardUser  values={user} selectId={i} onChangeSelect={handleLevelChange} />} 
                                     
@@ -392,7 +405,6 @@ export default function Index(props) {
 
                         { menu[2] && //Lojas
                             <>
-                                <h1>Lojas</h1>
                                 <main className={styles.main} >
                                 {/* função ternária para evitar erro de rodar um .map() em um array vazio e mostrar
                                 uma mensagem de erro mais amigável */}
@@ -417,7 +429,7 @@ export default function Index(props) {
                                     <section className={styles.messages}>
                                     
                                     {shops.map((shop, i) => 
-                                    <div key={`CardShop${i}`} >
+                                    <div key={`CardShop${i}`} className={styles.mainCard} >
                                         {/* Falta colocar o onChange que tive que tirar e deixar o checked dinâmico */}
                                         { visibleShops[i] && <CardShop id={shop.id} valueInput={values} values={shop} onChange={() =>handleIsOnline(i, shop.id)} onInputChange={handleInputChange}/>} 
                                         
@@ -439,26 +451,28 @@ export default function Index(props) {
 
             { props.page.users && 
                     
-                <LayoutAdmin pageTitle="Shopping" textHeader="Bem Vindo ao Painel" userName={props.data.name} logout={() => handleClick("logout")} menu1={() => handleClick("profile")} menu1Label="Perfil" menu2={() => handleClick("shop")} menu2Label="Loja" >
+                <LayoutAdmin pageTitle="Shopping" textHeader={menu} clickLogo={() => handleClick("logo")} userName={props.data.name} logout={() => handleClick("logout")} menu1={() => handleClick("profile")} menu1Label="Perfil" menu2={() => handleClick("shop")} menu2Label="Loja" >
                     <>
-                        <p>Lojista</p>
-                        <hr />
-
                         { menu[0] && //Perfil
-                            <>
+                            <main className={styles.main} >
                             <Card >
 
                                 <div className={styles.header}>
 
                                     <h2>Foto do Perfil</h2>
+                                    <p>Clique na sua foto para alterá-la</p>
 
                                 </div>
-                                <img src={`${serverUrl}/admin/users/${userPerfil.id}/photo`} className={styles.avatar} />
+                                
                                 <form className={styles.formPost} id="users" onSubmit={handleFormData}>
                                     
-                                    <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
-                                              
-                                    <Button text="Trocar Foto" />
+                                    <label className={styles.user} htmlFor="logoUser" >
+                                        <img alt="Clique para adicionar o Logo da sua Loja" title="Clique para alterar sua Logo" src={inputLogo} className={styles.avatar} />
+                                    </label>
+                                    <input type="file" id="logoUser" name="file" required onChange={handleAvatar} hidden/>                 
+                                    
+                                        {enableAvatar && <Button text="Salvar" /> }
+                                             
                                 </form>
 
                             </Card>
@@ -490,21 +504,26 @@ export default function Index(props) {
                             </div>
 
                             <form className={styles.form}>
-
-                                <input type="password" placeholder="Senha Atual" onBlur={currentPass} ref={inputPass => setNameInput(inputPass)} />
-
-                                <input type="password" placeholder="Nova Senha" onBlur={newPass} ref={newPassInput => setNewPassInput(newPassInput)} />
-
-                                <input type="password" placeholder="Confirme a Nova Senha" onBlur={confirmPass} name="password" onChange={handleInputChange} />
-
+                                <div className={styles.field}>
+                                    <input id="currentPass" type="password"  onBlur={currentPass} ref={inputPass => setNameInput(inputPass)} />
+                                    <label htmlFor="currentPass" >Senha Atual</label>
+                                </div>
+                                <div className={styles.field}>
+                                    <input type="password" onBlur={newPass} ref={newPassInput => setNewPassInput(newPassInput)} />
+                                    <label htmlFor="currentPass" >Nova Senha</label>
+                                </div>
+                                <div className={styles.field}>
+                                    <input type="password" onBlur={confirmPass} name="password" onChange={handleInputChange} />
+                                    <label htmlFor="currentPass" >Confirme a Nova Senha</label>
+                                </div>
                             </form>
 
                             </Card>
-                            </>
+                            </main>
                         }
 
                         { menu[1] && //Loja
-                            <>
+                            <main className={styles.main} >
                             {props.data.level == 1 ? shop != "" ?
                                 <> {/* Já criou/tem uma loja */}
 
@@ -520,7 +539,7 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            {enableAvatar && <Button text="Salvar" />}
                                         </form>
 
                                     </Card>
@@ -564,8 +583,9 @@ export default function Index(props) {
                                         <form className={styles.formPost} id="shops" name="1" onSubmit={handleFormData}>
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
-                                                    
-                                            <Button text="Trocar Foto" />
+                                        <div className={styles.divButton} >
+                                            <Button text="Salvar" />
+                                        </div>         
                                         </form>
 
                                     </Card>
@@ -581,7 +601,9 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            <div className={styles.divButton} >
+                                            <Button text="Salvar" />
+                                        </div>    
                                         </form>
 
                                     </Card>
@@ -598,7 +620,9 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            <div className={styles.divButton} >
+                                            <Button text="Salvar" />
+                                        </div>    
                                         </form>
 
                                     </Card>
@@ -615,7 +639,9 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            <div className={styles.divButton} >
+                                            <Button text="Salvar" />
+                                        </div>    
                                         </form>
 
                                     </Card>
@@ -632,7 +658,9 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            <div className={styles.divButton} >
+                                            <Button text="Salvar" />
+                                        </div>    
                                         </form>
 
                                     </Card>
@@ -649,7 +677,9 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            <div className={styles.divButton} >
+                                            <Button text="Salvar" />
+                                        </div>    
                                         </form>
 
                                     </Card>
@@ -670,7 +700,7 @@ export default function Index(props) {
                                     <p>Telefone:<a href={`tel:${contactShopping.phone}`}>{contactShopping.phone}</a></p>
                                 </>
                                 }
-                            </>
+                            </main>
                         }
                 
                     </>
@@ -680,13 +710,13 @@ export default function Index(props) {
 
             { props.page.cinema && 
                     
-                <LayoutAdmin pageTitle="Shopping" textHeader="Bem Vindo ao Painel" userName={props.data.name} logout={() => handleClick("logout")} menu1={() => handleClick("profile")} menu1Label="Perfil" menu2={() => handleClick("cinema")} menu2Label="Cinema" >
+                <LayoutAdmin pageTitle="Shopping" textHeader={menu} clickLogo={() => handleClick("logo")} userName={props.data.name} logout={() => handleClick("logout")} menu1={() => handleClick("profile")} menu1Label="Perfil" menu2={() => handleClick("cinema")} menu2Label="Cinema" >
                     <>
                         <p>Cinema</p>
                         <hr />
 
                         { menu[0] && //Perfil
-                            <>
+                            <main className={styles.main} >
                             <Card >
 
                                 <div className={styles.header}>
@@ -699,7 +729,7 @@ export default function Index(props) {
                                     
                                     <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                 
-                                    <Button text="Trocar Foto" />
+                                    {enableAvatar && <Button text="Salvar" />}
                                 </form>
 
                             </Card>
@@ -732,8 +762,8 @@ export default function Index(props) {
 
                             <form className={styles.form}>
 
-                                <input type="password" placeholder="Senha Atual" onBlur={currentPass} ref={inputPass => setNameInput(inputPass)} />
-
+                                <input id="currentPass" type="password" placeholder="Senha Atual" onBlur={currentPass} ref={inputPass => setNameInput(inputPass)} />
+                                <label htmlFor="currentPass" >Senha Atual</label>
                                 <input type="password" placeholder="Nova Senha" onBlur={newPass} ref={newPassInput => setNewPassInput(newPassInput)} />
 
                                 <input type="password" placeholder="Confirme a Nova Senha" onBlur={confirmPass} name="password" onChange={handleInputChange} />
@@ -741,11 +771,11 @@ export default function Index(props) {
                             </form>
 
                             </Card>
-                            </>
+                            </main>
                         }
 
                         { menu[1] && //Loja
-                            <>
+                            <main className={styles.main} >
                             {props.data.level == 1 ? shop != "" ?
                                 <> {/* Já criou/tem uma loja */}
 
@@ -761,7 +791,7 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            {enableAvatar && <Button text="Salvar" />}
                                         </form>
 
                                     </Card>
@@ -806,7 +836,7 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            <Button text="Salvar" />
                                         </form>
 
                                     </Card>
@@ -822,7 +852,7 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            <Button text="Salvar" />
                                         </form>
 
                                     </Card>
@@ -839,7 +869,7 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            <Button text="Salvar" />
                                         </form>
 
                                     </Card>
@@ -856,7 +886,7 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            <Button text="Salvar" />
                                         </form>
 
                                     </Card>
@@ -873,7 +903,7 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            <Button text="Salvar" />
                                         </form>
 
                                     </Card>
@@ -890,7 +920,7 @@ export default function Index(props) {
                                             
                                             <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
                                                     
-                                            <Button text="Trocar Foto" />
+                                            <Button text="Salvar" />
                                         </form>
 
                                     </Card>
@@ -911,7 +941,7 @@ export default function Index(props) {
                                     <p>Telefone:<a href={`tel:${contactShopping.phone}`}>{contactShopping.phone}</a></p>
                                 </>
                                 }
-                            </>
+                            </main>
                         }
                 
                     </>

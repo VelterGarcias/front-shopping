@@ -9,6 +9,8 @@ import { useRouter } from 'next/router'
 
 export default function LayoutAdmin(props){
     const Router = useRouter()
+    
+    let menu = props.textHeader[0] ? props.menu1Label : props.textHeader[1] ? props.menu2Label : props.textHeader[2] ? props.menu3Label : "Bem Vindo"
 
     
     
@@ -35,11 +37,9 @@ export default function LayoutAdmin(props){
             </Head>
             <header className={styles.mainHeader}>
                 <div className={styles.logoAdmin}>
-                    <Link href="/admin">
-                        <a>
-                            <img srcSet="/images/logo/Advogarcias.svg"/>
-                        </a>
-                    </Link>
+                    
+                    <img srcSet="/images/favicon.svg" onClick={props.clickLogo}/>
+                        
                 </div>
                 
                 <nav className={styles.navMenu}>
@@ -55,7 +55,6 @@ export default function LayoutAdmin(props){
                
                 </nav>
                 <nav className={styles.navMobile}>                    
-                    <p><img srcSet="/Icon/icon-maneger.svg" /></p>
                     
                     <a onClick={props.menu1} title={props.menu1Label} ><img srcSet="/Icon/icon-contacts.svg"/></a>
                     
@@ -69,10 +68,16 @@ export default function LayoutAdmin(props){
                  
             </header>
             <div className={styles.mainAdmin}>
-                    <p>Ola, {props.userName ? props.userName: "Indefinido"}!</p>
-                    <h1>{props.textHeader}</h1>
-                    <hr/>
+                    { menu == 'Bem Vindo' &&
+                        <p>Ola, {props.userName ? props.userName: "Indefinido"}!</p>
+                    }
                     
+                    <header className={styles.pageHeader}>
+                        <div className={styles.title} >
+                            <h1>{menu}</h1>
+                        </div>
+                    </header>
+                                        
                     {props.children}
 
             </div>

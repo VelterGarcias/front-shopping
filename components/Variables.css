@@ -1,7 +1,13 @@
 
 /* #A100F5 */
+/* cores nubank */
+/* #8E07C0 roxo*/
+/* #E7718B rosa */
 
 :root {
+    --main: #A100F5;
+    --second: #fc6681;
+    --bg-admin:#915cad;
     --bg-color: #FFF;
     --black: #000;
     --white: #FFF;
@@ -13,7 +19,7 @@
     --green-active: #00D169;
     --dark: #343433;
     --light: #F8F8F8;
-    --header: #E5E3DF75;
+    --header: #0000;
     --white50: #FFFFFF50;
     --black75: rgba(0, 0, 0, .75);
     --black50: rgba(0, 0, 0, .5);

@@ -1,5 +1,6 @@
-.form .fields {
-    flex-direction: column;
+
+#__next {
+    background-color: #c000bc1f;    
 }
 
 .main {
@@ -9,67 +10,121 @@
     overflow: auto;
 }
 
-
-.contatosContent{
-    display: flex;
-    flex-direction: column;
-}
-.headerContatos{
-    display: flex;
-    justify-content: flex-start;
+.pageHeader {
     
-    text-transform: uppercase;
-    font-weight: bold;
-    border-bottom: 2px solid #ccc;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 9px #00000087;
 }
-.headerContatos li{
-    width: 100%;
+.shops {
+    background-image: url(/images/photos/topo_contato.jpg);
 }
-.headerContatos li{
-    flex: 1;
+.food {
+    background-image: url(/images/photos/topo_contato.jpg);
 }
-.headerContatos li:last-child{
-    flex: 1;
+.cinema {
+    background-image: url(/images/photos/topo_contato.jpg);
 }
 
-.messageList {
+.pageHeader .title {
+    display: flex;
+    justify-content: center;
+    background-color: #A100F582;
+    width: 250px;
+    padding-right: 30px;
+    border-radius: 0 0px 100px 0;
+}
+
+.pageHeader .title h1 {
+    color: white;
+}
+
+.shopList {
     display: flex;
     flex-direction: column;
     width: 100%;
+    padding: 40px 0;
+    background-color: #8f2dff2e;
 }
 
-.messageList .ulList {
+.storie {
+    width: 80%;
+    margin: 50px auto;
+}
+
+.storieLeft {
+    width: 60%;
+    margin-bottom: -95px;
+    margin-left: 8px;
+}
+
+.shopList .ulList {
     display: flex;
-    flex-direction: column-reverse;
-    width: 99%;
-    padding-top: 5px;
-    max-height: 200px;
-    overflow: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px 0;
+    margin: 0;
 }
 
-.messageList .ulList li {
+.shopList .ulList li {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    background-color: #dedede42;
+    width: 250px;
+    height: 200px;
     border: 1px solid #80808042;
-    border-right: none;
-    border-left: none;
+    margin: 10px;
+    border-radius: 15px;
+    background-color: white;
     transition: all .1s ease-in-out;
 }
 
-.messageList .ulList li:hover {
-    background-color: #ff8600a3;
+.shopList .ulList li:hover {
+    /* background-color: #ff8600a3; */
     box-shadow: 0 0 13px #00000073;
     transition: all .2s ease-in-out;
 }
 
-.messageList  li.selected {
+.shopList .ulList li a {
+    color: black;
+    transition: all .2s ease-in-out;
+}
+.shopList .ulList li a:hover {
+    color: white;
+    transition: all .2s ease-in-out;
+}
+
+.shopList  li.selected {
     background-color: #aa9e91a3;
     transition: all .2s ease-in-out;
 }
 
-.messageList .ulList li button {
+.shop {
+    position: relative;
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    background-size: contain;
+    background-repeat: no-repeat; 
+    background-position: center; 
+}
+
+.shopName {
+    position: absolute;
+    bottom: -22px;
+    left: -12px;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 4px 15px;
+    background-color: var(--second);
+    border-radius: 15px 0 15px 15px;
+    box-shadow: 0 0 5px #000000c2;
+}
+
+
+
+.shopList .ulList li button {
     position: relative;
     display: flex;
     align-items: flex-end;
@@ -109,9 +164,8 @@
 
 @media (min-width: 768px) {
 
-    .messageList {
-        width: 45%;
-        max-width: 340px;
+    .shopList {
+        
     }
 
     .messages {
@@ -119,7 +173,7 @@
         border-top: none;
         overflow: auto;
     }
-    .messageList .ulList {
+    .shopList .ulList {
         padding-top: 5px;
         overflow: auto;
         max-height: initial;

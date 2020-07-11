@@ -149,13 +149,6 @@ form button:active {
     background-color: var(--green-active);
 }
 
-a {
-    color: var(--red);
-}
-a:hover {
-    color: var(--black);
-}
-
 .show-desktop {
     display: none;
 }

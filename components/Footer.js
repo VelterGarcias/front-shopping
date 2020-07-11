@@ -38,7 +38,7 @@ export default function Footer(){
                             </li>
                         </ul>
                     </div>
-                    <a href="/"><img src="/images/ferrari-footer.svg" alt="Logo" className={styles.logo} /></a>
+                    <a href="/"><img src="/images/logo.svg" alt="Logo" className={styles.logo} /></a>
                 </div>
                 <p>2020 © Velter Garcias. All rights reserved.</p>
             </footer>

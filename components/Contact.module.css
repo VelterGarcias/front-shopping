@@ -21,10 +21,69 @@
     font-weight: normal;
 }
 
+
+
+.pageHeader {
+    
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 9px #00000087;
+}
+.shops {
+    background-image: url(/images/photos/topo_contato.jpg);
+}
+.food {
+    background-image: url(/images/photos/topo_contato.jpg);
+}
+.cinema {
+    background-image: url(/images/photos/topo_contato.jpg);
+}
+
+
+.storie {
+    width: 80%;
+    margin: 50px auto;
+}
+
+.storieLeft {
+    width: 60%;
+    margin-bottom: -95px;
+    margin-left: 8px;
+}
+
+
+.pageHeader .title {
+    display: flex;
+    justify-content: center;
+    background-color: #A100F582;
+    width: 250px;
+    padding-right: 30px;
+    border-radius: 0 0px 100px 0;
+}
+
+.pageHeader .title h1 {
+    color: white;
+}
+
+
 .form {
     flex-direction: column;
     padding: 1em;
     width: 95%;
+}
+
+.form p {
+    color: #5d5d5d;
+    margin: 0 0 8px 3px;
+}
+
+.form a {
+    color: var(--second);
+}
+
+.form a:hover,
+.form a:active {
+    color: var(--main);
 }
 
 .form .fields {

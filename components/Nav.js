@@ -16,7 +16,7 @@ export default function Nav(props) {
 
     return (
         <nav className={`${styles.menu} ${styles[props.isOpen]}`}>
-            <div>
+            <div className={styles.content}>
                 <ul>
                     {  LinkItem.map(item => (
                         <LinkMenu key={item.id} link={item.link} label={item.label} as={item.as} />

@@ -1,15 +1,16 @@
 .button{
-    width: 100%;
+        /* width: 100%; */
     max-width: 150px;
-    max-height: 40px;
-    border-radius: 2px;
-    margin: 20px;
-    padding: 10px;
-    border: none;
-    background-color: #60f100;
+    /* max-height: 40px; */
+    /* border-radius: 2px; */
+    /* margin: 20px; */
+    /* padding: 10px; */
+    /* border: none; */
+    background-color: var(--second);
     color: white;
     outline: none;
+    z-index: 1;
 }
 .button:hover{
-    background-color: #2f850d;
+    background-color: var(--main);
 }
