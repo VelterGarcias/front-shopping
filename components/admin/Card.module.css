@@ -4,34 +4,29 @@
     width: 100%;
     flex-direction: column;
     background-color: var(--white);
+    margin-bottom: 30px;
+}
+
+.card form {
+    flex-direction: column;
+    padding: 1em;
+    width: 100%;
 }
 
 .card-content {
     margin-top: 40px;
-    padding: 10px 20px;
+    padding: 0;
     align-items: center;
     flex-direction: column;
 }
 
 .actions {
-    position: absolute;
-    bottom: -10px;
     justify-content: flex-end;
     background-color: var(--grayF);
     width: 100%;
-    padding: 10px;
     padding-right: 40px;
+    margin-top: -20px;
 }
 
 
-
-.actions button {
-    border: none;
-    background: var(--main);
-    text-transform: uppercase;
-    color: var(--white);
-    font-weight: bold;
-    border: 1px solid var(--main);
-    border-radius: 12px;
-    padding: 10px 16px;
-}
+    

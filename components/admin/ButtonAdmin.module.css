@@ -1,17 +1,16 @@
-.button {
+.buttonAdmin{
     border: none;
-    border-radius: 12px;
-    width: 230px;
+    border-radius: 8px;
+    max-width: 200px;
     color: white;
-    font-size: 20px;
+    font-size: 16px;
     cursor: pointer;
     font-weight: normal;
     background-color: var(--main);
-    padding: 15px;
+    padding: 5px 18px;
     align-items: center;
     justify-content: center;
 }
-.button:hover,
-.button:active{
+.buttonAdmin:hover{
     background-color: var(--second);
 }

@@ -16,14 +16,38 @@
 
 .mainAdmin{
     display: flex;
-    flex: 1;
-    right: 100px;
     flex-direction: column;
+    width: calc(100vw - 50px);
 }
 
+.welcome {
+    background-color: #f8d4fe;
+}
+.welcome p {
+    padding: 0 10px;
+}
+.welcome span {
+   font-weight: bold;
+}
 
+.welcomeMain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.welcomeMain img {
+    width: 100%;
+}
+.welcomeMain h2 {
+    margin: auto;
+    color: var(--main);
+    text-align: center;
+    font-size: 1.8em;
+}
 .pageHeader {
-    background-image: url(/images/photos/topo_contato.jpg);
+    background-image: url('/images/photos/topo_contato.jpg');
     background-size: cover;
     background-position: center;
     box-shadow: 0 0 9px #00000087;
@@ -45,9 +69,6 @@
     color: white;
     margin: 0;
 }
-
-
-
 
 .mainAdmin hr{
     width: 100%;

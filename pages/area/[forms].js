@@ -75,7 +75,7 @@ export default function Forms(props) {
             //console.log("userId-gravado", cookies.get('user'))
 
 
-            router.push('/admin/lojista')
+            router.push('/admin')
         }).catch( err => {alert("Deu ruim no registro", err.message)})
     }
 
@@ -93,7 +93,7 @@ export default function Forms(props) {
 
     return (
         
-        <Layout pageTitle="Valentini Shopping Center" >
+        <Layout pageTitle="Valentin Shopping Center" >
 
             { props.login && 
                 <>

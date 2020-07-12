@@ -1,4 +1,4 @@
-import Layout from '../../components/Layout'
+
 import LayoutAdmin from '../../components/admin/LayoutAdmin'
 import CardMessage from '../../components/admin/CardMessage'
 import CardUser from '../../components/admin/CardUser'
@@ -7,7 +7,7 @@ import Card from '../../components/admin/Card'
 import Checkbox from '../../components/admin/Checkbox'
 import Input from '../../components/Input'
 import Textarea from '../../components/Textarea'
-import Button from '../../components/admin/Button'
+import Button from '../../components/admin/ButtonAdmin'
 import styles from '../../components/admin/Admin.module.css'
 import serverUrl from '../../utils/env'
 import axios from 'axios'
@@ -38,6 +38,7 @@ export default function Index(props) {
     let [confirmPassword, setConfirmPassword] = useState('')
 
     const [inputLogo, setInputLogo] = useState('')
+    const [inputAvatar, setInputAvatar] = useState('')
     const [enableAvatar, setEnableAvatar] = useState(false)
     
     const [menu, setMenu] = useState([])
@@ -129,7 +130,7 @@ export default function Index(props) {
                 //console.log("Perfil...")
                 let date_at = new Date(props.data.birth_at).toISOString().split('T')[0]
                 setUserPerfil({ id: props.data.id, name: props.data.name, email: props.data.email, password: props.data.password, birth_at: date_at, level: props.data.level, photo: props.data.photo })
-                setInputLogo(`${serverUrl}/admin/users/${props.data.id}/photo`)
+                setInputAvatar(`${serverUrl}/admin/users/${props.data.id}/photo`)
                 setEnableAvatar(false)
                 setMenu({...menu,[0]:true, [1]:false})
                 break
@@ -141,6 +142,9 @@ export default function Index(props) {
                     try{ res = await axios.get(`${serverUrl}/admin/shop/${props.data.email}`)
                         //console.log("RES USERS", res.data)
                         setShop(res.data)
+                        console.log("id", res.data.id)
+                        setInputLogo(`${serverUrl}/admin/shops/${res.data.id}/photo/`)
+                        setEnableAvatar(false)
                         //setVisibleUser(res.data.map((contact, i) => false))
                     }catch(err){ res = [] 
                         //console.log("Deu ruim SHOP")
@@ -179,6 +183,12 @@ export default function Index(props) {
     }
 
     const handleAvatar = e => {
+        console.log(URL.createObjectURL(event.target.files[0]))
+        setInputAvatar(URL.createObjectURL(event.target.files[0]))
+        setEnableAvatar(true)
+    }
+
+    const handleLogo = e => {
         console.log(URL.createObjectURL(event.target.files[0]))
         setInputLogo(URL.createObjectURL(event.target.files[0]))
         setEnableAvatar(true)
@@ -328,7 +338,7 @@ export default function Index(props) {
         <>
             { props.page.admin &&
 
-                <LayoutAdmin pageTitle="Shopping" textHeader={menu} userName={props.data.name} clickLogo={() => handleClick("logo")} logout={() => handleClick("logout")} menu1={() => handleClick("contacts")} menu1Label="Contatos" menu2={() => handleClick("users")} menu2Label="Usuários" menu3={() => handleClick("shops")} menu3Label="Lojas" >
+                <LayoutAdmin pageTitle="Valentin Shopping Center" textHeader={menu} userName={props.data.name} clickLogo={() => handleClick("logo")} logout={() => handleClick("logout")} menu1={() => handleClick("contacts")} menu1Label="Contatos" menu2={() => handleClick("users")} menu2Label="Usuários" menu3={() => handleClick("shops")} menu3Label="Lojas" >
                     
                     <>
 
@@ -451,7 +461,7 @@ export default function Index(props) {
 
             { props.page.users && 
                     
-                <LayoutAdmin pageTitle="Shopping" textHeader={menu} clickLogo={() => handleClick("logo")} userName={props.data.name} logout={() => handleClick("logout")} menu1={() => handleClick("profile")} menu1Label="Perfil" menu2={() => handleClick("shop")} menu2Label="Loja" >
+                <LayoutAdmin pageTitle="Valentin Shopping Center" textHeader={menu} clickLogo={() => handleClick("logo")} userName={props.data.name} logout={() => handleClick("logout")} menu1={() => handleClick("profile")} menu1Label="Perfil" menu2={() => handleClick("shop")} menu2Label="Loja" >
                     <>
                         { menu[0] && //Perfil
                             <main className={styles.main} >
@@ -463,12 +473,17 @@ export default function Index(props) {
                                     <p>Clique na sua foto para alterá-la</p>
 
                                 </div>
-                                
                                 <form className={styles.formPost} id="users" onSubmit={handleFormData}>
                                     
                                     <label className={styles.user} htmlFor="logoUser" >
-                                        <img alt="Clique para adicionar o Logo da sua Loja" title="Clique para alterar sua Logo" src={inputLogo} className={styles.avatar} />
-                                    </label>
+                                        {userPerfil.photo ? 
+                                            <img alt="Clique para alterar sua Foto de Perfil" title="Clique para alterar sua Foto de Perfil" src={inputAvatar} className={styles.avatar} />
+                                            : enableAvatar ?
+                                            <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={inputAvatar} className={styles.avatar} />
+                                            :
+                                            <img alt="Clique para adicionar sua Foto de Perfil" title="Clique adicionar sua Foto de Perfil " src="/images/photos/default-user.svg" className={styles.avatar} />
+                                        }
+                                        </label>
                                     <input type="file" id="logoUser" name="file" required onChange={handleAvatar} hidden/>                 
                                     
                                         {enableAvatar && <Button text="Salvar" /> }
@@ -534,10 +549,20 @@ export default function Index(props) {
                                             <h2>Logotipo da Loja</h2>
 
                                         </div>
-                                        <img src={`${serverUrl}/admin/shops/${shop.id}/photo/`} className={styles.avatar} />
+                                        
+                                        
                                         <form className={styles.formPost} id="shops" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+
+                                            <label className={styles.user} htmlFor="logoUser" >
+                                                {shop.logo ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={inputLogo} className={styles.avatar} />
+                                                    : enableAvatar ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={inputLogo} className={styles.avatar} />
+                                                    :
+                                                    <img alt="Clique para adicionar a Logo da sua Loja" title="Clique adicionar a Logo da sua Loja" src="/images/photos/default-logo.svg" className={styles.avatar} />
+                                                }
+                                            </label>
+                                            <input type="file" id="logoUser" name="file" required onChange={handleLogo} hidden/>                                     
                                                     
                                             {enableAvatar && <Button text="Salvar" />}
                                         </form>
@@ -687,18 +712,19 @@ export default function Index(props) {
                                 </>
                                 : 
                                 
-                                <>  {/* Já tem permissão mas ainda não criou a loja */}
-                                
-                                    <h1>Você ainda não cadastrou a sua loja 😥</h1>
+                                <div className={styles.alert} >  {/* Já tem permissão mas ainda não criou a loja */}
+                                    <img alt="Parabéns! Você está quase lá" src="/images/photos/progress.svg"/>
+                                    <h2>Parabéns! Você já pode cadastrar a sua loja!</h2>
                                     <Button id={shop.id} text="Começar agora mesmo" action="newShop" values={props.data.email} model="shops" />
-                                </> :
+                                </div> :
                                 
-                                <> {/* Ainda não tem permissão pra criar a loja */}
-                                    <h1> Você ainda não tem permissão para cadastrar uma loja 😥</h1>
+                                <div className={styles.alert} > {/* Ainda não tem permissão pra criar a loja */}
+                                    <img alt="Você ainda não tem permissões suficientes." src="/images/photos/denied.svg"/>
+                                    <h2> Você ainda não tem permissão para cadastrar uma loja 😥</h2>
                                     <p>Entre em contato com a administração para receber essa permissão.</p>
-                                    <p>Email: <a href={`mailto:${contactShopping.email}`}>{contactShopping.email}</a></p>
-                                    <p>Telefone:<a href={`tel:${contactShopping.phone}`}>{contactShopping.phone}</a></p>
-                                </>
+                                    <p><span>Email: </span><a href={`mailto:${contactShopping.email}`}>{contactShopping.email}</a></p>
+                                    <p><span>Telefone: </span><a href={`tel:${contactShopping.phone}`}>{contactShopping.phone}</a></p>
+                                </div>
                                 }
                             </main>
                         }
@@ -710,7 +736,7 @@ export default function Index(props) {
 
             { props.page.cinema && 
                     
-                <LayoutAdmin pageTitle="Shopping" textHeader={menu} clickLogo={() => handleClick("logo")} userName={props.data.name} logout={() => handleClick("logout")} menu1={() => handleClick("profile")} menu1Label="Perfil" menu2={() => handleClick("cinema")} menu2Label="Cinema" >
+                <LayoutAdmin pageTitle="Valentin Shopping Center" textHeader={menu} clickLogo={() => handleClick("logo")} userName={props.data.name} logout={() => handleClick("logout")} menu1={() => handleClick("profile")} menu1Label="Perfil" menu2={() => handleClick("cinema")} menu2Label="Cinema" >
                     <>
                         <p>Cinema</p>
                         <hr />
@@ -719,7 +745,7 @@ export default function Index(props) {
                             <main className={styles.main} >
                             <Card >
 
-                                <div className={styles.header}>
+                                <div className={styles.header}> 
 
                                     <h2>Foto do Perfil</h2>
 

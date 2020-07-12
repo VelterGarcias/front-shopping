@@ -1,4 +1,4 @@
-import styles from './Button.module.css'
+import styles from './ButtonAdmin.module.css'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import serverUrl from '../../utils/env'
@@ -71,6 +71,6 @@ export default function Button(props){
         }
     }
     return(
-        <button className={styles.button} onClick={ props.click ? props.click :handleClick } >{props.text}</button>
+        <button className={styles.buttonAdmin} onClick={ props.click ? props.click :handleClick } >{props.text}</button>
     )
 }

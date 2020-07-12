@@ -8,7 +8,7 @@ export default function About() {
 
     return (
         
-        <Layout pageTitle="Shopping" >
+        <Layout pageTitle="Valentin Shopping Center" >
 
             
             <h1>About</h1>

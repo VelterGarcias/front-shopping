@@ -8,7 +8,7 @@ export default function Index() {
 
     return (
         
-        <Layout pageTitle="Shopping" >
+        <Layout pageTitle="Valentin Shopping Center" >
 
             
             <h1>Index</h1>

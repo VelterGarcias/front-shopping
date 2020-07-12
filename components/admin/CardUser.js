@@ -1,5 +1,5 @@
 import styles from './CardMessage.module.css'
-import Button from './Button'
+import Button from './ButtonAdmin'
 import Input from '../Input'
 import Checkbox from './Checkbox'
 

@@ -25,15 +25,30 @@ export default function LayoutAdmin(props){
                 <meta name="robots" content="index,follow" />
                 <meta property="og:title" content="Advogarcias - Escritório de Advocacia" />
                 <meta property="og:description" content="Conheça nosso escritório de advocacia. A Advogarcias luta por seus direitos. Profissionais especializados para cuidar da sua causa." />
-                <meta property="og:image" content="https://advogarcias.web.app/images/photos/Advogarcias.jpg" />
+                <meta property="og:image" content="https://advogarcias.web.app/assets/images/photos/Advogarcias.jpg" />
                 <meta property="og:image:type" content="image/jpeg" />
                 <meta property="og:image:width" content="748" />
                 <meta property="og:image:height" content="625" />
                 <meta property="og:type" content="website" />
-                <meta name="apple-mobile-web-app-status-bar-style" content="#2b2626" />
-                <meta name="theme-color" content="#2b2626" />
-                <meta name="msapplication-navbutton-color" content="#2b2626"></meta>
-                <link rel="shortcut icon" href="/images/logo/Advogarcias.svg" />
+                <meta name="apple-mobile-web-app-status-bar-style" content="#A100F5" />
+                <meta name="theme-color" content="#A100F5" />
+                <meta name="msapplication-navbutton-color" content="#A100F5" />
+                <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png"/>
+                <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png"/>
+                <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png"/>
+                <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png"/>
+                <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png"/>
+                <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png"/>
+                <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png"/>
+                <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png"/>
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png"/>
+                <link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/android-icon-192x192.png"/>
+                <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"/>
+                <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png"/>
+                <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"/>
+                <link rel="manifest" href="/images/favicon/manifest.json"/>
+                <meta name="msapplication-TileColor" content="#A100F5"/>
+                <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png"/>
             </Head>
             <header className={styles.mainHeader}>
                 <div className={styles.logoAdmin}>
@@ -69,7 +84,9 @@ export default function LayoutAdmin(props){
             </header>
             <div className={styles.mainAdmin}>
                     { menu == 'Bem Vindo' &&
-                        <p>Ola, {props.userName ? props.userName: "Indefinido"}!</p>
+                        <div className={styles.welcome}>
+                            <p>Olá, <span>{props.userName ? props.userName: "Indefinido"}</span>!</p>
+                        </div>
                     }
                     
                     <header className={styles.pageHeader}>
@@ -77,6 +94,13 @@ export default function LayoutAdmin(props){
                             <h1>{menu}</h1>
                         </div>
                     </header>
+
+                    { menu == 'Bem Vindo' &&
+                        <div className={styles.welcomeMain}>
+                            <img alt="Seja Bem Vindo a área Administrativa" src="/images/photos/welcome.svg"/>
+                            <h2>Seja Bem Vindo a área Administrativa</h2>
+                        </div>
+                    }
                                         
                     {props.children}
 

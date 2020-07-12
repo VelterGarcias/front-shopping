@@ -19,7 +19,7 @@ export default function Slug(props) {
 
     return (
         
-        <Layout pageTitle="Valentini Shopping Center" >
+        <Layout pageTitle="Valentin Shopping Center" >
             
             
             
@@ -35,7 +35,7 @@ export default function Slug(props) {
                         <img className={styles.storieLeft} alt="Homem em uma mesa tomando vinho e comendo" src="/images/photos/food.svg"/>
                         <ul className={styles.ulList}>
                             {shops.map((shop, i) => (
-                                <li className="shop" key={`liShop${i}`} >
+                                <li key={`liShop${i}`} >
                                     <Link href='/shop/[shopId]/[shop]' as={`/shop/${shop.id}/${shop.name.replace(' ', '-').toLowerCase()}`}  >
                                         <a className={`${styles.shop} shopBg`} title={shop.name} >
                                             <span className={styles.shopName} >{shop.name}</span>
@@ -67,7 +67,7 @@ export default function Slug(props) {
                         <ul className={styles.ulList}>
                             {shops.map((shop, i) => (
                                 
-                                <li className="shop" key={`liShop${i}`} >
+                                <li key={`liShop${i}`} >
                                     <Link href='/shop/[shopId]/[shop]' as={`/shop/${shop.id}/${shop.name.replace(' ', '-').toLowerCase()}`}  >
                                         <a className={`${styles.shop} shopBg`} title={shop.name} >
                                             <span className={styles.shopName} >{shop.name}</span>
@@ -100,7 +100,7 @@ export default function Slug(props) {
                         <ul className={styles.ulList}>
                             {shops.map((shop, i) => (
                                 
-                                <li className="shop" key={`liShop${i}`} >
+                                <li key={`liShop${i}`} >
                                     <Link href='/shop/[shopId]/[shop]' as={`/shop/${shop.id}/${shop.name.replace(' ', '-').toLowerCase()}`}  >
                                         <a className={`${styles.shop} shopBg`} title={shop.name} >
                                             <span className={styles.shopName} >{shop.name}</span>
@@ -148,7 +148,7 @@ Slug.getInitialProps = async ({query}) =>{
     switch(slug) {
         case "lojas":
             
-            try{ res = await axios.get(`${serverUrl}/admin/shops/where/loja`)
+            try{ res = await axios.get(`${serverUrl}/admin/shops/where/lojas`)
                 //console.log("RES shops", res.data)
                 data = res.data
             }catch(err){ res = [] 

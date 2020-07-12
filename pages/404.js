@@ -8,7 +8,7 @@ export default function Error() {
 
     return (
         
-        <Layout pageTitle="Shopping" >
+        <Layout pageTitle="Valentin Shopping Center" >
 
             
             <h1>Página não encontrada</h1>
