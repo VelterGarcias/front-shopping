@@ -16,15 +16,20 @@ import { useState } from 'react'
 import { Cookies } from 'react-cookie'
 import {handleAuthSSR} from '../../utils/auth'
 
-const contactShopping = {phone: '(54) 98403-8507', email: 'weads.velter@gmail.com'}
+const cookies = new Cookies()
+const token = cookies.get('token')
 const config = {
-    header: "Content-Type: multipart/form-data"
+    headers: {Authorization: `Bearer ${token}`}
 }
-
 export default function Index(props) {
+    const contactShopping = {phone: '(54) 98403-8507', email: 'weads.velter@gmail.com'}
+    // const configUpload = {
+    //     headers: "Content-Type: multipart/form-data"
+    // }
+
+    let passValid = false
     
-    //console.log(props)
-    const cookies = new Cookies();
+    //console.log(props)    
     const Router = useRouter()
 
     const [values, setValues] = useState()
@@ -43,7 +48,7 @@ export default function Index(props) {
     
     const [menu, setMenu] = useState([])
     const [shop, setShop] = useState()
-    console.log(menu)
+    //console.log(menu)
 
     const [shops, setShops] = useState()
     const [lastVisibleShops, setLastVisibleShops] = useState()
@@ -69,8 +74,8 @@ export default function Index(props) {
                 if(!contacts) {
                     //console.log("contatos...")
                     let res
-                    try{ res = await axios.get(`${serverUrl}/admin/contacts`)
-                        //console.log("RES", res.data)
+                    try{ res = await axios.get(`${serverUrl}/admin/contacts`, config)
+                        //console.log("RES", res.data)s
                         setContacts(res.data)
                         setVisible(res.data.map((contact, i) => false))
                         setAnswered(res.data.map((contact, i) => contact.answered))
@@ -91,7 +96,8 @@ export default function Index(props) {
                 if(!users) {
                     //console.log("users...")
                     let res
-                    try{ res = await axios.get(`${serverUrl}/admin/users`)
+                    //console.log(config)
+                    try{ res = await axios.get(`${serverUrl}/admin/users`, config)
                         //console.log("RES USERS", res.data)
                         setUsers(res.data)
                         
@@ -139,10 +145,10 @@ export default function Index(props) {
                 if(!shop) {
                     //console.log("users...")
                     let res
-                    try{ res = await axios.get(`${serverUrl}/admin/shop/${props.data.email}`)
+                    try{ res = await axios.get(`${serverUrl}/admin/shop/${props.data.email}`, config)
                         //console.log("RES USERS", res.data)
                         setShop(res.data)
-                        console.log("id", res.data.id)
+                        //console.log("id", res.data.id)
                         setInputLogo(`${serverUrl}/admin/shops/${res.data.id}/photo/`)
                         setEnableAvatar(false)
                         //setVisibleUser(res.data.map((contact, i) => false))
@@ -183,13 +189,13 @@ export default function Index(props) {
     }
 
     const handleAvatar = e => {
-        console.log(URL.createObjectURL(event.target.files[0]))
+        //console.log(URL.createObjectURL(event.target.files[0]))
         setInputAvatar(URL.createObjectURL(event.target.files[0]))
         setEnableAvatar(true)
     }
 
     const handleLogo = e => {
-        console.log(URL.createObjectURL(event.target.files[0]))
+        //console.log(URL.createObjectURL(event.target.files[0]))
         setInputLogo(URL.createObjectURL(event.target.files[0]))
         setEnableAvatar(true)
     }
@@ -219,7 +225,7 @@ export default function Index(props) {
 
         const checkboxValue = {answered: !answered[index]}
         setAnswered({...answered, [index]:!answered[index]})
-        await axios.put(`${serverUrl}/admin/contacts/${id}`, checkboxValue)        
+        await axios.put(`${serverUrl}/admin/contacts/${id}`, checkboxValue, config)        
     }
     //função para alterar o level do usuário tanto na tela como no DB
     async function handleLevelChange(e) {
@@ -232,7 +238,7 @@ export default function Index(props) {
             const levelChange = {
                 "level": newLevel
             }
-            await axios.put(`${serverUrl}/admin/users/${userId}`, levelChange)
+            await axios.put(`${serverUrl}/admin/users/${userId}`, levelChange, config)
             .then(res=>{
                 alert(`Sucesso! Agora o usuário com id: ${userId} tem o level: ${newLevel}.`)
                 let newUsers = [...users]   
@@ -248,7 +254,7 @@ export default function Index(props) {
                 "isOnline": !shops[i].isOnline
             }
         
-        await axios.put(`${serverUrl}/admin/shops/${id}`, newIsOnline)
+        await axios.put(`${serverUrl}/admin/shops/${id}`, newIsOnline, config)
         .then(res=>{
             alert(`Sucesso! Agora a loja ${shops[i].name} está: ${!shops[i].isOnline ? "Online": "Offline" }.`)
             let newShops = [...shops]   
@@ -262,7 +268,7 @@ export default function Index(props) {
                 "isOnline": !shop.isOnline
             }
         
-        await axios.put(`${serverUrl}/admin/shops/${id}`, newIsOnline)
+        await axios.put(`${serverUrl}/admin/shops/${id}`, newIsOnline, config)
         .then(res=>{
             alert(`Sucesso! Agora a loja ${shop.name} está: ${!shop.isOnline ? "Online": "Offline" }.`)
             // let newShops = []   
@@ -294,13 +300,23 @@ export default function Index(props) {
                 alert("Deu ruim")
             })
     }
+    
+    //funções para permitir que o User desista de trocar a senha
+    function isFocus() {
+        passValid = true
+    }
+    function isValid() {
+        if(!passValid) {
+            nameInput.focus()
+        }
+    }
     //função que verifica se a senha atual está certa
     const currentPass = async e => {
         e.preventDefault()
         let pass = e.target.value
         const valuesPass = {email: userPerfil.email, password: pass}
-        let passValid = false;
         let error = ''
+        //console.log(valuesPass.password)
         await axios.post(`${serverUrl}/auths`, valuesPass)
         .then(
             res => passValid = true
@@ -311,9 +327,8 @@ export default function Index(props) {
                 error = err.message
             }
         )
-        if(!passValid) {
-            console.log('Senha atual incorreta')
-            console.log(error)
+        if(!passValid && valuesPass.password) {
+            // console.log('Senha atual incorreta')
             nameInput.focus()
             return
         }
@@ -321,7 +336,7 @@ export default function Index(props) {
     //função que armazena a nova senha nos estados
     const newPass = e=> {
         newPassword = e.target.value
-        console.log(newPassword)
+        //console.log(newPassword)
     }
     //função que verifica se as novas senhas são iguais
     const confirmPass = e=> {
@@ -329,8 +344,11 @@ export default function Index(props) {
         if(confirmPassword != newPassword){
             alert('Senhas não conferem')
             newPassInput.focus()
+        } else if (newPassword == '') {
+            alert('A nova senha não é válida')
+            newPassInput.focus()
         }
-        console.log(newPassword, confirmPassword)
+        //console.log(newPassword, confirmPassword)
     }
 
     return (
@@ -520,11 +538,11 @@ export default function Index(props) {
 
                             <form className={styles.form}>
                                 <div className={styles.field}>
-                                    <input id="currentPass" type="password"  onBlur={currentPass} ref={inputPass => setNameInput(inputPass)} />
+                                    <input id="currentPass" type="password"  onBlur={currentPass} onChange={isFocus} ref={inputPass => setNameInput(inputPass)} />
                                     <label htmlFor="currentPass" >Senha Atual</label>
                                 </div>
                                 <div className={styles.field}>
-                                    <input type="password" onBlur={newPass} ref={newPassInput => setNewPassInput(newPassInput)} />
+                                    <input type="password" onFocus={isValid} onBlur={newPass} ref={newPassInput => setNewPassInput(newPassInput)} />
                                     <label htmlFor="currentPass" >Nova Senha</label>
                                 </div>
                                 <div className={styles.field}>

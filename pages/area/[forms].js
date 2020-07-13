@@ -56,7 +56,7 @@ export default function Forms(props) {
     const handleRegister = e => {
         e.preventDefault()
         
-        axios.post(`${serverUrl}/admin/users`, values)
+        axios.post(`${serverUrl}/admin/user`, values)
         .then( res => {
         alert(`Olá ${res.data.user.name} seus dados foram cadastrados ID: ${res.data.user.id}`)
 
@@ -81,7 +81,7 @@ export default function Forms(props) {
 
     const handleFormSubmit =  e =>{
         e.preventDefault()
-        axios.post(`${serverUrl}/admin/contacts`, values)
+        axios.post(`${serverUrl}/admin/contact`, values)
         .then(res=> {
                   // console.log('Usuário autenticado!')
                 alert('Sua mensagem foi enviada com Sucesso!')

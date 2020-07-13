@@ -50,7 +50,7 @@ export default function Header(props){
                     </> }
             </div>
             
-            <Button id={props.values.id} action="delete" model="users" text="Excluir Usuário" />
+            <Button id={props.values.id} action="delete" model="shops" text="Excluir Loja" />
         </div>
         
        
