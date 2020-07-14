@@ -14,6 +14,8 @@ export default function Button(props){
         headers: {Authorization: `Bearer ${token}`}
     }
 
+    
+
     const Router = useRouter()
     const handleClick = async e=>{
         //console.log(props.action)
@@ -26,7 +28,7 @@ export default function Button(props){
                     .then((res)=>{
                         let message = props.model == "shops" ? "Alterações na sua loja salvas com sucesso!" : "Alterações em seu perfil salvas com sucesso!"
                         alert(message)
-                        Router.reload()
+                        
                     }).catch(err=>{alert("Deu ruim")}) }
                 } else {
                     console.log("Não tem nada pra salvar", props.values)
@@ -50,6 +52,16 @@ export default function Button(props){
                     }
                 await axios.post(`${serverUrl}/admin/${props.model}`, shop, config)
                 alert('Parabéns! Você já pode editar a sua nova loja')
+                Router.reload()
+                break
+            case `newMovie`:
+                let movie = {
+                    "name": "NOVO",
+                    "category": "Adicione aqui a categoria",
+                    "isOnline": false
+                    }
+                await axios.post(`${serverUrl}/admin/${props.model}`, movie, config)
+                alert('Parabéns! Você já pode editar seu NOVO filme.')
                 Router.reload()
                 break
             case "editar":

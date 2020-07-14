@@ -3,6 +3,7 @@ import LayoutAdmin from '../../components/admin/LayoutAdmin'
 import CardMessage from '../../components/admin/CardMessage'
 import CardUser from '../../components/admin/CardUser'
 import CardShop from '../../components/admin/CardShop'
+import CardCinema from '../../components/admin/CardCinema'
 import Card from '../../components/admin/Card'
 import Checkbox from '../../components/admin/Checkbox'
 import Input from '../../components/Input'
@@ -45,6 +46,7 @@ export default function Index(props) {
     const [inputLogo, setInputLogo] = useState('')
     const [inputAvatar, setInputAvatar] = useState('')
     const [enableAvatar, setEnableAvatar] = useState(false)
+    console.log("enable", enableAvatar)
     
     const [menu, setMenu] = useState([])
     const [shop, setShop] = useState()
@@ -53,8 +55,11 @@ export default function Index(props) {
     const [shops, setShops] = useState()
     const [lastVisibleShops, setLastVisibleShops] = useState()
     const [visibleShops, setVisibleShops] = useState()
-    
+    const [shopPhotos, setShopPhotos] = useState()
 
+    const [cinema, setCinema] = useState()
+    
+    
     const [users, setUsers] = useState()
     //console.log("users", users)
     const [lastVisibleUser, setLastVisibleUser] = useState()
@@ -67,7 +72,7 @@ export default function Index(props) {
 
     //função dos cliques no menu lateral
     async function handleClick(action) {
-        // console.log(action)
+        //console.log(action)
         switch(action) {
             
             case "contacts":
@@ -86,7 +91,7 @@ export default function Index(props) {
                 } else {
                     //console.log("não fez nada")
                 }
-                setMenu({...menu,[0]:true, [1]:false, [2]:false})
+                setMenu({...menu,[0]:false, [1]:true, [2]:false, [3]:false})
 
                 
                 //setVisible({...visible, "contacts": props.contacts})
@@ -109,12 +114,32 @@ export default function Index(props) {
                 } else {
                     //console.log("não fez nada")
                 }
-                setMenu({...menu,[0]:false, [1]:true, [2]:false})
+                setMenu({...menu,[0]:false, [1]:false, [2]:true, [3]:false})
 
+                break
+
+            case "cinema":
+                if(!cinema) {
+                    let res
+                    //console.log(config)
+                    try{ res = await axios.get(`${serverUrl}/admin/cinema`, config)
+                        //console.log("RES CINEMAS", res.data)
+                        setCinema(res.data)
+                        
+                        setVisibleUser(res.data.map((contact, i) => false))
+                    }catch(err){ res = [] 
+                        //console.log("Deu ruim USERS")
+                        setCinema("")
+                    }
+                } else {
+                    //console.log("não fez nada")
+                }
+                setMenu({...menu,[0]:false, [1]:true })
 
                 break
                 
             case "shops":
+                //console.log("Shopssssss...")
                 if(!shops) {
                     //console.log("users...")
                     let res
@@ -127,9 +152,9 @@ export default function Index(props) {
                         setShops("")
                     }
                 } else {
-                    //console.log("não fez nada")
+                    console.log("não fez nada")
                 }
-                setMenu({...menu,[0]:false, [1]:false, [2]:true})
+                setMenu({...menu,[0]:false, [1]:false, [2]:false, [3]:true})
                 break
 
             case "profile":
@@ -141,15 +166,26 @@ export default function Index(props) {
                 setMenu({...menu,[0]:true, [1]:false})
                 break
 
+            case "profileAdmin":
+                    //console.log("Perfil...")
+                    date_at = new Date(props.data.birth_at).toISOString().split('T')[0]
+                    setUserPerfil({ id: props.data.id, name: props.data.name, email: props.data.email, password: props.data.password, birth_at: date_at, level: props.data.level, photo: props.data.photo })
+                    setInputAvatar(`${serverUrl}/admin/users/${props.data.id}/photo`)
+                    setEnableAvatar(false)
+                    setMenu({...menu,[0]:true, [1]:false, [2]:false, [3]:false})
+                    break
+
             case "shop":
                 if(!shop) {
                     //console.log("users...")
                     let res
                     try{ res = await axios.get(`${serverUrl}/admin/shop/${props.data.email}`, config)
-                        //console.log("RES USERS", res.data)
+                        console.log("RES USERS", res.data)
                         setShop(res.data)
                         //console.log("id", res.data.id)
                         setInputLogo(`${serverUrl}/admin/shops/${res.data.id}/photo/`)
+                        //`${serverUrl}/admin/shops/${shop.id}/photo/1`
+                        setShopPhotos([`${serverUrl}/admin/shops/${res.data.id}/photo/1`, `${serverUrl}/admin/shops/${res.data.id}/photo/2`, `${serverUrl}/admin/shops/${res.data.id}/photo/3`, `${serverUrl}/admin/shops/${res.data.id}/photo/4`, `${serverUrl}/admin/shops/${res.data.id}/photo/5`, `${serverUrl}/admin/shops/${res.data.id}/photo/6`])
                         setEnableAvatar(false)
                         //setVisibleUser(res.data.map((contact, i) => false))
                     }catch(err){ res = [] 
@@ -195,11 +231,20 @@ export default function Index(props) {
     }
 
     const handleLogo = e => {
+        //console.log("ta aquiiii")
         //console.log(URL.createObjectURL(event.target.files[0]))
         setInputLogo(URL.createObjectURL(event.target.files[0]))
         setEnableAvatar(true)
     }
 
+    const handleShopPhoto = e => {
+        //console.log("ta aqui", e.target.id.split('-')[1])
+        let i = e.target.id.split('-')[1]
+        setEnableAvatar({[i] : true})
+        let newPhoto = [...shopPhotos]   
+        newPhoto[i] = URL.createObjectURL(event.target.files[0])
+        setShopPhotos(newPhoto)
+    }
     //função que mostra/esconde as mensagens 
     function handleClickMessage(index) {
         
@@ -213,6 +258,15 @@ export default function Index(props) {
         setLastVisibleUser(index)    
         //console.log(visible)
     }
+    //função que mostra/esconde os filmes 
+    function handleClickMovie(index) {
+        setInputLogo(`${serverUrl}/admin/cinema/${cinema[index].id}/photo/`)
+        setVisibleUser({...visibleUser, [lastVisibleUser]:false, [index]:!visibleUser[index]})
+        setLastVisibleUser(index)    
+        //console.log(visible)
+    }
+    
+    
     //função que mostra/esconde as lojas 
     function handleClickShops(index) {
         
@@ -276,17 +330,34 @@ export default function Index(props) {
             setShop({...shop, isOnline : !shop.isOnline })
         }).catch(err=>{alert("Deu ruim")}) 
     }
+    //função para marcar o Filme como "online/offline" tanto na tela como no DB
+    async function handleIsOnlineMovie(i, id) {
+        const newIsOnline = {
+                "isOnline": !cinema[i].isOnline
+            }
+        await axios.put(`${serverUrl}/admin/cinema/${id}`, newIsOnline, config)
+        .then(res=>{
+            alert(`Sucesso! Agora o filme ${cinema[i].name} está: ${!cinema[i].isOnline ? "Online": "Offline" }.`)
+            let newMovie = [...cinema]   
+            newMovie[i] = {...newMovie[i], isOnline : !newMovie[i].isOnline }
+            setCinema(newMovie)
+        }).catch(err=>{alert("Deu ruim")}) 
+    }
     //função para trocar a foto do usuário, Logotipo e fotos das lojas
     const handleFormData = async e => {
         e.preventDefault()
         const model = e.target.id
         const photo = e.target.name ? e.target.name : null
-        console.log("model", model)
-        console.log("name", e.target.name)
+        const moveId = e.target.getAttribute('data-idcinema')
+        // console.log("Movie", cinema[moveId].id)
+        // console.log("model", model)
+        // console.log("name", e.target.name)
         
         let id = null
         if (model == 'shops') {
             id = shop.id
+        } else if (model == 'cinema') {
+            id = cinema[moveId].id
         } else {
             id = userPerfil.id
         }
@@ -295,11 +366,33 @@ export default function Index(props) {
             await axios.put(`${serverUrl}/admin/${model}/${id}/uploads${ photo ? `/${photo}` : "" }`, formulario, config)
             .then((res)=>{
                 alert("Nova foto salva com sucesso!")
-                Router.reload()
+
+                if (model == 'shops') {
+                    //console.log("shops")
+                    setShop(res.data)
+                    //console.log("Res Shop", res.data)
+
+                } else if (model == 'cinema') {
+                    let newMovie = [...cinema]   
+                    newMovie[moveId] = res.data
+                    setCinema(newMovie)
+                    
+                    // console.log("Res Foto", res.data)
+                    // console.log("Old CINEMA", cinema)
+                    // console.log("NEW CINEMA", newMovie)
+                } else {
+                    //console.log("perfil ou sem model")
+                    setUserPerfil(res.data)
+                }
+                setEnableAvatar(false)
+
+                
             }).catch((err)=>{
                 alert("Deu ruim")
             })
     }
+
+    
     
     //funções para permitir que o User desista de trocar a senha
     function isFocus() {
@@ -356,11 +449,86 @@ export default function Index(props) {
         <>
             { props.page.admin &&
 
-                <LayoutAdmin pageTitle="Valentin Shopping Center" textHeader={menu} userName={props.data.name} clickLogo={() => handleClick("logo")} logout={() => handleClick("logout")} menu1={() => handleClick("contacts")} menu1Label="Contatos" menu2={() => handleClick("users")} menu2Label="Usuários" menu3={() => handleClick("shops")} menu3Label="Lojas" >
+                <LayoutAdmin pageTitle="Valentin Shopping Center" textHeader={menu} userName={props.data.name} clickLogo={() => handleClick("logo")} logout={() => handleClick("logout")} menu1={() => handleClick("profileAdmin")} menu1Label="Perfil" menu2={() => handleClick("contacts")} menu2Label="Contatos" menu3={() => handleClick("users")} menu3Label="Usuários" menu4={() => handleClick("shops")} menu4Label="Lojas" >
                     
                     <>
+                        { menu[0] && //Perfil
+                            <main className={styles.main} >
+                            <Card >
 
-                        { menu[0] &&  //Mensagens
+                                <div className={styles.header}>
+
+                                    <h2>Foto do Perfil</h2>
+                                    <p>Clique na sua foto para alterá-la</p>
+
+                                </div>
+                                <form className={styles.formPost} id="users" onSubmit={handleFormData}>
+                                    
+                                    <label className={styles.user} htmlFor="logoUser" >
+                                        {userPerfil.photo ? 
+                                            <img alt="Clique para alterar sua Foto de Perfil" title="Clique para alterar sua Foto de Perfil" src={inputAvatar} className={styles.avatar} />
+                                            : enableAvatar ?
+                                            <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={inputAvatar} className={styles.avatar} />
+                                            :
+                                            <img alt="Clique para adicionar sua Foto de Perfil" title="Clique adicionar sua Foto de Perfil " src="/images/photos/default-user.svg" className={styles.avatar} />
+                                        }
+                                        </label>
+                                    <input type="file" id="logoUser" name="file" required onChange={handleAvatar} hidden/>                 
+                                    
+                                        {enableAvatar && <Button text="Salvar" /> }
+                                             
+                                </form>
+
+                            </Card>
+                            
+                            <Card actions={<Button id={userPerfil.id} text="Salvar" action="save" values={values} model="users" />}>
+                            
+                                <div className={styles.header}>
+
+                                    <h2>Dados Pessoais</h2>
+
+                                </div>
+
+                                <form className={styles.form} >
+                                    <div className={styles.fields}>
+                                        <Input type="text" name="name" defaultValue={userPerfil.name} label="Nome Completo" onChange={handleInputChange} onFocus={handleInputChange}/>
+                                        <Input type="email" name="email" label="Email" defaultValue={userPerfil.email} onChange={handleInputChange} onFocus={handleInputChange} />
+                                        {/* <Input type="tel" name="phone" label="Telefone" defaultValue={userPerfil.phone} onChange={handleInputChange} onFocus={handleInputChange} /> */}
+                                        <Input type="date" name="birth_at" label="Data de Nascimento" defaultValue={userPerfil.birth_at} onChange={handleInputChange} onFocus={handleInputChange} />
+                                    </div>
+                                </form>
+                                
+                            </Card>
+
+                            <Card actions={<Button action="passwordChange" id={userPerfil.id} values={values} text="Alterar" />}>
+
+                            <div className={styles.header}>
+
+                                <h2>Senha</h2>
+
+                            </div>
+
+                            <form className={styles.form}>
+                                <div className={styles.field}>
+                                    <input id="currentPass" type="password"  onBlur={currentPass} onChange={isFocus} ref={inputPass => setNameInput(inputPass)} />
+                                    <label htmlFor="currentPass" >Senha Atual</label>
+                                </div>
+                                <div className={styles.field}>
+                                    <input type="password" onFocus={isValid} onBlur={newPass} ref={newPassInput => setNewPassInput(newPassInput)} />
+                                    <label htmlFor="currentPass" >Nova Senha</label>
+                                </div>
+                                <div className={styles.field}>
+                                    <input type="password" onBlur={confirmPass} name="password" onChange={handleInputChange} />
+                                    <label htmlFor="currentPass" >Confirme a Nova Senha</label>
+                                </div>
+                            </form>
+
+                            </Card>
+                            
+                            </main>
+                        }
+
+                        { menu[1] &&  //Mensagens
                             <main className={styles.main} >
                             {/* função ternária para evitar erro de rodar um .map() em um array vazio e mostrar
                             uma mensagem de erro mais amigável */}
@@ -393,7 +561,7 @@ export default function Index(props) {
                             </main>
                         }
 
-                        { menu[1] && //Users
+                        { menu[2] && //Users
                             <main className={styles.main} >
                             {/* função ternária para evitar erro de rodar um .map() em um array vazio e mostrar
                             uma mensagem de erro mais amigável */}
@@ -417,7 +585,7 @@ export default function Index(props) {
                                 
                                 {users.map((user, i) => 
                                 <div key={`CardUser${i}`} className={styles.mainCard} >
-                                    {/* Falta colocar o onChange que tive que tirar e deixar o checked dinâmico */}
+                                    
                                     { visibleUser[i] && <CardUser  values={user} selectId={i} onChangeSelect={handleLevelChange} />} 
                                     
                                 </div>
@@ -431,7 +599,7 @@ export default function Index(props) {
 
                         }
 
-                        { menu[2] && //Lojas
+                        { menu[3] && //Lojas
                             <>
                                 <main className={styles.main} >
                                 {/* função ternária para evitar erro de rodar um .map() em um array vazio e mostrar
@@ -458,7 +626,7 @@ export default function Index(props) {
                                     
                                     {shops.map((shop, i) => 
                                     <div key={`CardShop${i}`} className={styles.mainCard} >
-                                        {/* Falta colocar o onChange que tive que tirar e deixar o checked dinâmico */}
+                                        
                                         { visibleShops[i] && <CardShop id={shop.id} valueInput={values} values={shop} onChange={() =>handleIsOnline(i, shop.id)} onInputChange={handleInputChange}/>} 
                                         
                                     </div>
@@ -599,15 +767,15 @@ export default function Index(props) {
                                                 <Checkbox className={styles.checkBox} type="checkbox" name="isOnline" label="Online?" checked={shop.isOnline} onChange={() =>handleIsOnlineShop(shop.id)}/>
                                                 <Input type="text" name="name" defaultValue={shop.name} label="Nome da Loja" onChange={handleInputChange} onFocus={handleInputChange}/>
                                                 {/* Category deveria ser um select */}
-                                                <Input type="text" name="category" label="Categoria" defaultValue={shop.category} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Textarea name="description" label="Descrição" defaultValue={shop.description} onChange={handleInputChange} onFocus={handleInputChange} /> 
-                                                <Input type="tel" name="phone" label="Telefone Fixo" defaultValue={shop.phone} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Input type="tel" name="smartphone" label="Celular" defaultValue={shop.smartphone} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Input type="text" name="whatsapp" label="WhatsApp" defaultValue={shop.whatsapp} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Input type="text" name="adress" label="Localização" defaultValue={shop.adress} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Input type="text" name="website" label="Website" defaultValue={shop.website} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Input type="text" name="facebook" label="Facebook" defaultValue={shop.facebook} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Input type="text" name="instagram" label="Instagram" defaultValue={shop.instagram} onChange={handleInputChange} onFocus={handleInputChange} />
+                                                <Input type="text" name="category" label="Categoria" defaultValue={shop.category} onChange={handleInputChange}  />
+                                                <Textarea name="description" label="Descrição" defaultValue={shop.description} onChange={handleInputChange}  /> 
+                                                <Input type="tel" name="phone" label="Telefone Fixo" defaultValue={shop.phone} onChange={handleInputChange}  />
+                                                <Input type="tel" name="smartphone" label="Celular" defaultValue={shop.smartphone} onChange={handleInputChange}  />
+                                                <Input type="text" name="whatsapp" label="WhatsApp" defaultValue={shop.whatsapp} onChange={handleInputChange}  />
+                                                <Input type="text" name="adress" label="Localização" defaultValue={shop.adress} onChange={handleInputChange}  />
+                                                <Input type="text" name="website" label="Website" defaultValue={shop.website} onChange={handleInputChange}  />
+                                                <Input type="text" name="facebook" label="Facebook" defaultValue={shop.facebook} onChange={handleInputChange}  />
+                                                <Input type="text" name="instagram" label="Instagram" defaultValue={shop.instagram} onChange={handleInputChange}  />
                                     
                                                 
                                             </div>
@@ -622,13 +790,21 @@ export default function Index(props) {
                                             <h2>Foto 1</h2>
 
                                         </div>
-                                        <img src={shop.photo1 ? `${serverUrl}/admin/shops/${shop.id}/photo/1` : "/images/default_image.svg"} className={styles.photos} />
-                                        <form className={styles.formPost} id="shops" name="1" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
-                                        <div className={styles.divButton} >
-                                            <Button text="Salvar" />
-                                        </div>         
+
+                                        <form className={styles.formPost} id="shops" name="1"  onSubmit={handleFormData}>
+
+                                            <label className={styles.user} htmlFor="photo-0" >
+                                                {shop.photo1 ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={shopPhotos[0]} className={styles.avatar} />
+                                                    : enableAvatar[0] ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={shopPhotos[0]} className={styles.avatar} />
+                                                    :
+                                                    <img alt="Clique para adicionar a Logo da sua Loja" title="Clique adicionar a Logo da sua Loja" src="/images/default_image.svg" className={styles.avatar} />
+                                                }
+                                            </label>
+                                            <input type="file" id="photo-0" name="file" required onChange={handleShopPhoto} hidden/>                                     
+                                                    
+                                            {enableAvatar[0] && <Button text="Salvar" />}
                                         </form>
 
                                     </Card>
@@ -639,14 +815,20 @@ export default function Index(props) {
                                             <h2>Foto 2</h2>
 
                                         </div>
-                                        <img src={shop.photo2 ? `${serverUrl}/admin/shops/${shop.id}/photo/2` : "/images/default_image.svg"} className={styles.photos} />
-                                        <form className={styles.formPost} id="shops" name="2" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                        <form className={styles.formPost} id="shops" name="2"  onSubmit={handleFormData}>
+
+                                            <label className={styles.user} htmlFor="photo-1" >
+                                                {shop.photo2 ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={shopPhotos[1]} className={styles.avatar} />
+                                                    : enableAvatar[1] ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={shopPhotos[1]} className={styles.avatar} />
+                                                    :
+                                                    <img alt="Clique para adicionar a Logo da sua Loja" title="Clique adicionar a Logo da sua Loja" src="/images/default_image.svg" className={styles.avatar} />
+                                                }
+                                            </label>
+                                            <input type="file" id="photo-1" name="file" required onChange={handleShopPhoto} hidden/>                                     
                                                     
-                                            <div className={styles.divButton} >
-                                            <Button text="Salvar" />
-                                        </div>    
+                                            {enableAvatar[1] && <Button text="Salvar" />}
                                         </form>
 
                                     </Card>
@@ -658,14 +840,20 @@ export default function Index(props) {
                                             <h2>Foto 3</h2>
 
                                         </div>
-                                        <img src={shop.photo3 ? `${serverUrl}/admin/shops/${shop.id}/photo/3` : "/images/default_image.svg"} className={styles.photos} />
-                                        <form className={styles.formPost} id="shops" name="3" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                        <form className={styles.formPost} id="shops" name="3"  onSubmit={handleFormData}>
+
+                                            <label className={styles.user} htmlFor="photo-2" >
+                                                {shop.photo3 ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={shopPhotos[2]} className={styles.avatar} />
+                                                    : enableAvatar[2] ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={shopPhotos[2]} className={styles.avatar} />
+                                                    :
+                                                    <img alt="Clique para adicionar a Logo da sua Loja" title="Clique adicionar a Logo da sua Loja" src="/images/default_image.svg" className={styles.avatar} />
+                                                }
+                                            </label>
+                                            <input type="file" id="photo-2" name="file" required onChange={handleShopPhoto} hidden/>                                     
                                                     
-                                            <div className={styles.divButton} >
-                                            <Button text="Salvar" />
-                                        </div>    
+                                            {enableAvatar[2] && <Button text="Salvar" />}
                                         </form>
 
                                     </Card>
@@ -677,14 +865,20 @@ export default function Index(props) {
                                             <h2>Foto 4</h2>
 
                                         </div>
-                                        <img src={shop.photo4 ? `${serverUrl}/admin/shops/${shop.id}/photo/4` : "/images/default_image.svg"} className={styles.photos} />
-                                        <form className={styles.formPost} id="shops" name="4" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                        <form className={styles.formPost} id="shops" name="4"  onSubmit={handleFormData}>
+
+                                            <label className={styles.user} htmlFor="photo-3" >
+                                                {shop.photo4 ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={shopPhotos[3]} className={styles.avatar} />
+                                                    : enableAvatar[3] ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={shopPhotos[3]} className={styles.avatar} />
+                                                    :
+                                                    <img alt="Clique para adicionar a Logo da sua Loja" title="Clique adicionar a Logo da sua Loja" src="/images/default_image.svg" className={styles.avatar} />
+                                                }
+                                            </label>
+                                            <input type="file" id="photo-3" name="file" required onChange={handleShopPhoto} hidden/>                                     
                                                     
-                                            <div className={styles.divButton} >
-                                            <Button text="Salvar" />
-                                        </div>    
+                                            {enableAvatar[3] && <Button text="Salvar" />}
                                         </form>
 
                                     </Card>
@@ -696,14 +890,20 @@ export default function Index(props) {
                                             <h2>Foto 5</h2>
 
                                         </div>
-                                        <img src={shop.photo5 ? `${serverUrl}/admin/shops/${shop.id}/photo/5` : "/images/default_image.svg"} className={styles.photos} />
-                                        <form className={styles.formPost} id="shops" name="5" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                        <form className={styles.formPost} id="shops" name="5"  onSubmit={handleFormData}>
+
+                                            <label className={styles.user} htmlFor="photo-4" >
+                                                {shop.photo5 ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={shopPhotos[4]} className={styles.avatar} />
+                                                    : enableAvatar[4] ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={shopPhotos[4]} className={styles.avatar} />
+                                                    :
+                                                    <img alt="Clique para adicionar a Logo da sua Loja" title="Clique adicionar a Logo da sua Loja" src="/images/default_image.svg" className={styles.avatar} />
+                                                }
+                                            </label>
+                                            <input type="file" id="photo-4" name="file" required onChange={handleShopPhoto} hidden/>                                     
                                                     
-                                            <div className={styles.divButton} >
-                                            <Button text="Salvar" />
-                                        </div>    
+                                            {enableAvatar[4] && <Button text="Salvar" />}
                                         </form>
 
                                     </Card>
@@ -715,14 +915,20 @@ export default function Index(props) {
                                             <h2>Foto 6</h2>
 
                                         </div>
-                                        <img src={shop.photo6 ? `${serverUrl}/admin/shops/${shop.id}/photo/6` : "/images/default_image.svg"} className={styles.photos} />
-                                        <form className={styles.formPost} id="shops" name="6" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                        <form className={styles.formPost} id="shops" name="6"  onSubmit={handleFormData}>
+
+                                            <label className={styles.user} htmlFor="photo-5" >
+                                                {shop.photo6 ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={shopPhotos[5]} className={styles.avatar} />
+                                                    : enableAvatar[5] ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={shopPhotos[5]} className={styles.avatar} />
+                                                    :
+                                                    <img alt="Clique para adicionar a Logo da sua Loja" title="Clique adicionar a Logo da sua Loja" src="/images/default_image.svg" className={styles.avatar} />
+                                                }
+                                            </label>
+                                            <input type="file" id="photo-5" name="file" required onChange={handleShopPhoto} hidden/>                                     
                                                     
-                                            <div className={styles.divButton} >
-                                            <Button text="Salvar" />
-                                        </div>    
+                                            {enableAvatar[5] && <Button text="Salvar" />}
                                         </form>
 
                                     </Card>
@@ -756,27 +962,35 @@ export default function Index(props) {
                     
                 <LayoutAdmin pageTitle="Valentin Shopping Center" textHeader={menu} clickLogo={() => handleClick("logo")} userName={props.data.name} logout={() => handleClick("logout")} menu1={() => handleClick("profile")} menu1Label="Perfil" menu2={() => handleClick("cinema")} menu2Label="Cinema" >
                     <>
-                        <p>Cinema</p>
-                        <hr />
-
                         { menu[0] && //Perfil
                             <main className={styles.main} >
                             <Card >
 
-                                <div className={styles.header}> 
+                                <div className={styles.header}>
 
                                     <h2>Foto do Perfil</h2>
+                                    <p>Clique na sua foto para alterá-la</p>
 
                                 </div>
-                                <img src={`${serverUrl}/admin/users/${userPerfil.id}/photo`} className={styles.avatar} />
                                 <form className={styles.formPost} id="users" onSubmit={handleFormData}>
                                     
-                                    <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
-                                                
-                                    {enableAvatar && <Button text="Salvar" />}
+                                    <label className={styles.user} htmlFor="logoUser" >
+                                        {userPerfil.photo ? 
+                                            <img alt="Clique para alterar sua Foto de Perfil" title="Clique para alterar sua Foto de Perfil" src={inputAvatar} className={styles.avatar} />
+                                            : enableAvatar ?
+                                            <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja" src={inputAvatar} className={styles.avatar} />
+                                            :
+                                            <img alt="Clique para adicionar sua Foto de Perfil" title="Clique adicionar sua Foto de Perfil " src="/images/photos/default-user.svg" className={styles.avatar} />
+                                        }
+                                        </label>
+                                    <input type="file" id="logoUser" name="file" required onChange={handleAvatar} hidden/>                 
+                                    
+                                        {enableAvatar && <Button text="Salvar" /> }
+                                            
                                 </form>
 
                             </Card>
+
                             <Card actions={<Button id={userPerfil.id} text="Salvar" action="save" values={values} model="users" />}>
                             
                                 <div className={styles.header}>
@@ -787,10 +1001,10 @@ export default function Index(props) {
 
                                 <form className={styles.form} >
                                     <div className={styles.fields}>
-                                        <Input type="text" name="name" defaultValue={userPerfil.name} label="Nome Completo" onChange={handleInputChange} onFocus={handleInputChange}/>
-                                        <Input type="email" name="email" label="Email" defaultValue={userPerfil.email} onChange={handleInputChange} onFocus={handleInputChange} />
-                                        {/* <Input type="tel" name="phone" label="Telefone" defaultValue={userPerfil.phone} onChange={handleInputChange} onFocus={handleInputChange} /> */}
-                                        <Input type="date" name="birth_at" label="Data de Nascimento" defaultValue={userPerfil.birth_at} onChange={handleInputChange} onFocus={handleInputChange} />
+                                        <Input type="text" name="name" defaultValue={userPerfil.name} label="Nome Completo" onChange={handleInputChange} />
+                                        <Input type="email" name="email" label="Email" defaultValue={userPerfil.email} onChange={handleInputChange}  />
+                                        {/* <Input type="tel" name="phone" label="Telefone" defaultValue={userPerfil.phone} onChange={handleInputChange}  /> */}
+                                        <Input type="date" name="birth_at" label="Data de Nascimento" defaultValue={userPerfil.birth_at} onChange={handleInputChange}  />
                                     </div>
                                 </form>
                                 
@@ -798,194 +1012,96 @@ export default function Index(props) {
 
                             <Card actions={<Button action="passwordChange" id={userPerfil.id} values={values} text="Alterar" />}>
 
-                            <div className={styles.header}>
+                                <div className={styles.header}>
 
-                                <h2>Senha</h2>
+                                    <h2>Senha</h2>
 
-                            </div>
+                                </div>
 
-                            <form className={styles.form}>
-
-                                <input id="currentPass" type="password" placeholder="Senha Atual" onBlur={currentPass} ref={inputPass => setNameInput(inputPass)} />
-                                <label htmlFor="currentPass" >Senha Atual</label>
-                                <input type="password" placeholder="Nova Senha" onBlur={newPass} ref={newPassInput => setNewPassInput(newPassInput)} />
-
-                                <input type="password" placeholder="Confirme a Nova Senha" onBlur={confirmPass} name="password" onChange={handleInputChange} />
-
-                            </form>
+                                <form className={styles.form}>
+                                    <div className={styles.field}>
+                                        <input id="currentPass" type="password"  onBlur={currentPass} onChange={isFocus} ref={inputPass => setNameInput(inputPass)} />
+                                        <label htmlFor="currentPass" >Senha Atual</label>
+                                    </div>
+                                    <div className={styles.field}>
+                                        <input type="password" onFocus={isValid} onBlur={newPass} ref={newPassInput => setNewPassInput(newPassInput)} />
+                                        <label htmlFor="currentPass" >Nova Senha</label>
+                                    </div>
+                                    <div className={styles.field}>
+                                        <input type="password" onBlur={confirmPass} name="password" onChange={handleInputChange} />
+                                        <label htmlFor="currentPass" >Confirme a Nova Senha</label>
+                                    </div>
+                                </form>
 
                             </Card>
+                            
                             </main>
                         }
 
-                        { menu[1] && //Loja
+                        { menu[1] && //Filmes
                             <main className={styles.main} >
-                            {props.data.level == 1 ? shop != "" ?
-                                <> {/* Já criou/tem uma loja */}
+                            {/* função ternária para evitar erro de rodar um .map() em um array vazio e mostrar
+                            uma mensagem de erro mais amigável */}
+                            {cinema != "" ?
+                            <>
+                            
+                                <section className={styles.messageList}>
+                                    <ul className={styles.ulList}>
+                                        {cinema.map((movie, i) => (
+                                               
+                                                <li key={`liMovie${i}`} className={visibleUser[i] ? styles.selected : null}>
+                                                    <button  key={`ButtonUser${i}`} id={movie.id} onClick={ () => handleClickMovie(i) } > <span className={styles.nameList}>{movie.name}</span> </button>
+                                                    <input type="checkbox" checked={movie.isOnline} disabled/>
+                                                </li>
+                                        ))}
+                                    </ul>
+                
+                                </section>
 
-                                    <Card >
+                                <section className={styles.messages}>
+                                
+                                {cinema.map((movie, i) => 
+                                <div key={`CardMovie${i}`} className={styles.mainCard} >
 
-                                        <div className={styles.header}>
+                                    { visibleUser[i] && <CardCinema  values={movie} valuesForm={values} selectId={i} onChange={handleInputChange} onChangeCheck={() =>handleIsOnlineMovie(i, movie.id)} >
+                                        <form className={styles.formPost} id="cinema" data-idcinema={i} onSubmit={handleFormData}>
 
-                                            <h2>Logotipo da Loja</h2>
-
-                                        </div>
-                                        <img src={`${serverUrl}/admin/shops/${shop.id}/photo/`} className={styles.avatar} />
-                                        <form className={styles.formPost} id="shops" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
+                                            <label className={styles.user} htmlFor="poster" >
+                                                {movie.photo ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja 1" src={inputLogo} className={styles.avatar} />
+                                                    : enableAvatar ?
+                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja 2" src={inputLogo} className={styles.avatar} />
+                                                    :
+                                                    <img alt="Clique para adicionar a Logo da sua Loja" title="Clique adicionar a Logo da sua Loja" src="/images/photos/default-logo.svg" className={styles.avatar} />
+                                                }
+                                            </label>
+                                            <input type="file" id="poster" name="file" required onChange={handleLogo} hidden/>                                     
                                                     
                                             {enableAvatar && <Button text="Salvar" />}
                                         </form>
-
-                                    </Card>
-                                    <Card actions={<Button id={shop.id} text="Salvar" action="save" values={values} model="shops" />}>
-
-                                        <div className={styles.header}>
-
-                                            <h2>Dados da Loja</h2>
-
-                                        </div>
-
-                                        <form className={styles.form} >
-                                            <div className={styles.fields}>
-                                                <Checkbox className={styles.checkBox} type="checkbox" name="isOnline" label="Online?" checked={shop.isOnline} onChange={() =>handleIsOnlineShop(shop.id)}/>
-                                                <Input type="text" name="name" defaultValue={shop.name} label="Nome da Loja" onChange={handleInputChange} onFocus={handleInputChange}/>
-                                                {/* Category deveria ser um select */}
-                                                <Input type="text" name="category" label="Categoria" defaultValue={shop.category} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Textarea name="description" label="Descrição" defaultValue={shop.description} onChange={handleInputChange} onFocus={handleInputChange} /> 
-                                                <Input type="tel" name="phone" label="Telefone Fixo" defaultValue={shop.phone} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Input type="tel" name="smartphone" label="Celular" defaultValue={shop.smartphone} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Input type="text" name="whatsapp" label="WhatsApp" defaultValue={shop.whatsapp} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Input type="text" name="adress" label="Localização" defaultValue={shop.adress} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Input type="text" name="website" label="Website" defaultValue={shop.website} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Input type="text" name="facebook" label="Facebook" defaultValue={shop.facebook} onChange={handleInputChange} onFocus={handleInputChange} />
-                                                <Input type="text" name="instagram" label="Instagram" defaultValue={shop.instagram} onChange={handleInputChange} onFocus={handleInputChange} />
+                                        
+                                        </CardCinema>} 
                                     
-                                                
-                                            </div>
-                                        </form>
+                                </div>
+                                ) }
 
-                                    </Card>
-
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={1} model="shops" />} >
-
-                                        <div className={styles.header}>
-
-                                            <h2>Foto 1</h2>
-
+                                { !visibleUser[lastVisibleUser] && 
+                                    <div className={styles.mainCard} >
+                                        <div className={styles.newMovie} >
+                                            <h2>Para adicionar um novo filme, clique no botão abaixo</h2>
+                                            <Button text="Adicionar" action="newMovie" model="cinema" />
+                                            <img alt="Adicione um novo filme clicando no botão" src="/images/photos/new-cinema.svg"/>
+                                        
                                         </div>
-                                        <img src={shop.photo1 ? `${serverUrl}/admin/shops/${shop.id}/photo/1` : "/images/default_image.svg"} className={styles.photos} />
-                                        <form className={styles.formPost} id="shops" name="1" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
-                                                    
-                                            <Button text="Salvar" />
-                                        </form>
-
-                                    </Card>
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={2} model="shops" />} >
-
-                                        <div className={styles.header}>
-
-                                            <h2>Foto 2</h2>
-
-                                        </div>
-                                        <img src={shop.photo2 ? `${serverUrl}/admin/shops/${shop.id}/photo/2` : "/images/default_image.svg"} className={styles.photos} />
-                                        <form className={styles.formPost} id="shops" name="2" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
-                                                    
-                                            <Button text="Salvar" />
-                                        </form>
-
-                                    </Card>
-
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={3} model="shops" />} >
-
-                                        <div className={styles.header}>
-
-                                            <h2>Foto 3</h2>
-
-                                        </div>
-                                        <img src={shop.photo3 ? `${serverUrl}/admin/shops/${shop.id}/photo/3` : "/images/default_image.svg"} className={styles.photos} />
-                                        <form className={styles.formPost} id="shops" name="3" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
-                                                    
-                                            <Button text="Salvar" />
-                                        </form>
-
-                                    </Card>
-
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={4} model="shops" />} >
-
-                                        <div className={styles.header}>
-
-                                            <h2>Foto 4</h2>
-
-                                        </div>
-                                        <img src={shop.photo4 ? `${serverUrl}/admin/shops/${shop.id}/photo/4` : "/images/default_image.svg"} className={styles.photos} />
-                                        <form className={styles.formPost} id="shops" name="4" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
-                                                    
-                                            <Button text="Salvar" />
-                                        </form>
-
-                                    </Card>
-
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={5} model="shops" />} >
-
-                                        <div className={styles.header}>
-
-                                            <h2>Foto 5</h2>
-
-                                        </div>
-                                        <img src={shop.photo5 ? `${serverUrl}/admin/shops/${shop.id}/photo/5` : "/images/default_image.svg"} className={styles.photos} />
-                                        <form className={styles.formPost} id="shops" name="5" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
-                                                    
-                                            <Button text="Salvar" />
-                                        </form>
-
-                                    </Card>
-
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={6} model="shops" />} >
-
-                                        <div className={styles.header}>
-
-                                            <h2>Foto 6</h2>
-
-                                        </div>
-                                        <img src={shop.photo6 ? `${serverUrl}/admin/shops/${shop.id}/photo/6` : "/images/default_image.svg"} className={styles.photos} />
-                                        <form className={styles.formPost} id="shops" name="6" onSubmit={handleFormData}>
-                                            
-                                            <Input type="file"  name="file" required={true}  label="Foto de perfil"/>                                       
-                                                    
-                                            <Button text="Salvar" />
-                                        </form>
-
-                                    </Card>
-
-                                </>
-                                : 
-                                
-                                <>  {/* Já tem permissão mas ainda não criou a loja */}
-                                
-                                    <h1>Você ainda não cadastrou a sua loja 😥</h1>
-                                    <Button id={shop.id} text="Começar agora mesmo" action="newShop" values={props.data.email} model="shops" />
-                                </> :
-                                
-                                <> {/* Ainda não tem permissão pra criar a loja */}
-                                    <h1> Você ainda não tem permissão para cadastrar uma loja 😥</h1>
-                                    <p>Entre em contato com a administração para receber essa permissão.</p>
-                                    <p>Email: <a href={`mailto:${contactShopping.email}`}>{contactShopping.email}</a></p>
-                                    <p>Telefone:<a href={`tel:${contactShopping.phone}`}>{contactShopping.phone}</a></p>
-                                </>
+                                    </div>
                                 }
+            
+                            </section> 
+                                
+                                
+                            </> : <h1>Ocorreu um erro na conexão com o Servidor 😥</h1> }
                             </main>
+
                         }
                 
                     </>

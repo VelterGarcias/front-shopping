@@ -21,11 +21,11 @@
 }
 
 .actions {
-    justify-content: flex-end;
+    justify-content: center;
     background-color: var(--grayF);
     width: 100%;
-    padding-right: 40px;
-    margin-top: -20px;
+    /* padding-right: 40px; */
+    /* margin-top: -20px; */
 }
 
 

@@ -12,6 +12,10 @@
 }
 .mainHeader > a {
     text-align: center;
+    margin-bottom: 40px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
 }
 
 .mainAdmin{
@@ -101,12 +105,19 @@
     margin-bottom: 30px;
     border-bottom: 2px solid white;
 }
+.navMobile a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
 .navMobile  img{
     width: 30px;
+    padding: 5px 0;
 }
-.navMobile a img{
-    margin-bottom: 15px;
-}
+
 
 .navMobile a:hover{
     cursor: pointer;
@@ -180,11 +191,10 @@
     }
 
     .logOut{
-        text-align: center;
-        font-weight: bold;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         padding: 20px;
-        color: white;
-        margin-bottom: 20px;
     }
     /*GALERIA ADMIN*/
     .containerAdmin ul {
