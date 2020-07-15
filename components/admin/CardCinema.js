@@ -18,14 +18,15 @@ export default function Header(props){
 
             {props.children}
 
+        <form id={"cinema-" + props.values.id} data-index={props.index} onSubmit={props.onSubmit} >
 
             <Input type="text" name="name" label="Nome" defaultValue={props.values.name} onChange={props.onChange} />
             <Input type="text" name="category" label="Categoria" defaultValue={props.values.category} onChange={props.onChange} />
             <Input type="text" name="sub_category" label="Sub-categoria" defaultValue={props.values.sub_category} onChange={props.onChange} />
 
                 <div className={styles.field}>
-                    <label htmlFor={"lang-" + props.selectId}>Idioma(s)</label>
-                    <select id={"lang-" + props.selectId} name="language" defaultValue={props.values.language} onChange={props.onChange} >
+                    <label htmlFor={"lang-" + props.values.id}>Idioma(s)</label>
+                    <select id={"lang-" + props.values.id} name="language" defaultValue={props.values.language} onChange={props.onChange} >
                         <option value="0" >Legendado</option>
                         <option value="1" >Dublado</option>
                         <option value="2" >Dublado/Legendado</option>
@@ -34,8 +35,8 @@ export default function Header(props){
                 </div>
 
                 <div className={styles.field}>
-                    <label htmlFor={"age-" + props.selectId}>Idade</label>
-                    <select id={"age-" + props.selectId} name="age" defaultValue={props.values.age} onChange={props.onChange} >
+                    <label htmlFor={"age-" + props.values.id}>Idade</label>
+                    <select id={"age-" + props.values.id} name="age" defaultValue={props.values.age} onChange={props.onChange} >
                         <option value="0" >Livre</option>
                         <option value="1" >12</option>
                         <option value="2" >14</option>
@@ -45,9 +46,11 @@ export default function Header(props){
                 </div>
                 <Textarea name="description" label="Descrição" defaultValue={props.values.description} onChange={props.onChange} /> 
                 
-                <Button id={props.values.id} values={props.valuesForm} action="save" model="cinema" text="Salvar" />
+                <Button  text="Salvar" />
 
             <Button id={props.values.id} action="delete" model="cinema" text="Excluir Filme" />
+
+        </form>
             <div className={styles.column}>
                 <p>Registrado em: </p>
                 <p>{props.values.created_at}</p>

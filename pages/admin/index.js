@@ -16,29 +16,29 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Cookies } from 'react-cookie'
 import {handleAuthSSR} from '../../utils/auth'
-import useSWR from 'swr'
 
 const cookies = new Cookies()
 const token = cookies.get('token')
 const config = {
     headers: {Authorization: `Bearer ${token}`}
 }
+const contactShopping = {phone: '(54) 98403-8507', email: 'weads.velter@gmail.com'}
+
 export default function Index(props) {
-    const contactShopping = {phone: '(54) 98403-8507', email: 'weads.velter@gmail.com'}
+    
     // const configUpload = {
     //     headers: "Content-Type: multipart/form-data"
     // }
 
-    const {data} = useSWR(`${serverUrl}/admin/shops`, (url) => axios(url).then(r => r.data))
-    console.log("data-teste", data)
     let passValid = false
-    
+
     //console.log(props)    
     const Router = useRouter()
 
     const [values, setValues] = useState()
     //console.log("Values", values)
-    const [userPerfil, setUserPerfil] = useState()
+    const date_at = props.data.birth_at ? new Date(props.data.birth_at).toISOString().split('T')[0] : null
+    const [userPerfil, setUserPerfil] = useState({ id: props.data.id, name: props.data.name, email: props.data.email, password: props.data.password, birth_at: date_at, level: props.data.level, photo: props.data.photo })
     //console.log("perfil", userPerfil)
 
     let [nameInput, setNameInput] = useState('')
@@ -47,9 +47,9 @@ export default function Index(props) {
     let [confirmPassword, setConfirmPassword] = useState('')
 
     const [inputLogo, setInputLogo] = useState('')
-    const [inputAvatar, setInputAvatar] = useState('')
+    const [inputAvatar, setInputAvatar] = useState(`${serverUrl}/admin/users/${props.data.id}/photo`)
     const [enableAvatar, setEnableAvatar] = useState(false)
-    console.log("enable", enableAvatar)
+    //console.log("enable", enableAvatar)
     
     const [menu, setMenu] = useState([])
     const [shop, setShop] = useState()
@@ -61,7 +61,6 @@ export default function Index(props) {
     const [shopPhotos, setShopPhotos] = useState()
 
     const [cinema, setCinema] = useState()
-    
     
     const [users, setUsers] = useState()
     //console.log("users", users)
@@ -162,18 +161,12 @@ export default function Index(props) {
 
             case "profile":
                 //console.log("Perfil...")
-                let date_at = new Date(props.data.birth_at).toISOString().split('T')[0]
-                setUserPerfil({ id: props.data.id, name: props.data.name, email: props.data.email, password: props.data.password, birth_at: date_at, level: props.data.level, photo: props.data.photo })
-                setInputAvatar(`${serverUrl}/admin/users/${props.data.id}/photo`)
                 setEnableAvatar(false)
                 setMenu({...menu,[0]:true, [1]:false})
                 break
 
             case "profileAdmin":
                     //console.log("Perfil...")
-                    date_at = new Date(props.data.birth_at).toISOString().split('T')[0]
-                    setUserPerfil({ id: props.data.id, name: props.data.name, email: props.data.email, password: props.data.password, birth_at: date_at, level: props.data.level, photo: props.data.photo })
-                    setInputAvatar(`${serverUrl}/admin/users/${props.data.id}/photo`)
                     setEnableAvatar(false)
                     setMenu({...menu,[0]:true, [1]:false, [2]:false, [3]:false})
                     break
@@ -183,11 +176,10 @@ export default function Index(props) {
                     //console.log("users...")
                     let res
                     try{ res = await axios.get(`${serverUrl}/admin/shop/${props.data.email}`, config)
-                        console.log("RES USERS", res.data)
+                        //console.log("RES USERS", res.data)
                         setShop(res.data)
                         //console.log("id", res.data.id)
                         setInputLogo(`${serverUrl}/admin/shops/${res.data.id}/photo/`)
-                        //`${serverUrl}/admin/shops/${shop.id}/photo/1`
                         setShopPhotos([`${serverUrl}/admin/shops/${res.data.id}/photo/1`, `${serverUrl}/admin/shops/${res.data.id}/photo/2`, `${serverUrl}/admin/shops/${res.data.id}/photo/3`, `${serverUrl}/admin/shops/${res.data.id}/photo/4`, `${serverUrl}/admin/shops/${res.data.id}/photo/5`, `${serverUrl}/admin/shops/${res.data.id}/photo/6`])
                         setEnableAvatar(false)
                         //setVisibleUser(res.data.map((contact, i) => false))
@@ -268,8 +260,6 @@ export default function Index(props) {
         setLastVisibleUser(index)    
         //console.log(visible)
     }
-    
-    
     //função que mostra/esconde as lojas 
     function handleClickShops(index) {
         
@@ -394,9 +384,48 @@ export default function Index(props) {
                 alert("Deu ruim")
             })
     }
+    //função para salvar os dados de todos os forms e salvar no state tbm
+    const handleForm = async e => {
+        e.preventDefault()
+        const model = e.target.id.split('-')[0]
+        const id = e.target.id.split('-')[1]
+        const theIndex = e.target.getAttribute('data-index')
+        const singleShop = e.target.getAttribute('data-shop')
+        //console.log("model",model, "id", id, "index", theIndex)  
 
-    
-    
+        let  dataForm = new FormData(e.target)
+        //console.log("form", ...dataForm)
+
+            if (confirm("Tem certeza que deseja salvar essas alterações?")){
+            //console.log(props.values, "token", config )
+            await axios.put(`${serverUrl}/admin/${model}/${id}`, dataForm, config)
+            .then((res)=>{
+                let message = props.model == "shops" ? "Alterações na sua loja salvas com sucesso!" : "Alterações em seu perfil salvas com sucesso!"
+                alert(message)
+                //console.log("res.data", res.data)
+                
+                switch (model) {
+                    case "shops":
+                        if(singleShop) {
+                            let newShop = [...shops]
+                            newShop[theIndex] = res.data
+                            setShops(newShop)
+                        } else {
+                            setShop(res.data)
+                        }
+                        break;
+                    case "cinema":
+                        let newMovie = [...cinema]   
+                        newMovie[theIndex] = res.data
+                        setCinema(newMovie)
+                        break;
+                    default:
+                        console.log("chegou aqui")
+                        setUserPerfil(res.data)
+                        break;
+                }
+            }).catch(err=>{alert("Deu ruim")}) }
+    }
     //funções para permitir que o User desista de trocar a senha
     function isFocus() {
         passValid = true
@@ -431,13 +460,13 @@ export default function Index(props) {
     }
     //função que armazena a nova senha nos estados
     const newPass = e=> {
-        newPassword = e.target.value
+        setNewPassword(e.target.value)
         //console.log(newPassword)
     }
     //função que verifica se as novas senhas são iguais
     const confirmPass = e=> {
-        setConfirmPassword(e.target.value)
-        if(confirmPassword != newPassword){
+        //setConfirmPassword(e.target.value)
+        if(e.target.value != newPassword){
             alert('Senhas não conferem')
             newPassInput.focus()
         } else if (newPassword == '') {
@@ -484,7 +513,7 @@ export default function Index(props) {
 
                             </Card>
                             
-                            <Card actions={<Button id={userPerfil.id} text="Salvar" action="save" values={values} model="users" />}>
+                            <Card >
                             
                                 <div className={styles.header}>
 
@@ -492,13 +521,15 @@ export default function Index(props) {
 
                                 </div>
 
-                                <form className={styles.form} >
+                                <form className={styles.form} id={"users-" + userPerfil.id} onSubmit={handleForm} >
                                     <div className={styles.fields}>
+                                        {console.log('formAdmin', userPerfil)}
                                         <Input type="text" name="name" defaultValue={userPerfil.name} label="Nome Completo" onChange={handleInputChange} onFocus={handleInputChange}/>
                                         <Input type="email" name="email" label="Email" defaultValue={userPerfil.email} onChange={handleInputChange} onFocus={handleInputChange} />
                                         {/* <Input type="tel" name="phone" label="Telefone" defaultValue={userPerfil.phone} onChange={handleInputChange} onFocus={handleInputChange} /> */}
                                         <Input type="date" name="birth_at" label="Data de Nascimento" defaultValue={userPerfil.birth_at} onChange={handleInputChange} onFocus={handleInputChange} />
                                     </div>
+                                    <Button text="Salvar" />
                                 </form>
                                 
                             </Card>
@@ -630,7 +661,7 @@ export default function Index(props) {
                                     {shops.map((shop, i) => 
                                     <div key={`CardShop${i}`} className={styles.mainCard} >
                                         
-                                        { visibleShops[i] && <CardShop id={shop.id} valueInput={values} values={shop} onChange={() =>handleIsOnline(i, shop.id)} onInputChange={handleInputChange}/>} 
+                                        { visibleShops[i] && <CardShop id={shop.id}  values={shop} index={i} onSubmit={handleForm} onChange={() =>handleIsOnline(i, shop.id)} onInputChange={handleInputChange}/>} 
                                         
                                     </div>
                                     ) }
@@ -680,7 +711,8 @@ export default function Index(props) {
                                 </form>
 
                             </Card>
-                            <Card actions={<Button id={userPerfil.id} text="Salvar" action="save" values={values} model="users" />}>
+                            
+                            <Card >
                             
                                 <div className={styles.header}>
 
@@ -688,13 +720,14 @@ export default function Index(props) {
 
                                 </div>
 
-                                <form className={styles.form} >
+                                <form className={styles.form} id={"users-" + userPerfil.id} onSubmit={handleForm} >
                                     <div className={styles.fields}>
                                         <Input type="text" name="name" defaultValue={userPerfil.name} label="Nome Completo" onChange={handleInputChange} onFocus={handleInputChange}/>
                                         <Input type="email" name="email" label="Email" defaultValue={userPerfil.email} onChange={handleInputChange} onFocus={handleInputChange} />
                                         {/* <Input type="tel" name="phone" label="Telefone" defaultValue={userPerfil.phone} onChange={handleInputChange} onFocus={handleInputChange} /> */}
                                         <Input type="date" name="birth_at" label="Data de Nascimento" defaultValue={userPerfil.birth_at} onChange={handleInputChange} onFocus={handleInputChange} />
                                     </div>
+                                    <Button text="Salvar" />
                                 </form>
                                 
                             </Card>
@@ -757,7 +790,8 @@ export default function Index(props) {
                                         </form>
 
                                     </Card>
-                                    <Card actions={<Button id={shop.id} text="Salvar" action="save" values={values} model="shops" />}>
+
+                                    <Card >
 
                                         <div className={styles.header}>
 
@@ -765,7 +799,7 @@ export default function Index(props) {
 
                                         </div>
 
-                                        <form className={styles.form} >
+                                        <form className={styles.form} id={"shops-" + shop.id} onSubmit={handleForm}>
                                             <div className={styles.fields}>
                                                 <Checkbox className={styles.checkBox} type="checkbox" name="isOnline" label="Online?" checked={shop.isOnline} onChange={() =>handleIsOnlineShop(shop.id)}/>
                                                 <Input type="text" name="name" defaultValue={shop.name} label="Nome da Loja" onChange={handleInputChange} onFocus={handleInputChange}/>
@@ -779,9 +813,8 @@ export default function Index(props) {
                                                 <Input type="text" name="website" label="Website" defaultValue={shop.website} onChange={handleInputChange}  />
                                                 <Input type="text" name="facebook" label="Facebook" defaultValue={shop.facebook} onChange={handleInputChange}  />
                                                 <Input type="text" name="instagram" label="Instagram" defaultValue={shop.instagram} onChange={handleInputChange}  />
-                                    
-                                                
                                             </div>
+                                            <Button text="Salvar" />
                                         </form>
 
                                     </Card>
@@ -994,7 +1027,8 @@ export default function Index(props) {
 
                             </Card>
 
-                            <Card actions={<Button id={userPerfil.id} text="Salvar" action="save" values={values} model="users" />}>
+                            
+                            <Card >
                             
                                 <div className={styles.header}>
 
@@ -1002,13 +1036,14 @@ export default function Index(props) {
 
                                 </div>
 
-                                <form className={styles.form} >
+                                <form className={styles.form} id={"users-" + userPerfil.id} onSubmit={handleForm} >
                                     <div className={styles.fields}>
                                         <Input type="text" name="name" defaultValue={userPerfil.name} label="Nome Completo" onChange={handleInputChange} />
                                         <Input type="email" name="email" label="Email" defaultValue={userPerfil.email} onChange={handleInputChange}  />
                                         {/* <Input type="tel" name="phone" label="Telefone" defaultValue={userPerfil.phone} onChange={handleInputChange}  /> */}
                                         <Input type="date" name="birth_at" label="Data de Nascimento" defaultValue={userPerfil.birth_at} onChange={handleInputChange}  />
                                     </div>
+                                    <Button text="Salvar" />
                                 </form>
                                 
                             </Card>
@@ -1066,16 +1101,16 @@ export default function Index(props) {
                                 {cinema.map((movie, i) => 
                                 <div key={`CardMovie${i}`} className={styles.mainCard} >
 
-                                    { visibleUser[i] && <CardCinema  values={movie} valuesForm={values} selectId={i} onChange={handleInputChange} onChangeCheck={() =>handleIsOnlineMovie(i, movie.id)} >
+                                    { visibleUser[i] && <CardCinema  values={movie} index={i} onChange={handleInputChange} onChangeCheck={() =>handleIsOnlineMovie(i, movie.id)} onSubmit={handleForm} >
                                         <form className={styles.formPost} id="cinema" data-idcinema={i} onSubmit={handleFormData}>
 
                                             <label className={styles.user} htmlFor="poster" >
                                                 {movie.photo ?
-                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja 1" src={inputLogo} className={styles.avatar} />
+                                                    <img alt="Clique para alterar o poster do filme" title="Clique para alterar o poster do filme" src={inputLogo} className={styles.avatar} />
                                                     : enableAvatar ?
-                                                    <img alt="Clique para alterar a Logo da sua Loja" title="Clique para alterar a Logo da sua Loja 2" src={inputLogo} className={styles.avatar} />
+                                                    <img alt="Clique para alterar o poster do filme" title="Clique para alterar o poster do filme" src={inputLogo} className={styles.avatar} />
                                                     :
-                                                    <img alt="Clique para adicionar a Logo da sua Loja" title="Clique adicionar a Logo da sua Loja" src="/images/photos/default-logo.svg" className={styles.avatar} />
+                                                    <img alt="Clique para adicionar o poster do filme" title="Clique adicionar o poster do filme" src="/images/photos/default-logo.svg" className={styles.avatar} />
                                                 }
                                             </label>
                                             <input type="file" id="poster" name="file" required onChange={handleLogo} hidden/>                                     

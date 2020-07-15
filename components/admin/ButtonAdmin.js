@@ -35,13 +35,13 @@ export default function Button(props){
                 } else {
                     console.log("Não tem nada pra salvar", props.values)
                 }
-                Router.reload()
+                // Router.reload()
                 break
             case "passwordChange":
                 await axios.put(`${serverUrl}/admin/users/${props.id}`, props.values, config).then((res)=>{
                     alert("Nova senha salva com sucesso")
                     Router.reload()
-                })
+                }).catch(err=>{alert("Não foi possível salvar a nova senha.")})
                 break
             case `newShop`:
                 let admin = props.values
@@ -65,9 +65,6 @@ export default function Button(props){
                 await axios.post(`${serverUrl}/admin/${props.model}`, movie, config)
                 alert('Parabéns! Você já pode editar seu NOVO filme.')
                 Router.reload()
-                break
-            case "editar":
-                Router.push(`/admin/${props.model}/${props.id}`)
                 break
             case "delete":
                 console.log(props.model)

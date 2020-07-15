@@ -97,17 +97,14 @@ export default function Slug(props) {
                 
                 <section className={styles.shopList}>
                         <img className={styles.storieLeft} alt="Jovens felizes assistindo um filme e comendo pipoca" src="/images/photos/cinema.svg"/>
-                        <ul className={styles.ulList}>
+                        <ul className={`${styles.ulList} ${styles.ulCinema}`}>
                             {shops.map((shop, i) => (
                                 
                                 <li key={`liShop${i}`} >
-                                    <div className={`${styles.shop} shopBg`} title={shop.name} >
+                                    <div className={`${styles.posterContent}`} title={shop.name} >
+                                            <img className={styles.poster} src={`${serverUrl}/admin/cinema/${shop.id}/photo`} />
                                             <span className={styles.shopName} >{shop.name}</span>
-                                            <style jsx>{`
-                                                    .shopBg {
-                                                        background-image: url(${`   ${serverUrl}/admin/cinema/${shop.id}/photo`}); 
-                                                    }
-                                            `}</style>
+                                            
                                     </div>
                                    
                                 </li>

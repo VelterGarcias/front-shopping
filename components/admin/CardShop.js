@@ -17,10 +17,10 @@ export default function Header(props){
                 <label>Nome:</label>
                 <h2>{props.values.name}</h2>
             
-            <div className={styles.row}>
+            <form className={styles.row} id={"shops-" + props.values.id} data-shop={true} data-index={props.index} onSubmit={props.onSubmit} >
                 <Input type="email" name="admin_mail" label="Email do Admin" defaultValue={props.values.admin_mail} onChange={props.onInputChange} onFocus={props.onInputChange} />
-                <Button id={props.values.id} action="save" model="shops" text="Salvar Novo Admin" values={props.valueInput} />
-            </div>
+                <Button text="Salvar Novo Admin" />
+            </form>
             <div className={styles.row}>
                 <label>Telefone Fixo:</label>
                 <a href={`tel:${props.values.phone}`} >{props.values.phone}</a>
