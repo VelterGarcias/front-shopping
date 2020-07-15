@@ -16,6 +16,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Cookies } from 'react-cookie'
 import {handleAuthSSR} from '../../utils/auth'
+import useSWR from 'swr'
 
 const cookies = new Cookies()
 const token = cookies.get('token')
@@ -28,6 +29,8 @@ export default function Index(props) {
     //     headers: "Content-Type: multipart/form-data"
     // }
 
+    const {data} = useSWR(`${serverUrl}/admin/shops`, (url) => axios(url).then(r => r.data))
+    console.log("data-teste", data)
     let passValid = false
     
     //console.log(props)    
@@ -1090,6 +1093,7 @@ export default function Index(props) {
                                         <div className={styles.newMovie} >
                                             <h2>Para adicionar um novo filme, clique no botão abaixo</h2>
                                             <Button text="Adicionar" action="newMovie" model="cinema" />
+                                            <Button text="Teste" action="teste" model="cinema" />
                                             <img alt="Adicione um novo filme clicando no botão" src="/images/photos/new-cinema.svg"/>
                                         
                                         </div>

@@ -14,7 +14,9 @@ export default function Button(props){
         headers: {Authorization: `Bearer ${token}`}
     }
 
-    
+    const testee = () => {
+        console.log("chegou aqui")
+    }
 
     const Router = useRouter()
     const handleClick = async e=>{
@@ -33,7 +35,7 @@ export default function Button(props){
                 } else {
                     console.log("Não tem nada pra salvar", props.values)
                 }
-                
+                Router.reload()
                 break
             case "passwordChange":
                 await axios.put(`${serverUrl}/admin/users/${props.id}`, props.values, config).then((res)=>{
@@ -83,6 +85,9 @@ export default function Button(props){
                         Router.reload()
                     }).catch(err=>{alert("Deu ruim")}) 
                 }
+                break
+            case "teste":
+                    testee()
                 break
         
         }

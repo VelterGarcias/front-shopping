@@ -101,16 +101,15 @@ export default function Slug(props) {
                             {shops.map((shop, i) => (
                                 
                                 <li key={`liShop${i}`} >
-                                    <Link href='/shop/[shopId]/[shop]' as={`/shop/${shop.id}/${shop.name.replace(' ', '-').toLowerCase()}`}  >
-                                        <a className={`${styles.shop} shopBg`} title={shop.name} >
+                                    <div className={`${styles.shop} shopBg`} title={shop.name} >
                                             <span className={styles.shopName} >{shop.name}</span>
                                             <style jsx>{`
                                                     .shopBg {
-                                                        background-image: url(${`   ${serverUrl}/admin/shops/${shop.id}/photo`}); 
+                                                        background-image: url(${`   ${serverUrl}/admin/cinema/${shop.id}/photo`}); 
                                                     }
                                             `}</style>
-                                        </a>
-                                    </Link>
+                                    </div>
+                                   
                                 </li>
                             ))}
                         </ul>
@@ -171,7 +170,7 @@ Slug.getInitialProps = async ({query}) =>{
             break
         case "cinema":
             
-            try{ res = await axios.get(`${serverUrl}/admin/shops/where/all`)
+            try{ res = await axios.get(`${serverUrl}/admin/cinema/where/all`)
                 //console.log("RES shops", res.data)
                 data = res.data
             }catch(err){ res = [] 
