@@ -1128,7 +1128,6 @@ export default function Index(props) {
                                         <div className={styles.newMovie} >
                                             <h2>Para adicionar um novo filme, clique no botão abaixo</h2>
                                             <Button text="Adicionar" action="newMovie" model="cinema" />
-                                            <Button text="Teste" action="teste" model="cinema" />
                                             <img alt="Adicione um novo filme clicando no botão" src="/images/photos/new-cinema.svg"/>
                                         
                                         </div>
@@ -1149,7 +1148,10 @@ export default function Index(props) {
             }
 
             { props.err &&
-                <h1>Admin - Está página não existe!</h1>
+                <div className="error" >
+                    <img alt="Não encontramos a página procurada" src="/images/photos/404.svg"/>
+                    <h1>Está página não existe!</h1>
+                </div>
             }
 
 

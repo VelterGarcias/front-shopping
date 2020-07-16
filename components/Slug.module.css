@@ -46,7 +46,13 @@
     padding: 40px 0;
     background-color: #8f2dff2e;
 }
-
+.shopList h2 {
+    margin: 10px auto;
+    width: 95%;
+    padding-left: 10px;
+    border-radius: 8px 0;
+    border-left: 5px solid var(--main);  
+}
 .storie {
     width: 80%;
     margin: 50px auto;
@@ -83,7 +89,10 @@
 
 .shopList .ulList.ulCinema li {
     height: initial;
+    margin: 20px auto;
 }
+
+
 
 .shopList .ulList li:hover {
     /* background-color: #ff8600a3; */
@@ -120,9 +129,126 @@
     margin: auto;
 }
 
+.shopList .ulList.ulCinema li:active .posterContent .poster,
+.shopList .ulList.ulCinema li:hover .posterContent .poster {
+    z-index: 0;  
+}
+
+.shopList .ulList.ulCinema li:active .posterContent .shopName.cinemaName,
+.shopList .ulList.ulCinema li:hover .posterContent .shopName.cinemaName {
+    margin: 10px 5px;
+    bottom: calc(95% - 38px);
+    font-size: 1.5em;
+    transition: all .2s ease-in-out;
+}
+
 .posterContent .poster {
     width: 100%;
     border-radius: 15px;
+    z-index: 1;
+}
+.shopList .ulList.ulCinema li:active .posterContent .details,
+.shopList .ulList.ulCinema li:hover .posterContent .details {
+    opacity: 100%;
+    transition: opacity .6s ease-in-out;
+}
+.shopList .ulList.ulCinema li .posterContent .details {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    padding-top: 55px;
+    background-color: #ffffffd8;
+    border-radius: 15px;
+    border: 1px solid #0000009c;
+    z-index: 1;
+    box-shadow: 0 0 13px black;
+    opacity: 0%;
+    transition: opacity .6s ease-in-out;
+}
+.details .detailsMain {
+    display: flex;
+    flex-direction: column;
+}
+.details .detailsMain .detailsCategory {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: -5px;
+}
+.details .detailsMain .detailsCategory p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.details .language {
+    background-color: #000000d6;
+    padding: 5px 20px;
+    color: white;
+    border-radius: 5px;
+}
+.posterContent .details .age {
+    padding: 9px;
+    margin: 20px 5px 5px 0;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+}
+.posterContent .details p {
+    margin: 0;
+    margin-left: 5px;
+    font-size: 1.2em;
+}
+
+.posterContent .details p.movieCategory {
+    font-size: 1em;
+    font-weight: 900;
+    text-transform: uppercase;
+    border: 1px solid;
+    padding: 5px;
+    color: black;
+    border-radius: 5px;
+}
+.posterContent .details p.movieSubCategory {
+    font-size: 1em;
+    font-weight: normal;
+    border: 1px solid;
+    padding: 5px;
+    color: rgb(43, 43, 43);
+    border-radius: 5px;
+}
+.posterContent .details p.movieLabel {
+    margin: 0;
+    margin-top: 8px;
+    font-size: 1em;
+    font-weight: bold;
+}
+.posterContent .details p.sinopse {
+    max-height: 145px;
+    font-size: .9em;
+    overflow: auto;
+}
+
+p.sinopse::-webkit-scrollbar-track{
+    -webkit-box-shadow:inset 0 0 5px rgba(42,42,42,.5);
+}
+p.sinopse::-webkit-scrollbar,
+p.sinopse::-webkit-scrollbar-track{
+    background-color:rgb(184, 184, 184);
+    border-radius:5px;
+}
+p.sinopse::-webkit-scrollbar{
+    width:3px;
+    height:5px;
+}
+p.sinopse::-webkit-scrollbar-thumb{
+    background-color:var(--main);
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px
 }
 
 .shopName {
@@ -135,6 +261,13 @@
     background-color: var(--second);
     border-radius: 15px 0 15px 15px;
     box-shadow: 0 0 5px #000000c2;
+}
+.shopName.cinemaName {
+    bottom: 6px;
+    left: 4px;
+    background-color: #f9a825;
+    z-index: 1;
+    transition: all .2s ease-in-out;
 }
 
 
@@ -176,6 +309,7 @@
 .photos {
     width: 25%;
 }
+
 
 
 

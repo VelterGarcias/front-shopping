@@ -26,12 +26,13 @@ export default function Slug(props) {
             
             { props.alimentacao && 
                 <>
-                <header className={`${styles.pageHeader} ${styles.food}`}>
-                    <div className={styles.title} >
-                        <h1>Alimentação</h1>
-                    </div>
-                </header>
-                <section className={styles.shopList}>
+                    <header className={`${styles.pageHeader} ${styles.food}`}>
+                        <div className={styles.title} >
+                            <h1>Alimentação</h1>
+                        </div>
+                    </header>
+                    <section className={styles.shopList}>
+                        <h2>O melhor da gastronomia está no Valentin Shopping Center</h2>
                         <img className={styles.storieLeft} alt="Homem em uma mesa tomando vinho e comendo" src="/images/photos/food.svg"/>
                         <ul className={styles.ulList}>
                             {shops.map((shop, i) => (
@@ -63,6 +64,7 @@ export default function Slug(props) {
                         </div>
                     </header>
                     <section className={styles.shopList}>
+                        <h2>Para todos os estilos e todas as idades!</h2>
                         <img className={styles.storieLeft} alt="Mulher olhando as vitrines do Shopping" src="/images/photos/lojas2.svg"/>
                         <ul className={styles.ulList}>
                             {shops.map((shop, i) => (
@@ -101,9 +103,60 @@ export default function Slug(props) {
                             {shops.map((shop, i) => (
                                 
                                 <li key={`liShop${i}`} >
+                                    
                                     <div className={`${styles.posterContent}`} title={shop.name} >
+                                            <div className={styles.details} >
+                                                <div className={styles.detailsMain}>
+                                                    { shop.category && <div className={styles.detailsCategory}>
+                                                        <p className={styles.movieCategory}>{shop.category}</p>
+                                                        {shop.sub_category && 
+                                                            <p className={styles.movieSubCategory}>{shop.sub_category}
+                                                        </p> }
+                                                    </div> }
+                                                    
+                                                    {shop.description && <>
+                                                        <p className={styles.movieLabel} >Sinopse:</p>
+                                                        <p className={styles.sinopse}>{shop.description}</p> 
+                                                    </>}
+                                                </div>
+
+                                                { shop.age && <p className={`${styles.age} cor${shop.age}`} >
+                                                { shop.age == 1 ? 'L' :
+                                                    shop.age == 2 ? '12' :
+                                                    shop.age == 3 ? '14' :
+                                                        shop.age == 4 ? '16' :
+                                                        shop.age == 5 ? '+18' : "erro"}
+                                                    <style jsx>{`
+                                                        .cor1 {
+                                                            background-color: #00BB22; 
+                                                        }
+                                                        .cor2 {
+                                                            background-color: #EDCB0C;                                                            
+                                                        }
+                                                        .cor3 {
+                                                            background-color: #F6962D;                                                            
+                                                        }
+                                                        .cor4 {
+                                                            background-color: #DD021C;                                                            
+                                                        }
+                                                        .cor5 {
+                                                            background-color: #000000;                                                            
+                                                        }
+                                                    `}</style>
+                                                </p> }
+                                                
+                                                { shop.language && 
+                                                <div className={styles.language}>
+                                                    <p>
+                                                        {shop.language == 0 ? "Legendado" : 
+                                                        shop.language == 1 ? "Dublado" :
+                                                        shop.language == 2 ? "Dublado/Legendado" :
+                                                        shop.language == 3 ? "Português" : null}
+                                                    </p> 
+                                                </div> }
+                                            </div>
                                             <img className={styles.poster} src={`${serverUrl}/admin/cinema/${shop.id}/photo`} />
-                                            <span className={styles.shopName} >{shop.name}</span>
+                                            <span className={`${styles.shopName} ${styles.cinemaName}`} >{shop.name}</span>
                                             
                                     </div>
                                    
@@ -117,7 +170,10 @@ export default function Slug(props) {
             }
 
             { props.err &&
-                <h1>Está página não existe!</h1>
+                <div className="error" >
+                    <img alt="Não encontramos a página procurada" src="/images/photos/404.svg"/>
+                    <h1>Está página não existe!</h1>
+                </div>
             }
 
             

@@ -37,11 +37,11 @@ export default function Header(props){
                 <div className={styles.field}>
                     <label htmlFor={"age-" + props.values.id}>Idade</label>
                     <select id={"age-" + props.values.id} name="age" defaultValue={props.values.age} onChange={props.onChange} >
-                        <option value="0" >Livre</option>
-                        <option value="1" >12</option>
-                        <option value="2" >14</option>
-                        <option value="3" >16</option>
-                        <option value="4" >+18</option>
+                        <option value="1" >Livre</option>
+                        <option value="2" >12</option>
+                        <option value="3" >14</option>
+                        <option value="4" >16</option>
+                        <option value="5" >+18</option>
                     </select>
                 </div>
                 <Textarea name="description" label="Descrição" defaultValue={props.values.description} onChange={props.onChange} /> 
