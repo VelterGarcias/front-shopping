@@ -14,6 +14,10 @@ export default function Button(props){
         headers: {Authorization: `Bearer ${token}`}
     }
 
+    const testee = () => {
+        console.log("chegou aqui")
+    }
+
     const Router = useRouter()
     const handleClick = async e=>{
         //console.log(props.action)
@@ -26,18 +30,18 @@ export default function Button(props){
                     .then((res)=>{
                         let message = props.model == "shops" ? "Alterações na sua loja salvas com sucesso!" : "Alterações em seu perfil salvas com sucesso!"
                         alert(message)
-                        Router.reload()
+                        
                     }).catch(err=>{alert("Deu ruim")}) }
                 } else {
                     console.log("Não tem nada pra salvar", props.values)
                 }
-                
+                // Router.reload()
                 break
             case "passwordChange":
                 await axios.put(`${serverUrl}/admin/users/${props.id}`, props.values, config).then((res)=>{
                     alert("Nova senha salva com sucesso")
                     Router.reload()
-                })
+                }).catch(err=>{alert("Não foi possível salvar a nova senha.")})
                 break
             case `newShop`:
                 let admin = props.values
@@ -52,8 +56,15 @@ export default function Button(props){
                 alert('Parabéns! Você já pode editar a sua nova loja')
                 Router.reload()
                 break
-            case "editar":
-                Router.push(`/admin/${props.model}/${props.id}`)
+            case `newMovie`:
+                let movie = {
+                    "name": "NOVO",
+                    "category": "Adicione aqui a categoria",
+                    "isOnline": false
+                    }
+                await axios.post(`${serverUrl}/admin/${props.model}`, movie, config)
+                alert('Parabéns! Você já pode editar seu NOVO filme.')
+                Router.reload()
                 break
             case "delete":
                 console.log(props.model)
@@ -71,6 +82,9 @@ export default function Button(props){
                         Router.reload()
                     }).catch(err=>{alert("Deu ruim")}) 
                 }
+                break
+            case "teste":
+                    testee()
                 break
         
         }

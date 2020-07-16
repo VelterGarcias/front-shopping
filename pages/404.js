@@ -1,19 +1,14 @@
 import Layout from '../components/Layout'
 
-//import Link from 'next/link';
-
-
-
 export default function Error() {
 
     return (
         
         <Layout pageTitle="Valentin Shopping Center" >
-
-            
-            <h1>Página não encontrada</h1>
-            
-
+            <div className="error" >
+                <img alt="Não encontramos a página procurada" src="/images/photos/404.svg"/>
+                <h1>Está página não existe!</h1>
+            </div>
         </Layout>
     )
 }

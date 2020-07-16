@@ -24,7 +24,19 @@ main {
     display: flex;
     flex-direction: column;
 }
-
+.error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 0;
+}
+.error img {
+    width: 80%;
+}
+.error h1 {
+    color: var(--main);
+}
 .show-desktop {
     display: none;
 }

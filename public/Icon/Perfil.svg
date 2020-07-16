@@ -7,15 +7,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="36.743"
-   height="22.689"
-   viewBox="0 0 36.743 22.689"
+   width="32"
+   height="32"
+   viewBox="0 0 32 32"
    version="1.1"
-   id="svg4"
-   sodipodi:docname="icon-arrow-up.svg"
+   id="svg5"
+   sodipodi:docname="user.svg"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
   <metadata
-     id="metadata10">
+     id="metadata11">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -26,7 +26,7 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs8" />
+     id="defs9" />
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -38,19 +38,31 @@
      inkscape:pageshadow="2"
      inkscape:window-width="1366"
      inkscape:window-height="705"
-     id="namedview6"
+     id="namedview7"
      showgrid="false"
-     inkscape:zoom="5.184661"
-     inkscape:cx="19.980706"
-     inkscape:cy="15.339731"
+     inkscape:zoom="7.375"
+     inkscape:cx="16"
+     inkscape:cy="16"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg4" />
+     inkscape:current-layer="svg5" />
   <path
-     d="M 6.8548719,20.538353 18.379304,9.0393394 29.902915,20.538353 c 0.89004,0.888138 2.877188,1.03054 3.845701,0.166338 0.898959,-0.802139 0.86285,-2.537192 -0.305966,-3.706073 L 18.379304,1.9344514 3.3151373,16.998618 c -1.1073134,1.107312 -1.1459804,3.054511 -0.1573842,3.862547 0.9582016,0.783191 2.9153242,0.457257 3.6971188,-0.322812 z"
-     id="path2"
-     style="fill:#a100f5;fill-opacity:1;stroke-width:0.81995243"
-     inkscape:connector-curvature="0"
-     sodipodi:nodetypes="scssscsss" />
+     style="fill:#dddddd;stroke-width:1.61985469"
+     d="M 16.067797,14.786924 A 4.8595642,4.8595642 0 1 0 11.208233,9.9273602 4.8385061,4.8385061 0 0 0 16.067797,14.786924 Z"
+     id="path824"
+     inkscape:connector-curvature="0" />
+  <path
+     style="fill:#dddddd;stroke-width:1.61985469"
+     d="m 16.067797,18.026634 c -3.774261,0 -11.3389836,1.89523 -11.3389836,5.669491 v 4.049637 H 27.40678 v -4.049637 c 0,-3.774261 -7.564721,-5.669491 -11.338983,-5.669491 z"
+     id="path822"
+     inkscape:connector-curvature="0" />
+  <rect
+     style="fill:none"
+     y="0"
+     x="0"
+     height="32"
+     width="32"
+     data-name="Retângulo 57"
+     id="Retângulo_57" />
 </svg>

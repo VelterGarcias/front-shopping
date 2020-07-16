@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 export default function LayoutAdmin(props){
     const Router = useRouter()
     
-    let menu = props.textHeader[0] ? props.menu1Label : props.textHeader[1] ? props.menu2Label : props.textHeader[2] ? props.menu3Label : "Bem Vindo"
+    let menu = props.textHeader[0] ? props.menu1Label : props.textHeader[1] ? props.menu2Label : props.textHeader[2] ? props.menu3Label : props.textHeader[3] ? props.menu4Label : "Bem Vindo"
 
     
     
@@ -67,19 +67,28 @@ export default function LayoutAdmin(props){
 
                     {props.menu3 && 
                     <a onClick={props.menu3} title={props.menu3Label} >{props.menu3Label}</a> }
-               
+                    
+                    {props.menu4 && 
+                            <a onClick={props.menu4} title={props.menu4Label} >{props.menu4Label}</a> }
+                    
                 </nav>
                 <nav className={styles.navMobile}>                    
                     
-                    <a onClick={props.menu1} title={props.menu1Label} ><img srcSet="/Icon/icon-contacts.svg"/></a>
+                    <a onClick={props.menu1} title={props.menu1Label} ><img srcSet={`/Icon/${props.menu1Label}.svg`}/></a>
                     
-                    <a onClick={props.menu2} title={props.menu2Label} ><img srcSet="/Icon/icon-users.svg"/></a>
+                    <a onClick={props.menu2} title={props.menu2Label} ><img srcSet={`/Icon/${props.menu2Label}.svg`} /></a>
 
                     {props.menu3 && 
-                    <a onClick={props.menu3} title={props.menu3Label} ><img srcSet="/Icon/icon-posts.svg"/></a>}
+                    <a onClick={props.menu3} title={props.menu3Label} ><img srcSet={`/Icon/${props.menu3Label}.svg`}/></a>}
+                    
+                    {props.menu4 && 
+                    <a onClick={props.menu4} title={props.menu4Label} ><img srcSet={`/Icon/${props.menu4Label}.svg`}/></a>}
                     
                 </nav>
-                <a onClick={props.logout} title="Sair" className={styles.logOut}><img srcSet="/Icon/icon-logout.svg"/></a>
+                <a onClick={props.logout} title="Sair" className={styles.logOut}>
+                    <img srcSet="/Icon/icon-logout.svg"/>
+                    <span>Sair</span>
+                </a>
                  
             </header>
             <div className={styles.mainAdmin}>

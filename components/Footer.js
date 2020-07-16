@@ -3,6 +3,7 @@ import LinkItem from './LinkItem';
 import Link from 'next/link';
 import React from 'react';
 
+
 export default function Footer(){
 
     const LinkMenu = (itens) => (
@@ -13,9 +14,10 @@ export default function Footer(){
         </li>
     )
 
+
     return(
             <footer id={styles.footer}>
-                <button type="button">
+                <button title="Voltar ao topo" type="button" >
                     <img src="/images/icon-arrow-up.svg" alt="up" />
                 </button>
                 <div className={styles.columns}>

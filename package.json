@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "react-cookie": "^4.0.3"
+    "react-cookie": "^4.0.3",
+    "swr": "^0.2.3"
   }
 }
