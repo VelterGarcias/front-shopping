@@ -61,6 +61,7 @@ export default function Index(props) {
     const [shopPhotos, setShopPhotos] = useState()
 
     const [cinema, setCinema] = useState()
+    console.log("cinema",cinema)
     
     const [users, setUsers] = useState()
     //console.log("users", users)
@@ -475,6 +476,42 @@ export default function Index(props) {
         }
         //console.log(newPassword, confirmPassword)
     }
+
+    const [texto, setTexto] = useState('Valor')
+    const [num, setNum] = useState()
+    console.log("teste", num, texto)
+
+    function updateStates(action, data, model, id, index) {
+        console.log("res", action)
+        console.log("update",data)
+        console.log("action",action)
+        console.log("model",model)
+        console.log("id",id)
+        console.log("index",index)
+        switch (action) {
+            case 'newMovie':
+                let newMovie = [...cinema]
+                newMovie[cinema.length] = data
+                setCinema(newMovie)
+                break;
+            case 'delete':
+                if (model == "cinema") {
+                    let newMovie = [...cinema]
+                    newMovie.splice(index, 1)
+                    setCinema(newMovie)
+                }
+                
+                break;
+        
+            default:
+                break;
+        }
+        
+        
+        //setCinema({...cinema, [cinema.length] : data})
+    }
+
+
 
     return (
 
@@ -1101,8 +1138,8 @@ export default function Index(props) {
                                 {cinema.map((movie, i) => 
                                 <div key={`CardMovie${i}`} className={styles.mainCard} >
 
-                                    { visibleUser[i] && <CardCinema  values={movie} index={i} onChange={handleInputChange} onChangeCheck={() =>handleIsOnlineMovie(i, movie.id)} onSubmit={handleForm} >
-                                        <form className={styles.formPost} id="cinema" data-idcinema={i} onSubmit={handleFormData}>
+                                    { visibleUser[i] && <CardCinema  values={movie} index={i} onChange={handleInputChange} onChangeCheck={() =>handleIsOnlineMovie(i, movie.id)} onSubmit={handleForm} updateState={updateStates} >
+                                        <form className={styles.formPost} id="cinema" data-idcinema={i} onSubmit={handleFormData} >
 
                                             <label className={styles.user} htmlFor="poster" >
                                                 {movie.photo ?
@@ -1127,7 +1164,9 @@ export default function Index(props) {
                                     <div className={styles.mainCard} >
                                         <div className={styles.newMovie} >
                                             <h2>Para adicionar um novo filme, clique no botão abaixo</h2>
-                                            <Button text="Adicionar" action="newMovie" model="cinema" />
+                                            <Button text="Adicionar" action="newMovie"  updateStateParent={updateStates} model="cinema" />
+                                            <hr/>
+                                            <Button text="Teste" action="teste" updateStateParent={updateStates} model="cinema" />
                                             <img alt="Adicione um novo filme clicando no botão" src="/images/photos/new-cinema.svg"/>
                                         
                                         </div>

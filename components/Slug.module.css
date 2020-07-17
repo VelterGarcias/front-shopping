@@ -144,6 +144,7 @@
 
 .posterContent .poster {
     width: 100%;
+    min-height: 366px;
     border-radius: 15px;
     z-index: 1;
 }
@@ -229,6 +230,10 @@
 }
 .posterContent .details p.sinopse {
     max-height: 145px;
+    width: 100%;
+    margin-top: 5px;
+    margin-left: 0px;
+    padding-right: 5px;
     font-size: .9em;
     overflow: auto;
 }

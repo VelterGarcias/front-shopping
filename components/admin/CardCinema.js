@@ -6,7 +6,10 @@ import Checkbox from './Checkbox'
 
 export default function Header(props){
 
-    
+    function update(action, data, model, id, index) {
+        props.updateState(action, data, model, id, index)
+    }
+        
     
     return(
 
@@ -47,10 +50,8 @@ export default function Header(props){
                 <Textarea name="description" label="Descrição" defaultValue={props.values.description} onChange={props.onChange} /> 
                 
                 <Button  text="Salvar" />
-
-            <Button id={props.values.id} action="delete" model="cinema" text="Excluir Filme" />
-
         </form>
+        <Button id={props.values.id} action="delete" updateStateParent={update} index={props.index} model="cinema" text="Excluir Filme" />
             <div className={styles.column}>
                 <p>Registrado em: </p>
                 <p>{props.values.created_at}</p>

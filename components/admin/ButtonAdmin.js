@@ -62,17 +62,20 @@ export default function Button(props){
                     "category": "Adicione aqui a categoria",
                     "isOnline": false
                     }
-                await axios.post(`${serverUrl}/admin/${props.model}`, movie, config)
-                alert('Parabéns! Você já pode editar seu NOVO filme.')
-                Router.reload()
+                await axios.post(`${serverUrl}/admin/${props.model}`, movie, config).then(res=>{
+                    props.updateStateParent(props.action, res.data)
+                    alert('Parabéns! Você já pode editar seu NOVO filme.')
+                }).catch(err=>{alert("Deu ruim")}) 
+                
                 break
             case "delete":
                 console.log(props.model)
                 if (confirm("Tem certeza que deseja excluir?")){
                     await axios.delete(`${serverUrl}/admin/${props.model}/${props.id}`, config).then(res=>{
+                        props.updateStateParent(props.action, res.data, props.model, props.id, props.index )
                         alert(`Sucesso! ${props.model} com id: ${props.id} Deletado.`  )
-                        Router.reload()
-                    }).catch(err=>{alert("Deu ruim")}) }
+                        //Router.reload()
+                    }) }
                 break
             case "deletePhoto":
                 console.log(props.values)
@@ -84,11 +87,14 @@ export default function Button(props){
                 }
                 break
             case "teste":
-                    testee()
+                props.updateStateParent("nameState", "data", "id")
                 break
         
         }
     }
+
+
+    
     return(
         <button className={styles.buttonAdmin} onClick={ props.click ? props.click :handleClick } >{props.text}</button>
     )
