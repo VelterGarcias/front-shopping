@@ -53,6 +53,7 @@ export default function Index(props) {
     
     const [menu, setMenu] = useState([])
     const [shop, setShop] = useState()
+    //console.log("shop",shop)
     //console.log(menu)
 
     const [shops, setShops] = useState()
@@ -61,7 +62,7 @@ export default function Index(props) {
     const [shopPhotos, setShopPhotos] = useState()
 
     const [cinema, setCinema] = useState()
-    console.log("cinema",cinema)
+    //console.log("cinema",cinema)
     
     const [users, setUsers] = useState()
     //console.log("users", users)
@@ -477,17 +478,13 @@ export default function Index(props) {
         //console.log(newPassword, confirmPassword)
     }
 
-    const [texto, setTexto] = useState('Valor')
-    const [num, setNum] = useState()
-    console.log("teste", num, texto)
-
     function updateStates(action, data, model, id, index) {
-        console.log("res", action)
-        console.log("update",data)
-        console.log("action",action)
-        console.log("model",model)
-        console.log("id",id)
-        console.log("index",index)
+        // console.log("res", action)
+        // console.log("update",data)
+        // console.log("action",action)
+        // console.log("model",model)
+        // console.log("id",id)
+        // console.log("index",index)
         switch (action) {
             case 'newMovie':
                 let newMovie = [...cinema]
@@ -500,9 +497,13 @@ export default function Index(props) {
                     newMovie.splice(index, 1)
                     setCinema(newMovie)
                 }
-                
                 break;
-        
+            case 'deletePhoto':
+                setShop(data)
+                break;
+            case 'newShop':
+                setShop(data)
+                break;
             default:
                 break;
         }
@@ -856,7 +857,7 @@ export default function Index(props) {
 
                                     </Card>
 
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={1} model="shops" />} >
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={1} model="shops" updateStateParent={updateStates} />} >
 
                                         <div className={styles.header}>
 
@@ -881,7 +882,7 @@ export default function Index(props) {
                                         </form>
 
                                     </Card>
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={2} model="shops" />} >
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={2} model="shops"  updateStateParent={updateStates} />} >
 
                                         <div className={styles.header}>
 
@@ -906,7 +907,7 @@ export default function Index(props) {
 
                                     </Card>
 
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={3} model="shops" />} >
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={3} model="shops"  updateStateParent={updateStates} />} >
 
                                         <div className={styles.header}>
 
@@ -931,7 +932,7 @@ export default function Index(props) {
 
                                     </Card>
 
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={4} model="shops" />} >
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={4} model="shops"  updateStateParent={updateStates} />} >
 
                                         <div className={styles.header}>
 
@@ -956,7 +957,7 @@ export default function Index(props) {
 
                                     </Card>
 
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={5} model="shops" />} >
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={5} model="shops"  updateStateParent={updateStates} />} >
 
                                         <div className={styles.header}>
 
@@ -981,7 +982,7 @@ export default function Index(props) {
 
                                     </Card>
 
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={6} model="shops" />} >
+                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={6} model="shops"  updateStateParent={updateStates} />} >
 
                                         <div className={styles.header}>
 
@@ -1012,7 +1013,7 @@ export default function Index(props) {
                                 <div className={styles.alert} >  {/* Já tem permissão mas ainda não criou a loja */}
                                     <img alt="Parabéns! Você está quase lá" src="/images/photos/progress.svg"/>
                                     <h2>Parabéns! Você já pode cadastrar a sua loja!</h2>
-                                    <Button id={shop.id} text="Começar agora mesmo" action="newShop" values={props.data.email} model="shops" />
+                                    <Button id={shop.id} text="Começar agora mesmo" action="newShop" values={props.data.email} model="shops"  updateStateParent={updateStates} />
                                 </div> :
                                 
                                 <div className={styles.alert} > {/* Ainda não tem permissão pra criar a loja */}
@@ -1165,8 +1166,8 @@ export default function Index(props) {
                                         <div className={styles.newMovie} >
                                             <h2>Para adicionar um novo filme, clique no botão abaixo</h2>
                                             <Button text="Adicionar" action="newMovie"  updateStateParent={updateStates} model="cinema" />
-                                            <hr/>
-                                            <Button text="Teste" action="teste" updateStateParent={updateStates} model="cinema" />
+                                            {/* <hr/>
+                                            <Button text="Teste" action="teste" updateStateParent={updateStates} model="cinema" /> */}
                                             <img alt="Adicione um novo filme clicando no botão" src="/images/photos/new-cinema.svg"/>
                                         
                                         </div>

@@ -52,9 +52,11 @@ export default function Button(props){
                     "admin_mail": admin,
                     "isOnline":false
                     }
-                await axios.post(`${serverUrl}/admin/${props.model}`, shop, config)
-                alert('Parabéns! Você já pode editar a sua nova loja')
-                Router.reload()
+                await axios.post(`${serverUrl}/admin/${props.model}`, shop, config).then(res=>{
+                    props.updateStateParent(props.action, res.data)
+                    alert('Parabéns! Você já pode editar a sua nova loja')
+                }).catch(err=>{alert("Deu ruim")}) 
+                
                 break
             case `newMovie`:
                 let movie = {
@@ -81,8 +83,9 @@ export default function Button(props){
                 console.log(props.values)
                 if (confirm("Tem certeza que deseja excluir essa foto?")){
                     await axios.delete(`${serverUrl}/admin/shops/${props.id}/photo/${props.values}`, config).then(res=>{
+                        props.updateStateParent(props.action, res.data, props.model, props.id, `photo${props.values}` )
                         alert(`Sucesso! ${props.model} com id: ${props.id} Deletado.`  )
-                        Router.reload()
+                        // Router.reload()
                     }).catch(err=>{alert("Deu ruim")}) 
                 }
                 break
