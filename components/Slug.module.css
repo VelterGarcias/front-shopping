@@ -150,7 +150,8 @@
 }
 .shopList .ulList.ulCinema li:active .posterContent .details,
 .shopList .ulList.ulCinema li:hover .posterContent .details {
-    opacity: 100%;
+    opacity: 1;
+    transition: opacity .6s ease-in-out;
 }
 .shopList .ulList.ulCinema li .posterContent .details {
     position: absolute;
@@ -167,7 +168,7 @@
     border: 1px solid #0000009c;
     z-index: 1;
     box-shadow: 0 0 13px black;
-    opacity: 0%;
+    opacity: 0;
     transition: opacity .6s ease-in-out;
 }
 .details .detailsMain {
