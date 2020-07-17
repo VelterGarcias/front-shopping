@@ -151,7 +151,6 @@
 .shopList .ulList.ulCinema li:active .posterContent .details,
 .shopList .ulList.ulCinema li:hover .posterContent .details {
     opacity: 100%;
-    transition: opacity .6s ease-in-out;
 }
 .shopList .ulList.ulCinema li .posterContent .details {
     position: absolute;
@@ -320,9 +319,7 @@ p.sinopse::-webkit-scrollbar-thumb{
 
 @media (min-width: 768px) {
 
-    .shopList {
-        
-    }
+
 
     .messages {
         width: 62%;
