@@ -145,7 +145,7 @@ export default function Slug(props) {
                                                     `}</style>
                                                 </p> }
                                                 
-                                                { shop.language && 
+                                                { shop.language != null && 
                                                 <div className={styles.language}>
                                                     <p>
                                                         {shop.language == 0 ? "Legendado" : 
