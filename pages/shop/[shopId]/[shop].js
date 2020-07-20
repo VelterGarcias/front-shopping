@@ -43,7 +43,7 @@ export default function Shop(props) {
                         <p className={styles.description}>{shop.description}</p> 
                     </li>}
                     { shop.adress && <li>
-                        <img src="/images/social/facebook.svg"/>
+                        <img src="/images/social/maps.svg"/>
                         <p>{shop.adress}</p> 
                     </li> }
                     { shop.phone && <li>

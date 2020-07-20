@@ -53,6 +53,19 @@
     border-radius: 8px 0;
     border-left: 5px solid var(--main);  
 }
+.cinemark {
+    display: flex;
+    flex-direction: column;
+}
+.cinemark img {
+    display: flex;
+    flex-direction: column;
+    height: 70px;
+}
+.cinemark p {
+    margin: 0;
+    padding-left: 10px;
+}
 .storie {
     width: 80%;
     margin: 50px auto;

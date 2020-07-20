@@ -17,13 +17,11 @@
     box-shadow: 0 0 9px #00000087;
 }
 .shops {
-    background-image: url(/images/photos/topo_contato.jpg);
+    background-image: url('/images/photos/topo_contato.jpg');
 }
-.food {
-    background-image: url(/images/photos/topo_contato.jpg);
-}
+
 .cinema {
-    background-image: url(/images/photos/topo_contato.jpg);
+    background-image: url('/images/photos/topo_contato.jpg');
 }
 
 .pageHeader .title {
@@ -40,28 +38,115 @@
 }
 
 .section {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
     padding: 40px 0;
     background-color: #8f2dff2e;
 }
+
+.section.food {
+    background-image: url("/images/photos/alimentação.png");
+    background-size: cover;
+    background-position: center;
+    padding: 30px 0 10px 0;
+    box-shadow: 0 0 15px black;
+}
+.section.cine {
+    background-image: url("/images/photos/cinema-home.jpg");
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 15px black;
+}
+
+
 .section h2 {
     margin: 10px auto;
     width: 95%;
+    font-size: 1.8em;
     padding-left: 10px;
     border-radius: 8px 0;
     border-left: 5px solid var(--main);
+}
+
+.section.food h2,
+.section.cine h2,
+.section.banner h2 {
+    color: var(--subtitle2);
+}
+.section.banner {
+    min-height: 480px;
 }
 .section p {
     padding: 5px 20px;
     text-align: center;
     font-size: 1.2em;
 }
+.section.food > p {
+    padding: 5px 20px;
+    margin-top: 80px;
+    margin-bottom: 0;
+    text-align: center;
+    color: white;
+    background-color: #fc7800a3;
+    font-size: 1.2em;
+}
+
+.section.cine img {
+    width: 225px;
+    margin: 10px auto;
+    position: absolute;
+    top: 34px;
+    right: 0;
+}
+.section.cine p {
+    color: white;
+}
+
+.btn {
+    background-color: var(--main);
+    color: var(--white);
+    width: 130px;
+    margin: 5px;
+    border-radius: 12px;
+    justify-content: center;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    align-self: center;
+}
+
+.btn:hover {
+    background-color: var(--second);
+}
+
+.btn p {
+    padding: 10px 20px;
+    text-align: center;
+    margin: 0;
+    font-size: 1.2em;
+}
+.section.food .btn {
+    background-color: var(--btn-food);
+}
+
+.section.food .btn:hover {
+    background-color: var(--btn-food-hover);
+}
+
+.section.cine .btn {
+    width: 180px;
+}
 .section p strong {
     color: var(--main);
 }
-
+.section.shop > p {
+    margin: 0;
+    text-align: center;
+    font-size: 1.2em;
+}
 .storie {
     width: 80%;
     margin: 10px auto;
@@ -74,28 +159,27 @@
 
 .section ul {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     margin: 10px;
     padding: 0;
 }
 .section ul li {
     margin: 10px;
     font-size: 1.2em;
-    display: list-item;
-    list-style: inside;
 }
 
 .highlights {
-    width: 45%;
-    max-width: 200px;
-    height: 105px;
+    width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 8px;
     background-color: #edcffd;
-    border-radius: 20px 0 20px 0;
+    border-radius: 20px;
     justify-content: center;
     border: 1px solid #a715f478;
     box-shadow: 0 0 10px #a600ffa1;
@@ -107,8 +191,29 @@
 }
 .highlights p {
     margin: 0;
-    padding: 10px;
+    padding: 20px;
+    font-size: 1em;
 }
+.parking {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 20px;
+}
+.highlights .parking p {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+.highlights img {
+    margin-top: 20px;
+    height: 55px;
+}
+.highlights img.bank {
+    border-radius: 12px;
+    height: 45px;
+}
+
 .row {
     display: flex;
     flex-direction: row;
@@ -117,7 +222,13 @@
     flex-wrap: wrap;
     margin: 20px 0;
 }
-
+.videoBg {
+    width: 100%;
+    filter: blur(0px);
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
 
 
 @media (min-width: 768px) {
