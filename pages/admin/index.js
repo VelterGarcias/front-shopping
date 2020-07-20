@@ -386,7 +386,7 @@ export default function Index(props) {
                 alert("Deu ruim")
             })
     }
-    //função para salvar os dados de todos os forms e salvar no state tbm
+    //função para salvar os dados de todos os forms e salvar no state tbm 
     const handleForm = async e => {
         e.preventDefault()
         const model = e.target.id.split('-')[0]
@@ -397,6 +397,7 @@ export default function Index(props) {
 
         let  dataForm = new FormData(e.target)
         //console.log("form", ...dataForm)
+        //console.log(dataForm.get('email') == userPerfil.email)
 
             if (confirm("Tem certeza que deseja salvar essas alterações?")){
             //console.log(props.values, "token", config )
@@ -422,11 +423,41 @@ export default function Index(props) {
                         setCinema(newMovie)
                         break;
                     default:
-                        console.log("chegou aqui")
+                        if(dataForm.get('email') != userPerfil.email) {
+                            const newEmailAdmin = {
+                                'admin_mail': dataForm.get('email')
+                            }
+                            axios.get(`${serverUrl}/admin/shop/${userPerfil.email ? userPerfil.email : props.data.email}`, config)
+                            .then((res)=>{
+                                
+                                axios.put(`${serverUrl}/admin/shops/${res.data.id}`, newEmailAdmin, config)
+                                .then((res)=>{
+                                    //console.log("RES newEmailAdmin", res.data)
+                                    alert("A sua loja já está com o Email de Admin sincronizado!")
+
+                                    //console.log("RES USERS", res.data)
+                                    setShop(res.data)
+                                    // //console.log("id", res.data.id)
+                                    setInputLogo(`${serverUrl}/admin/shops/${res.data.id}/photo/`)
+                                    setShopPhotos([`${serverUrl}/admin/shops/${res.data.id}/photo/1`, `${serverUrl}/admin/shops/${res.data.id}/photo/2`, `${serverUrl}/admin/shops/${res.data.id}/photo/3`, `${serverUrl}/admin/shops/${res.data.id}/photo/4`, `${serverUrl}/admin/shops/${res.data.id}/photo/5`, `${serverUrl}/admin/shops/${res.data.id}/photo/6`])
+                                    setEnableAvatar(false)
+                                }).catch(err=>{
+                                    alert("Deu ruim, não conseguimos encontrar a sua loja.")
+                                }) 
+                                //console.log("loja com email", res.data)
+                                
+                            }).catch(err=>{
+                                alert("Deu ruim")
+                                //console.log("Deu ruim SHOP")
+                                setShop("")
+                            }) 
+                        }
+                        //console.log("chegou aqui")
                         setUserPerfil(res.data)
                         break;
                 }
-            }).catch(err=>{alert("Deu ruim")}) }
+            }).catch(err=>{alert("Deu ruim ao salvar os dados do formulário")}) }
+            
     }
     //funções para permitir que o User desista de trocar a senha
     function isFocus() {
