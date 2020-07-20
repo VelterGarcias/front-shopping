@@ -30,17 +30,25 @@ export default function Footer(){
                             }
                         </ul>
                         <ul>
-                            <li className={styles.title}>Contato</li>
-                            <li>E-mail: support@ferrari.it</li>
+                            <li className={styles.title}>Fale conosco</li>
+                            <li className={styles.contact}>
+                                <p>E-mail: </p><a href="mailto: contato@valentinshopping.com"> contato@valentinshopping.com </a>
+                            </li>
+                            <li className={styles.contact}>
+                            <p>Endereço:</p> <a href="https://goo.gl/maps/w7w3XC51RU2jtnHo8"> Rua Pedro Koff, 717 - Bento Gonçalves, RS</a>
+                            </li>
+                            
                             <li className={styles.social}>
-                                <a href="#"><img src="/images/social/facebook.svg" alt="Facebook"/></a>
-                                <a href="#"><img src="/images/social/whatsapp.svg" alt="Whatsapp"/></a>
-                                <a href="#"><img src="/images/social/youtube.svg" alt="YouTube"/></a>
-                                <a href="#"><img src="/images/social/instagram.svg" alt="Instagram"/></a>
+                                <a title="Whatsapp" href="https://wa.me/5554984038507"><img src="/images/social/whatsapp.svg" alt="Whatsapp"/></a>
+                                <a title="Telefone" href="tel:+5554984038507"><img src="/images/social/phone.svg" alt="Telefone"/></a>
+                                <a title="Facebook" href="https://www.facebook.com/weads.marketing"><img src="/images/social/facebook.svg" alt="Facebook"/></a>
+                                <a title="Instagram" href="https://www.instagram.com/weads.marketing/"><img src="/images/social/instagram.svg" alt="Instagram"/></a>
                             </li>
                         </ul>
                     </div>
-                    <a href="/"><img src="/images/logo.svg" alt="Logo" className={styles.logo} /></a>
+                    <Link href="/">
+                    <a title="Valentini Shopping Center"><img src="/images/logo.svg" alt="Logo" className={styles.logo} /></a>
+                    </Link>
                 </div>
                 <p>2020 © Velter Garcias. All rights reserved.</p>
             </footer>

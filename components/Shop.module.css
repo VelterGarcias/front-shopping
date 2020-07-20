@@ -94,6 +94,10 @@
 .content li img {
     width: 30px;
 }
+.content li a img:hover,
+.content li a img:active {
+    transform: scale(1.2)
+}
 
 .content li img.shopPhoto {
     width: 100%;

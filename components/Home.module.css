@@ -38,6 +38,7 @@
 }
 
 .section {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -63,14 +64,19 @@
 .section h2 {
     margin: 10px auto;
     width: 95%;
+    font-size: 1.8em;
     padding-left: 10px;
     border-radius: 8px 0;
     border-left: 5px solid var(--main);
 }
 
 .section.food h2,
-.section.cine h2 {
+.section.cine h2,
+.section.banner h2 {
     color: var(--subtitle2);
+}
+.section.banner {
+    min-height: 480px;
 }
 .section p {
     padding: 5px 20px;
@@ -87,6 +93,16 @@
     font-size: 1.2em;
 }
 
+.section.cine img {
+    width: 225px;
+    margin: 10px auto;
+    position: absolute;
+    top: 34px;
+    right: 0;
+}
+.section.cine p {
+    color: white;
+}
 
 .btn {
     background-color: var(--main);
@@ -99,7 +115,7 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    align-self: flex-end;
+    align-self: center;
 }
 
 .btn:hover {
@@ -119,8 +135,9 @@
 .section.food .btn:hover {
     background-color: var(--btn-food-hover);
 }
-.section.shop .btn {
-    align-self: center;
+
+.section.cine .btn {
+    width: 180px;
 }
 .section p strong {
     color: var(--main);
@@ -174,8 +191,29 @@
 }
 .highlights p {
     margin: 0;
-    padding: 10px;
+    padding: 20px;
+    font-size: 1em;
 }
+.parking {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 20px;
+}
+.highlights .parking p {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+.highlights img {
+    margin-top: 20px;
+    height: 55px;
+}
+.highlights img.bank {
+    border-radius: 12px;
+    height: 45px;
+}
+
 .row {
     display: flex;
     flex-direction: row;
@@ -184,7 +222,13 @@
     flex-wrap: wrap;
     margin: 20px 0;
 }
-
+.videoBg {
+    width: 100%;
+    filter: blur(0px);
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
 
 
 @media (min-width: 768px) {
