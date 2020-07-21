@@ -16,15 +16,10 @@
     background-position: center;
     box-shadow: 0 0 9px #00000087;
 }
-.shops {
-    background-image: url(/images/photos/topo_contato.jpg);
+.privacyHeader {
+    background-image: url('/images/photos/topo_contato.jpg');
 }
-.food {
-    background-image: url(/images/photos/topo_contato.jpg);
-}
-.cinema {
-    background-image: url(/images/photos/topo_contato.jpg);
-}
+
 
 .pageHeader .title {
     display: flex;
@@ -37,34 +32,38 @@
 
 .pageHeader .title h1 {
     color: white;
+    font-size: 1.2em;
 }
 
-.about {
+.privacy {
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 40px 0;
+    padding: 10px 0 40px 0;
     background-color: #8f2dff2e;
 }
-.about h2 {
+.privacy h2 {
     margin: 10px auto;
     width: 95%;
     padding-left: 10px;
     border-radius: 8px 0;
     border-left: 5px solid var(--main);
 }
-.about p {
+.privacy h3 {
+    padding-left: 20px;
+}
+.privacy p {
     padding: 5px 20px;
-    text-align: center;
+    margin: 5px 0;
+    text-align: flex-start;
     font-size: 1.2em;
 }
-.about p strong {
+.privacy p strong {
     color: var(--main);
 }
 
 .storie {
     width: 80%;
-    max-width: 400px;
     margin: 10px auto;
 }
 .photo {
@@ -73,17 +72,15 @@
     border-radius: 12px;
 }
 
-.about ul {
+.privacy ul {
     display: flex;
     flex-direction: column;
     margin: 10px;
     padding: 0;
 }
-.about ul li {
+.privacy ul li {
     margin: 10px;
     font-size: 1.2em;
-    display: list-item;
-    list-style: inside;
 }
 
 .highlights {
@@ -122,25 +119,6 @@
 
 
 @media (min-width: 768px) {
-    .about h2 {
-        width: 75%;
-    }
 
-    .about p {
-        width: 80%;
-        margin: 10px auto;
-    }
-
-    .about ul {
-        width: 70%;
-        margin: auto;
-    }
-    .photo {
-        width: 60%;
-    }
-    .row {
-        margin: 20px auto;
-        width: 80%;
-    }
-    
+   
 }

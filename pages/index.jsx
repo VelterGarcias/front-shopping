@@ -11,18 +11,18 @@ export default function Index() {
         <Layout pageTitle="Valentin Shopping Center" >
 
             <section className={`${styles.section} ${styles.banner}`}>
-                <h2>Seja Bem Vindo!</h2>
+                <h2>Seja bem-vindo!</h2>
                 
                 <video autoPlay loop muted className={styles.videoBg} >
-                    <source src="/video/home.webm" type="video/webm" />
-                    <source src="/video/home.mp4" type="video/mp4" />
+                    <source src="/video/home@2x.webm" type="video/webm" />
+                    <source src="/video/home@2x.mp4" type="video/mp4" />
                 </video>
             </section>
 
             <section className={`${styles.section} ${styles.shop}`}>
                 <h2>Conheça nossas lojas</h2>
                 <img className={styles.storie} alt="Mulher olhando a vitrine de uma loja" src="/images/photos/shop-home.svg"/>
-                <p>O Royal Plaza Shopping dispõe de mais de 100 lojas dos mais diversos segmentos. Acesse o nosso guia e conheça!</p>
+                <p>O Valentin Shopping Center dispõe de mais de 100 lojas dos mais diversos segmentos. Acesse o nosso guia e conheça!</p>
                 <Link href="/[slug]" as="/lojas">
                 <a className={styles.btn} ><p>Ver as lojas</p></a>
                 </Link>
@@ -40,7 +40,7 @@ export default function Index() {
                     <li className={styles.highlights}>
                         <img alt="Wifi livre" src="/images/photos/wifi.svg"/>
                         {/* <h3>WIRELESS</h3> */}
-                        <p>Disponibilizamos gratuitamente uma rede de internet wireless, rápida e ampla, localizada na praça de alimentação, no 3º andar. O acesso é bem simples, por meio do dispositivo utilizado, o cliente precisa identificar a rede “Valentin”, selecioná-la e fazer o acesso, não há necessidade de senha para o uso da rede.</p>
+                        <p>Disponibilizamos gratuitamente uma rede de internet wireless, rápida e ampla, localizada na praça de alimentação. O acesso é bem simples, o cliente precisa identificar a rede “Valentin”, selecioná-la e fazer o acesso, não há necessidade de senha para o uso da rede.</p>
                     </li>
                     <li className={styles.highlights}>
                         <img alt="Cadeira de rodas e PNE" src="/images/photos/cadeirante.svg"/>

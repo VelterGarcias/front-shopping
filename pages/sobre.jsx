@@ -15,14 +15,18 @@ export default function About() {
                 </div>
             </header>
             <section className={styles.about}>
-                <h2>Estamos de portas abertas esperando por você</h2>
+                <h2>Estamos de portas abertas esperando por você!</h2>
                 <img className={styles.storie} alt="Casal olhando uma vitrine" src="/images/photos/sobre.svg"/>
                 <p>Sua localização estratégica, próximo ao centro da cidade, permite fácil acesso da população, já que possui estacionamento próprio e é bem servido pelo transporte público. Com amplas e modernas instalações, o <strong>Valentin Shopping Center</strong> oferece ótimas oportunidades de compras, lazer e entretenimento. Sua infraestrutura completa, disposta em três pavimentos, oferece grande variedade de lojas e marcas, além do cinema 3D, praça de alimentação com internet wireless, playground e serviços.</p>
 
-                <p>Venha fazer parte desta realidade na região central do Rio Grande do Sul. O Royal Plaza Shopping está de coração e portas abertas esperando por você.</p>
+                <p>Venha fazer parte desta realidade na região central do Rio Grande do Sul. O Valentin Shopping Center está de coração e portas abertas esperando por você.</p>
 
                 <h2>Nossa Estrutura</h2>
-                <img className={styles.photo} alt="Foto da parte interna do Shopping" src="/images/photos/estrutura.png"/>
+                <picture >
+                    <source srcSet="/images/photos/estrutura@2x.png" media="(min-width: 500px)" />
+                    <img className={styles.photo} alt="Foto da parte interna do Shopping" src="/images/photos/estrutura.png"/>
+                
+                </picture>
                 <ul>
                     <li>40.808m² (área construída) distribuídos em 3 pavimentos.</li>
                     <li>3 elevadores sociais de acesso aos 3 andares de lojas e também aos 4 andares de estacionamento, 2 elevadores de serviço e 4 escadas rolantes bem localizadas que interligam os andares de loja, mais 2 elevadores panorâmicos.</li>

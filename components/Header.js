@@ -49,7 +49,7 @@ export  default function Header(){
                         <path d="M0,0H24V24H0Z" fill="none"/>
                     </svg>
                 </button>
-                <Nav isOpen={open} />
+                <Nav isOpen={open} onClick={() => handleClick()} />
             </header>
 
     )

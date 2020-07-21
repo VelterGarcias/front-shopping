@@ -43,6 +43,7 @@
 }
 .welcomeMain img {
     width: 100%;
+    max-width: 300px;
 }
 .welcomeMain h2 {
     margin: auto;
@@ -142,6 +143,8 @@
     }
     .logoAdmin{
         text-align: center;
+        height: 74px;
+        overflow: hidden;
     } 
     .mainHeader{
         display: flex;
@@ -149,12 +152,13 @@
         background-color:var(--bg-admin);
         margin: 0;
         padding: 0;    
-        width: 200px;
+        width: 150px;
         height: 100vh;
         box-sizing: border-box;
     }
     .logoAdmin img{
-        max-width: 80px;    
+        width: 80%;
+        margin: auto; 
     }
     .navMenu{
         display: flex;

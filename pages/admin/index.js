@@ -790,7 +790,7 @@ export default function Index(props) {
                                 </div>
 
                                 <form className={styles.form} id={"users-" + userPerfil.id} onSubmit={handleForm} >
-                                    <div className={styles.fields}>
+                                    <div className={styles.field}>
                                         <Input type="text" name="name" defaultValue={userPerfil.name} label="Nome Completo" onChange={handleInputChange} onFocus={handleInputChange}/>
                                         <Input type="email" name="email" label="Email" defaultValue={userPerfil.email} onChange={handleInputChange} onFocus={handleInputChange} />
                                         {/* <Input type="tel" name="phone" label="Telefone" defaultValue={userPerfil.phone} onChange={handleInputChange} onFocus={handleInputChange} /> */}
@@ -832,16 +832,17 @@ export default function Index(props) {
                             <main className={styles.main} >
                             {props.data.level == 1 ? shop != "" ?
                                 <> {/* Já criou/tem uma loja */}
-
+                                
                                     <Card >
 
                                         <div className={styles.header}>
 
                                             <h2>Logotipo da Loja</h2>
+                                            <p>Clique na sua Logo para alterá-la</p>
 
                                         </div>
-                                        
-                                        
+
+
                                         <form className={styles.formPost} id="shops" onSubmit={handleFormData}>
 
                                             <label className={styles.user} htmlFor="logoUser" >
@@ -860,7 +861,9 @@ export default function Index(props) {
 
                                     </Card>
 
-                                    <Card >
+
+
+                                    <Card customClass="large">
 
                                         <div className={styles.header}>
 
@@ -870,16 +873,28 @@ export default function Index(props) {
 
                                         <form className={styles.form} id={"shops-" + shop.id} onSubmit={handleForm}>
                                             <div className={styles.fields}>
-                                                <Checkbox className={styles.checkBox} type="checkbox" name="isOnline" label="Online?" checked={shop.isOnline} onChange={() =>handleIsOnlineShop(shop.id)}/>
-                                                <Input type="text" name="name" defaultValue={shop.name} label="Nome da Loja" onChange={handleInputChange} onFocus={handleInputChange}/>
+                                                    <Checkbox className={styles.checkBox} type="checkbox" name="isOnline" label="Online?" checked={shop.isOnline} onChange={() =>handleIsOnlineShop(shop.id)}/>
+                                            </div>
+                                            <div className={styles.fields}>
+                                                    <Input type="text" name="name" defaultValue={shop.name} label="Nome da Loja" onChange={handleInputChange} onFocus={handleInputChange}/>
+                                                    <Input type="text" name="category" label="Categoria" defaultValue={shop.category} onChange={handleInputChange}  />
+                                            </div>
+                                            <div className={styles.fields}>
                                                 {/* Category deveria ser um select */}
-                                                <Input type="text" name="category" label="Categoria" defaultValue={shop.category} onChange={handleInputChange}  />
                                                 <Textarea name="description" label="Descrição" defaultValue={shop.description} onChange={handleInputChange}  /> 
+                                            </div>   
+                                            <div className={styles.fields}>  
                                                 <Input type="tel" name="phone" label="Telefone Fixo" defaultValue={shop.phone} onChange={handleInputChange}  />
                                                 <Input type="tel" name="smartphone" label="Celular" defaultValue={shop.smartphone} onChange={handleInputChange}  />
-                                                <Input type="text" name="whatsapp" label="WhatsApp" defaultValue={shop.whatsapp} onChange={handleInputChange}  />
-                                                <Input type="text" name="adress" label="Localização" defaultValue={shop.adress} onChange={handleInputChange}  />
+                                            </div>   
+                                            <div className={styles.fields}> 
                                                 <Input type="text" name="website" label="Website" defaultValue={shop.website} onChange={handleInputChange}  />
+                                                <Input type="text" name="adress" label="Localização" defaultValue={shop.adress} onChange={handleInputChange}  />
+                                            </div>   
+                                            <div className={styles.fields}> 
+                                                <Input type="text" name="whatsapp" label="WhatsApp" defaultValue={shop.whatsapp} onChange={handleInputChange}  />
+                                            </div>   
+                                            <div className={styles.fields}> 
                                                 <Input type="text" name="facebook" label="Facebook" defaultValue={shop.facebook} onChange={handleInputChange}  />
                                                 <Input type="text" name="instagram" label="Instagram" defaultValue={shop.instagram} onChange={handleInputChange}  />
                                             </div>
@@ -887,8 +902,7 @@ export default function Index(props) {
                                         </form>
 
                                     </Card>
-
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={1} model="shops" updateStateParent={updateStates} />} >
+                                    <Card customClass="small" actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={1} model="shops" updateStateParent={updateStates} />} >
 
                                         <div className={styles.header}>
 
@@ -913,7 +927,7 @@ export default function Index(props) {
                                         </form>
 
                                     </Card>
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={2} model="shops"  updateStateParent={updateStates} />} >
+                                    <Card customClass="small" actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={2} model="shops"  updateStateParent={updateStates} />} >
 
                                         <div className={styles.header}>
 
@@ -938,7 +952,7 @@ export default function Index(props) {
 
                                     </Card>
 
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={3} model="shops"  updateStateParent={updateStates} />} >
+                                    <Card customClass="small" actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={3} model="shops"  updateStateParent={updateStates} />} >
 
                                         <div className={styles.header}>
 
@@ -963,7 +977,7 @@ export default function Index(props) {
 
                                     </Card>
 
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={4} model="shops"  updateStateParent={updateStates} />} >
+                                    <Card customClass="small" actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={4} model="shops"  updateStateParent={updateStates} />} >
 
                                         <div className={styles.header}>
 
@@ -988,7 +1002,7 @@ export default function Index(props) {
 
                                     </Card>
 
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={5} model="shops"  updateStateParent={updateStates} />} >
+                                    <Card customClass="small" actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={5} model="shops"  updateStateParent={updateStates} />} >
 
                                         <div className={styles.header}>
 
@@ -1013,7 +1027,7 @@ export default function Index(props) {
 
                                     </Card>
 
-                                    <Card actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={6} model="shops"  updateStateParent={updateStates} />} >
+                                    <Card customClass="small" actions={<Button id={shop.id} text="Excluir" action="deletePhoto" values={6} model="shops"  updateStateParent={updateStates} />} >
 
                                         <div className={styles.header}>
 
@@ -1106,7 +1120,7 @@ export default function Index(props) {
                                 </div>
 
                                 <form className={styles.form} id={"users-" + userPerfil.id} onSubmit={handleForm} >
-                                    <div className={styles.fields}>
+                                    <div className={styles.field}>
                                         <Input type="text" name="name" defaultValue={userPerfil.name} label="Nome Completo" onChange={handleInputChange} />
                                         <Input type="email" name="email" label="Email" defaultValue={userPerfil.email} onChange={handleInputChange}  />
                                         {/* <Input type="tel" name="phone" label="Telefone" defaultValue={userPerfil.phone} onChange={handleInputChange}  /> */}

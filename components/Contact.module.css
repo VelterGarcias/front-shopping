@@ -42,11 +42,13 @@
 
 .storie {
     width: 80%;
+    max-width: 450px;
     margin: 50px auto;
 }
 
 .storieLeft {
     width: 60%;
+    max-width: 350px;
     margin-bottom: -95px;
     margin-left: 8px;
 }
@@ -70,6 +72,8 @@
     flex-direction: column;
     padding: 1em;
     width: 95%;
+    max-width: 550px;
+    margin: auto;
 }
 
 .form p {
@@ -185,138 +189,22 @@
     justify-content: center;
 }
 
-@media (min-width: 576px) {
-
-    .container .titleContact h1 {
-        max-width: 600px;
-    }
-
-    .localContact .phoneContat {
-        padding-top: 40px;
-    }
-
-    .imgContact{
-        background-position-y: -40px;
-    }
-}
-
-@media (min-width: 768px) {
-
-    .mainContact {
-        flex-direction: row;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .mainForm {
-        display: flex;
-        flex-direction: column;
-        width: 65%;
-    }
-
-    .imgContact{
-        display: none;
-        /* background-repeat: no-repeat;
-        flex: 1;
-        max-height: 450px; */
-    } 
-    
-    .container .titleContact h1 {
-        max-width: 510px;
-        font-size: 1.4em;
-    }
-
-    .localContact .phoneContat {
-        flex-direction: column;
-        /* margin-top: 50px; */
-        /* position: absolute;
-        top: -259px;
-        left: 3%; */
-    }
-
-    .localContact .local .localTitle {
-        margin-top: 50px;
-    }
-
-    .localContact .local .localTitle h2 {
-        font-size: 2.5em;
-    }
-
-    .localContact .local .localTitle p {
-        font-size: 1.5em;
-    }
-
-    .localContact .phoneContat ul {
-        margin: 0;
-    }
-
-    .localContact .phoneContat .imgCall {
-        width: 130px;
-        height: 130px;
-    }
-
-    .localContact .phoneContat ul li a {
-        font-size: 1.5em;
-    }
-
-    .localContact .phoneContat ul li img {
-        width: 35px;
-        margin-right: 10px;
-    }
-}
 
 @media (min-width: 992px) {
 
-    .imgContact{
-        display: flex;
-        max-height: initial;
-        /* height: 713px; */
-        background-repeat: no-repeat;
-        height: 656px;
-        background-position-y: initial;
-        flex: 1;
-    }
-
-    .localContact .phoneContat {
-        position: relative;
-        top: initial;
-        left: initial;
-    }
-
-    .localContact {
-        flex-direction: row;
-    }
-
-    .localContact .local {
-        flex:1
-    }
-
-    .localContact .phoneContat .imgCall {
-        width: 180px;
-        height: 180px;
-    }
-
-    .localContact .phoneContat {
-        padding: 60px;
-    }
-
-    .localContact .phoneContat ul li a {
-        margin-top: 15px;
+    .storieLeft {
+        margin-bottom: -240px;
+        margin-left: -20px;
     }
 
 }
 
 @media (min-width: 1200px) {
+    .storieLeft {
+        margin-bottom: -240px;
+        margin-left: 30px;
+    }
     
-    .mainForm {
-        max-width: 950px;
-        padding: 0 80px 0 80px;
-    }
-
-    .imgContact{
-        background-position-y: initial;
-    }
 }
 
 

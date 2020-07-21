@@ -47,10 +47,13 @@ export default function Footer(){
                         </ul>
                     </div>
                     <Link href="/">
-                    <a title="Valentini Shopping Center"><img src="/images/logo.svg" alt="Logo" className={styles.logo} /></a>
+                        <a title="Valentini Shopping Center"><img src="/images/logo.svg" alt="Logo" className={styles.logo} /></a>
                     </Link>
                 </div>
-                <p>2020 © Velter Garcias. All rights reserved.</p>
+                <p className={styles.rights} >2020 © Velter Garcias. All rights reserved.</p>
+                <Link href="/privacy" >
+                        <a className={styles.privacy} title="Valentini Shopping Center">Política de privacidade</a>
+                </Link>
             </footer>
     )
 }

@@ -81,7 +81,7 @@ export default function Shop(props) {
                     </li> }
                     { shop.photo1 && <>
                         <li className={styles.title}>
-                            <h3>Veja algumas fotos nossas</h3>
+                            <h3>Conheça nossa loja</h3>
                         </li>
                         <li>
                             <img className={styles.shopPhoto} src={`${serverUrl}/admin/shops/${shop.id}/photo/1`}/>

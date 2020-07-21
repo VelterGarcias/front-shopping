@@ -1,6 +1,6 @@
 .card {
     position: relative;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     width: 100%;
     flex-direction: column;
     background-color: var(--white);
@@ -11,6 +11,7 @@
     flex-direction: column;
     padding: 1em;
     width: 100%;
+    max-width: 800px;
 }
 
 .card-content {
@@ -28,5 +29,39 @@
     /* margin-top: -20px; */
 }
 
+@media (min-width: 576px) {
+    .card {
+        width: 90%;
+        margin: 0 auto;
+    }
+}
 
+@media (min-width: 768px) {
+    .card {
+        max-width: 300px;
+    }
+    .card.large {
+        width: 100%;
+        max-width: initial;
+        
+    }
+}
+
+@media (min-width: 890px) {
+    .card {
+        max-width: 360px;
+        /* border-radius: 12px;
+        box-shadow: 0 0 8px #0000004f;
+        margin: 7px auto; */
+    }
     
+}
+
+@media (min-width: 1000px) {
+    .card {
+        max-width: 415px;
+    }
+    .small {
+        width: 300px;
+    }
+}

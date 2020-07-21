@@ -13,19 +13,18 @@ export default function Nav(props) {
         </li>
     )
 
-
     return (
         <nav className={`${styles.menu} ${styles[props.isOpen]}`}>
             <div className={styles.content}>
-                <ul>
+                <ul >
                     {  LinkItem.map(item => (
                         <LinkMenu key={item.id} link={item.link} label={item.label} as={item.as} />
                     ))
                     }
                 </ul>
             </div>
-            <Link href="/area/[forms]" as="/area/login" >
-                <a title="Login" className={styles['btn-register']}>
+            <Link href="/area/[forms]" as="/area/login"  >
+                <a title="Login" className={styles['btn-register']} >
                     Login
                 </a>
             </Link>        

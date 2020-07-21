@@ -48,7 +48,6 @@
     flex-direction: column;
     margin: 0;
     padding: 0;
-    width: 300px;
 }
 
 #footer ul li {
@@ -75,6 +74,7 @@
 #footer .social {
     align-items: center;
     justify-content: center;
+    margin-top: 20px;
 }
 
 #footer a {
@@ -111,13 +111,17 @@
     font-size: 18px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
     #footer {
         padding-bottom: 0;
     }
     #footer .columns {
         flex-direction: row;
         justify-content: space-between;
+    }
+    #footer ul {
+        width: 220px;
+        margin-bottom: 60px;
     }
     #footer .links {
         display: flex;
@@ -133,21 +137,26 @@
     #footer .links a:hover {
         color: var(--white);
     }
-    #footer p {
+    #footer .privacy {
+        position: absolute;
+        bottom: 15px;
+        right: calc(35vw - 80px);
+    }
+    #footer p.rights {
+        position: absolute;
+        margin: 0;
         font-size: 14px;
+        bottom: 15px;
+        right: calc(70vw - 120px);
     }
 }
 
-@media (prefers-color-scheme: dark) {
-    #footer, #footer .links a {
-        color: var(--black50);
+@media (min-width: 992px) {
+    #footer ul {
+        width: 285px;
     }
-    #footer .links a:hover {
-        color: var(--black);
-    }
-    #footer button {
-        background: var(--black50);
-        color: var(--light);
-        box-shadow: var(--white) 0 3px 6px;
+
+    #footer .logo {
+        margin: 2em 50px;
     }
 }

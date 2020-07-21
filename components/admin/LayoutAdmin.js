@@ -52,8 +52,11 @@ export default function LayoutAdmin(props){
             </Head>
             <header className={styles.mainHeader}>
                 <div className={styles.logoAdmin}>
+                    <picture >
+                        <source srcSet="/images/logo.svg" media="(min-width: 768px)" />
+                        <img src="/images/favicon.svg" alt="Logo do Shopping" onClick={props.clickLogo}/>
+                    </picture>
                     
-                    <img srcSet="/images/favicon.svg" onClick={props.clickLogo}/>
                         
                 </div>
                 

@@ -54,6 +54,7 @@
     box-shadow: 0 0 15px black;
 }
 .section.cine {
+    height: 370px;
     background-image: url("/images/photos/cinema-home.jpg");
     background-size: cover;
     background-position: center;
@@ -77,6 +78,7 @@
 }
 .section.banner {
     min-height: 480px;
+    overflow: hidden;
 }
 .section p {
     padding: 5px 20px;
@@ -102,12 +104,13 @@
 }
 .section.cine p {
     color: white;
+    flex: 1;
 }
 
 .btn {
     background-color: var(--main);
     color: var(--white);
-    width: 130px;
+    width: 145px;
     margin: 5px;
     border-radius: 12px;
     justify-content: center;
@@ -136,8 +139,8 @@
     background-color: var(--btn-food-hover);
 }
 
-.section.cine .btn {
-    width: 180px;
+.section.cine .btn { 
+    width: 195px;
 }
 .section p strong {
     color: var(--main);
@@ -149,6 +152,7 @@
 }
 .storie {
     width: 80%;
+    max-width: 280px;
     margin: 10px auto;
 }
 .photo {
@@ -173,6 +177,7 @@
 
 .highlights {
     width: 90%;
+    max-width: 360px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -223,7 +228,7 @@
     margin: 20px 0;
 }
 .videoBg {
-    width: 100%;
+    height: 100%;
     filter: blur(0px);
     position: absolute;
     top: 0;
@@ -231,7 +236,75 @@
 }
 
 
+@media (min-width: 576px) {
+    .section.banner {
+        min-height: 490px;
+    }
+
+    .section.food {
+        height: 340px;
+    }
+
+    .section.food > p {
+        margin-top: 115px;
+        margin-left: auto;
+        margin-right: 10px;
+        border-radius: 12px;
+        width: 455px;
+    }
+
+    .food .btn {
+        align-self: flex-end;
+        margin-right: 10px;
+    }
+
+    .highlights {
+        width: 46%;
+        max-width: 273px;
+    }
+}
+
 @media (min-width: 768px) {
 
-   
+    .videoBg {
+        height: initial;
+        width: 100%;
+    }
+    .section.shop > p {
+        width: 500px;
+        margin-left: 230px;
+        margin-top: 65px;
+        align-self: center;
+    }
+
+    .storie {
+        position: absolute;
+        top: 90px;
+        left: 8%;
+    }
+
+    .shop .btn {
+        margin-left: 230px;
+        margin-bottom: 90px;
+    }
+}
+
+@media (min-width: 890px) {
+    .section ul {
+        align-items: flex-start;
+    }
+    .highlights p {
+        font-size: .8em;
+    }
+    .highlights .parking p {
+        font-size: .8em;
+        padding: 2px 0;
+    }
+
+    .section.cine > p {
+        width: 500px;
+        flex: 0;
+        margin: 20px auto;
+    }
+
 }

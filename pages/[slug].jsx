@@ -100,7 +100,8 @@ export default function Slug(props) {
                 <section className={styles.shopList}>
                         <div className={styles.cinemark}>
                         <img alt="Logo do Cinemark" src="/images/photos/cinemark.svg"/>
-                            <h2>É mais que cinema. É Cinemark.</h2>
+                            <h2>É mais que cinema.<br/>
+                                É Cinemark.</h2>
                             <p>Veja abaixo os filmes que estão em cartaz.</p> 
                         </div>
                         <img className={styles.storieLeft} alt="Jovens felizes assistindo um filme e comendo pipoca" src="/images/photos/cinema.svg"/>
