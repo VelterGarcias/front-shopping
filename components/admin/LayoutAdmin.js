@@ -20,15 +20,15 @@ export default function LayoutAdmin(props){
             <Head>
                 <title>{props.pageTitle ? props.pageTitle : ""}</title>
                 <meta name="author" content="Velter Garcias" />
-                <meta name="description" content="Conheça nosso escritório de advocacia. A Advogarcias luta por seus direitos. Profissionais especializados para cuidar da sua causa." />
-                <meta name="keywords" content="advogado, escritório de advocacia, advogarcias" />
+                <meta name="description" content="Conheça o melhor shopping da cidade. O Valentin Shopping Center é o melhor lugar para passar com a sua família, se divertir e fazer compras." />
+                <meta name="keywords" content="shopping, lojas, cinema, praça de alimentação" />
                 <meta name="robots" content="index,follow" />
-                <meta property="og:title" content="Advogarcias - Escritório de Advocacia" />
-                <meta property="og:description" content="Conheça nosso escritório de advocacia. A Advogarcias luta por seus direitos. Profissionais especializados para cuidar da sua causa." />
-                <meta property="og:image" content="https://advogarcias.web.app/assets/images/photos/Advogarcias.jpg" />
-                <meta property="og:image:type" content="image/jpeg" />
-                <meta property="og:image:width" content="748" />
-                <meta property="og:image:height" content="625" />
+                <meta property="og:title" content="Valentin - Shopping Center" />
+                <meta property="og:description" content="Conheça o melhor shopping da cidade. O Valentin Shopping Center é o melhor lugar para passar com a sua família, se divertir e fazer compras." />
+                <meta property="og:image" content="https://advogarcias.web.app/assets/images/logo.png" />
+                <meta property="og:image:type" content="image/png" />
+                <meta property="og:image:width" content="1500" />
+                <meta property="og:image:height" content="1500" />
                 <meta property="og:type" content="website" />
                 <meta name="apple-mobile-web-app-status-bar-style" content="#A100F5" />
                 <meta name="theme-color" content="#A100F5" />
