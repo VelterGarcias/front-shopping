@@ -15,7 +15,7 @@ export default function Layout(props) {
                 <meta name="robots" content="index,follow" />
                 <meta property="og:title" content="Valentin - Shopping Center" />
                 <meta property="og:description" content="Conheça o melhor shopping da cidade. O Valentin Shopping Center é o melhor lugar para passar com a sua família, se divertir e fazer compras." />
-                <meta property="og:image" content="https://front-shopping.vercel.app/assets/images/logo.png" />
+                <meta property="og:image" content="https://front-shopping.vercel.app/images/logo.png" />
                 <meta property="og:image:type" content="image/png" />
                 <meta property="og:image:width" content="1500" />
                 <meta property="og:image:height" content="1500" />
