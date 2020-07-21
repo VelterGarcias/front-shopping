@@ -79,34 +79,37 @@ export default function Shop(props) {
                             }
                         </div>
                     </li> }
-                    { shop.photo1 && <>
+                    
+                    { shop.photo1 &&
                         <li className={styles.title}>
                             <h3>Conheça nossa loja</h3>
-                        </li>
-                        <li>
+                        </li> }
+                        <li className={styles.photos}>
+                    { shop.photo1 && 
+                        
                             <img className={styles.shopPhoto} src={`${serverUrl}/admin/shops/${shop.id}/photo/1`}/>
-                        </li> </> }
-                    { shop.photo2 && <li>
+                       }
+                    { shop.photo2 && 
                         <img className={styles.shopPhoto} src={`${serverUrl}/admin/shops/${shop.id}/photo/2`}/>
                          
-                    </li> }
-                    { shop.photo3 && <li>
+                    }
+                    { shop.photo3 && 
                         <img className={styles.shopPhoto} src={`${serverUrl}/admin/shops/${shop.id}/photo/3`}/>
                          
-                    </li> }
-                    { shop.photo4 && <li>
+                     }
+                    { shop.photo4 && 
                         <img className={styles.shopPhoto} src={`${serverUrl}/admin/shops/${shop.id}/photo/4`}/>
                          
-                    </li> }
-                    { shop.photo5 && <li>
+                     }
+                    { shop.photo5 && 
                         <img className={styles.shopPhoto} src={`${serverUrl}/admin/shops/${shop.id}/photo/5`}/>
                          
-                    </li> }
-                    { shop.photo6 && <li>
+                     }
+                    { shop.photo6 && 
                         <img className={styles.shopPhoto} src={`${serverUrl}/admin/shops/${shop.id}/photo/6`}/>
                          
-                    </li> }
-                    
+                    }
+                    </li>
 
                 </ul>
             </section>         

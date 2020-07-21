@@ -31,7 +31,7 @@
 
 .main {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
@@ -67,12 +67,18 @@
     flex-direction: column;
     background-color: white;
     width: 95%;
+    /* max-width: 450px; */
     border-radius: 15px;
     padding: 40px 15px 20px 15px;
     border-left: 1px solid var(--second);
 }
 
 .content li {
+    margin: 5px 0;
+}
+.content li.photos {
+    display: flex;
+    flex-direction: column;
     margin: 5px 0;
 }
 .content li a {
@@ -101,7 +107,7 @@
 
 .content li img.shopPhoto {
     width: 100%;
-    margin: auto;
+    margin: 5px;
     border-radius: 12px;
 }
 
@@ -117,7 +123,8 @@
 .content li h3 {
     color: var(--second);
     font-size: 1.6em;
-    margin: auto;
+    margin: 0;
+    margin-left: 10px;
 }
 .content .liSocial {
     display: flex;
@@ -160,3 +167,36 @@
     font-size: 1.2em;
 }
 
+@media (min-width: 576px) {
+
+    .content li.photos {
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 5px 0;
+    }
+
+    .content li img.shopPhoto {
+        width: 48%;
+        margin: 5px auto;
+    }
+
+}
+
+@media (min-width: 768px) {
+    .content .liSocial {
+        margin-top: -145px;
+        max-width: 350px;
+        align-self: flex-end;
+        margin-right: 10%;
+    }
+}
+
+@media (min-width: 992px) {
+
+    .content li img.shopPhoto {
+        width: 32%;
+    }
+    .content .liSocial {
+        margin-right: 25%;
+    }
+}
